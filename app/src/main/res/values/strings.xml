@@ -2,4 +2,8 @@
     <string name="app_name">Just Art</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="artworks">Artworks</string>
+    <string name="explore">Explore</string>
+    <string name="schedule">Schedule</string>
+    <string name="favourite">Favourite</string>
 </resources>
