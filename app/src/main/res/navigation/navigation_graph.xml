@@ -9,7 +9,11 @@
         android:id="@+id/artWorksFragment"
         android:name="com.hieuwu.justart.presentation.artworks.ArtWorksFragment"
         android:label="fragment_art_works"
-        tools:layout="@layout/fragment_art_works" />
+        tools:layout="@layout/fragment_art_works" >
+        <action
+            android:id="@+id/action_artWorksFragment_to_artDetailsFragment"
+            app:destination="@id/artDetailsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/exploreFragment"
         android:name="com.hieuwu.justart.presentation.explore.ExploreFragment"
@@ -25,4 +29,9 @@
         android:name="com.hieuwu.justart.presentation.schedule.ScheduleFragment"
         android:label="fragment_schedule"
         tools:layout="@layout/fragment_schedule" />
+    <fragment
+        android:id="@+id/artDetailsFragment"
+        android:name="com.hieuwu.justart.presentation.artworkdetails.ArtDetailsFragment"
+        android:label="fragment_art_details"
+        tools:layout="@layout/fragment_art_details" />
 </navigation>
