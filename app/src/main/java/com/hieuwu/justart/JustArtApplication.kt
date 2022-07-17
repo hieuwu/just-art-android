@@ -1,4 +1,11 @@
 package com.hieuwu.justart
 
-class JustArtApplication {
+import android.app.Application
+import dagger.hilt.android.HiltAndroidApp
+
+@HiltAndroidApp
+class JustArtApplication : Application() {
+    override fun onCreate() {
+        super.onCreate()
+    }
 }
