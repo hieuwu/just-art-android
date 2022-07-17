@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="artWork"
+            type="com.hieuwu.justart.domain.models.ArtWork" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="4dp"
+        app:cardElevation="2.0dp"
+        android:layout_gravity="center" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="12dp"
+            android:padding="12dp"
+            android:elevation="8dp"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:id="@+id/artWorksImage"
+                android:layout_width="170dp"
+                android:layout_height="170dp"
+                android:scaleType="center"
+                app:imageUrl="@{artWork.imgScr}" />
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/ic_baseline_bookmark_border_24"/>
+
+            <TextView
+                android:id="@+id/artWorksTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{artWork.title}"
+                android:textColor="@color/title_color"
+                android:textSize="14dp"
+                android:padding="8dp"
+                tools:text="Text"/>
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+
+
+</layout>
