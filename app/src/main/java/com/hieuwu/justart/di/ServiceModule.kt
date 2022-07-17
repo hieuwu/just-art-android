@@ -1,19 +1,46 @@
 package com.hieuwu.justart.di
 
-import com.hieuwu.justart.domain.repositories.SampleRepository
-import com.hieuwu.justart.domain.repositories.impl.SampleRepositoryImpl
+import com.hieuwu.justartsdk.ServiceConfigurationProvider
 import com.hieuwu.justartsdk.artworks.v1.ArtWorksService
-import com.hieuwu.justartsdk.artworks.v1.network.rertofit.ArtWorksServiceImpl
-import dagger.Binds
+import com.hieuwu.justartsdk.artworks.v1.ArtWorksServiceConfigProvider
 import dagger.Module
+import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
 @Module
-abstract class ServiceModule {
+class ServiceModule {
+
+    @Provides
     @Singleton
-    @Binds
-    abstract fun bindSampleRepository(impl: ArtWorksServiceImpl): ArtWorksService
+    fun provideArtWorksService(serviceConfiguration: ServiceConfigurationProvider.ServiceConfiguration):
+            ArtWorksService {
+        val accountConfig = ArtWorksServiceConfigProvider.ArtWorksConfiguration.Builder()
+            .serviceConfiguration(serviceConfiguration)
+            .build()
+        return ArtWorksServiceConfigProvider(accountConfig)
+            .artWorksServiceBuilder().build()
+    }
+
+    @Provides
+    @Singleton
+    public final fun provideServiceConfiguration(connectionConfiguration: ServiceConfigurationProvider.ConnectionConfiguration) =
+        getServiceConfigurationBuilder(connectionConfiguration).build()
+
+    @Provides
+    @Singleton
+    public final fun provideConnectionConfiguration() =
+        getConnectionConfigurationBuilder().build()
+
+    private fun getConnectionConfigurationBuilder() =
+        ServiceConfigurationProvider.ConnectionConfiguration.Builder()
+            .apiBaseUrl("https://api.artic.edu/api/")
+            .shouldRetry(true)
+
+    private fun getServiceConfigurationBuilder(connectionConfiguration: ServiceConfigurationProvider.ConnectionConfiguration) =
+        ServiceConfigurationProvider.ServiceConfiguration.Builder()
+            .connectionConfiguration(connectionConfiguration)
+            .logEnabled(true)
 }
