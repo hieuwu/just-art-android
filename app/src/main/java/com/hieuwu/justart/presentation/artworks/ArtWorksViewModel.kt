@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hieuwu.justart.domain.models.ArtWork
 import com.hieuwu.justart.domain.usecases.RetrieveArtWorksUseCase
+import com.hieuwu.justartsdk.artworks.v1.dto.ArtWorksListDto
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -15,20 +16,14 @@ class ArtWorksViewModel @Inject constructor(private val retrieveArtWorksUseCase:
     private val _artWorksList = MutableLiveData<List<ArtWork>>()
     val artWorksList: LiveData<List<ArtWork>> = _artWorksList
 
+
+    private var _artworksNetwork = MutableLiveData<ArtWorksListDto?>()
+    val artworksNetwork: LiveData<ArtWorksListDto?> = _artworksNetwork
+
     private val _navigateToSelectedProperty = MutableLiveData<ArtWork?>()
     val navigateToSelectedProperty: LiveData<ArtWork?>
         get() = _navigateToSelectedProperty
-
-    private fun getArtworks(): RetrieveArtWorksUseCase.Result? {
-        var res :RetrieveArtWorksUseCase.Result? = null
-        viewModelScope.launch {
-            res = retrieveArtWorksUseCase.execute(RetrieveArtWorksUseCase.Input())
-        }
-        return res
-    }
-
     init {
-        val a = getArtworks()
         _artWorksList.value = listOf(
             ArtWork(
                 "1", "Starry Night and the Astronauts",
@@ -71,6 +66,18 @@ class ArtWorksViewModel @Inject constructor(private val retrieveArtWorksUseCase:
                 "https://www.artic.edu/iiif/2/ec19d5f1-ae0f-5186-d421-4a53dca5fb90/full/843,/0/default.jpg"
             )
         )
+    }
+
+    fun retrieveData() {
+        viewModelScope.launch {
+            when (val result = retrieveArtWorksUseCase.execute(RetrieveArtWorksUseCase.Input())) {
+                is RetrieveArtWorksUseCase.Result.Success -> {
+                    result.data?.let {
+                        _artworksNetwork.value = it.response
+                    }
+                }
+            }
+        }
     }
 
     fun displayPropertyDetailsComplete() {

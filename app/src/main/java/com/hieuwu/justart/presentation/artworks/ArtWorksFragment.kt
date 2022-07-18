@@ -38,6 +38,9 @@ class ArtWorksFragment : Fragment() {
         viewModel = ViewModelProvider(this, viewModelFactory)[ArtWorksViewModel::class.java]
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
+        binding.testDataButton.setOnClickListener {
+            viewModel.retrieveData()
+        }
         setObservers()
         setupRecyclerView(binding.artWorksRecyclerView)
     }
@@ -48,6 +51,10 @@ class ArtWorksFragment : Fragment() {
                 navigateToArtWorksDetail()
                 viewModel.displayPropertyDetailsComplete()
             }
+        }
+
+        viewModel.artworksNetwork.observe(viewLifecycleOwner) {
+            var a = it
         }
     }
 
