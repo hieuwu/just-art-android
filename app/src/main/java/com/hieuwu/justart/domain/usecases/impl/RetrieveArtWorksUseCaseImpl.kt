@@ -13,9 +13,14 @@ class RetrieveArtWorksUseCaseImpl @Inject constructor(
 ) : RetrieveArtWorksUseCase {
     override suspend fun execute(input: RetrieveArtWorksUseCase.Input): RetrieveArtWorksUseCase.Result {
         val res: ApiResult<ArtWorksListDto>
-        withContext(Dispatchers.IO) {
-            res = artWorksService.getArtWorks()
+        try {
+            withContext(Dispatchers.IO) {
+                res = artWorksService.getArtWorks()
+            }
+            return RetrieveArtWorksUseCase.Result.Success(res)
+        } catch (e: Exception) {
+
         }
-        return RetrieveArtWorksUseCase.Result.Success(res)
+        return RetrieveArtWorksUseCase.Result.Success(null)
     }
 }
