@@ -6,9 +6,9 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.hieuwu.justart.databinding.LayoutArtWorksItemBinding
+import com.hieuwu.justart.domain.models.ArtWork
 
-
-class ArtWorksAdapter(val onClickListener: OnClickListener) :
+class ArtWorksAdapter(private val onClickListener: OnClickListener) :
     ListAdapter<ArtWork, ArtWorksAdapter.ArtWorksViewHolder>(DiffCallback) {
 
     class ArtWorksViewHolder(private var binding: LayoutArtWorksItemBinding) :

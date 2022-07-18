@@ -1,4 +1,4 @@
-package com.hieuwu.justart.presentation.artworks
+package com.hieuwu.justart.domain.models
 
 data class ArtWork (
     val id: String,

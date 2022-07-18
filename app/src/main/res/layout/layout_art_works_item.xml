@@ -6,7 +6,7 @@
     <data>
         <variable
             name="artWork"
-            type="com.hieuwu.justart.presentation.artworks.ArtWork" />
+            type="com.hieuwu.justart.domain.models.ArtWork" />
     </data>
 
     <androidx.cardview.widget.CardView

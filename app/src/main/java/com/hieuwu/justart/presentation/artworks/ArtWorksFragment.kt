@@ -1,16 +1,14 @@
 package com.hieuwu.justart.presentation.artworks
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import com.hieuwu.justart.R
+import androidx.recyclerview.widget.RecyclerView
 import com.hieuwu.justart.databinding.FragmentArtWorksBinding
 
 class ArtWorksFragment : Fragment() {
@@ -31,25 +29,29 @@ class ArtWorksFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel = ViewModelProvider(this)[ArtWorksViewModel::class.java]
-
         binding.viewModel = viewModel
 
-        setObserver()
-
-        binding.artWorksRecyclerView.layoutManager = GridLayoutManager(context, 2)
-        binding.artWorksRecyclerView.adapter = ArtWorksAdapter(
-            ArtWorksAdapter.OnClickListener(
-                clickListener = {viewModel.displayPropertyDetails(it)}
-            )
-        )
+        setObservers()
+        setupRecyclerView(binding.artWorksRecyclerView)
     }
 
-    private fun setObserver() {
+    private fun setObservers() {
         viewModel.navigateToSelectedProperty.observe(this.viewLifecycleOwner) {
             it?.let {
                 navigateToArtWorksDetail()
                 viewModel.displayPropertyDetailsComplete()
             }
+        }
+    }
+
+    private fun setupRecyclerView(recyclerView: RecyclerView) {
+        with (recyclerView) {
+            layoutManager = GridLayoutManager(context, 2)
+            adapter = ArtWorksAdapter(
+                ArtWorksAdapter.OnClickListener(
+                    clickListener = { viewModel.displayPropertyDetails(it) }
+                )
+            )
         }
     }
 

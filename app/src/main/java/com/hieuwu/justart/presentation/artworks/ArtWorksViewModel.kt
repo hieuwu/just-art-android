@@ -3,6 +3,7 @@ package com.hieuwu.justart.presentation.artworks
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.hieuwu.justart.domain.models.ArtWork
 
 class ArtWorksViewModel() : ViewModel() {
 
