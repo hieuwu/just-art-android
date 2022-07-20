@@ -4,9 +4,9 @@
     package="com.hieuwu.justart">
 
     <uses-permission android:name="android.permission.INTERNET" />
-
     <application
         android:name=".JustArtApplication"
+        android:usesCleartextTraffic="true"
         tools:replace="android:theme"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
