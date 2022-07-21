@@ -10,8 +10,15 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.hieuwu.justart.databinding.FragmentArtWorksBinding
+import com.hieuwu.justart.domain.usecases.RetrieveArtWorksUseCase
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class ArtWorksFragment : Fragment() {
+
+    @Inject
+    lateinit var retrieveArtWorksUseCase: RetrieveArtWorksUseCase
 
     private lateinit var binding: FragmentArtWorksBinding
 
@@ -27,10 +34,13 @@ class ArtWorksFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        viewModel = ViewModelProvider(this)[ArtWorksViewModel::class.java]
+        val viewModelFactory = ArtWorksViewModelFactory(retrieveArtWorksUseCase)
+        viewModel = ViewModelProvider(this, viewModelFactory)[ArtWorksViewModel::class.java]
         binding.viewModel = viewModel
-
+        binding.lifecycleOwner = this
+        binding.testDataButton.setOnClickListener {
+            viewModel.retrieveData()
+        }
         setObservers()
         setupRecyclerView(binding.artWorksRecyclerView)
     }
@@ -42,10 +52,14 @@ class ArtWorksFragment : Fragment() {
                 viewModel.displayPropertyDetailsComplete()
             }
         }
+
+        viewModel.artworksNetwork.observe(viewLifecycleOwner) {
+            var a = it
+        }
     }
 
     private fun setupRecyclerView(recyclerView: RecyclerView) {
-        with (recyclerView) {
+        with(recyclerView) {
             layoutManager = GridLayoutManager(context, 2)
             adapter = ArtWorksAdapter(
                 ArtWorksAdapter.OnClickListener(
