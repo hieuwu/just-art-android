@@ -1,7 +1,9 @@
 package com.hieuwu.justart.di
 
+import com.hieuwu.justart.domain.usecases.RetrieveArtWorkDetailsUseCase
 import com.hieuwu.justart.domain.usecases.RetrieveArtWorksUseCase
 import com.hieuwu.justart.domain.usecases.SampleUseCase
+import com.hieuwu.justart.domain.usecases.impl.RetrieveArtWorkDetailsUseCaseImpl
 import com.hieuwu.justart.domain.usecases.impl.RetrieveArtWorksUseCaseImpl
 import com.hieuwu.justart.domain.usecases.impl.SampleUseCaseImpl
 import dagger.Binds
@@ -20,5 +22,9 @@ abstract class UseCaseModule {
     @Singleton
     @Binds
     abstract fun bindRetrieveArtWorksUseCase(impl: RetrieveArtWorksUseCaseImpl): RetrieveArtWorksUseCase
+
+    @Singleton
+    @Binds
+    abstract fun bindRetrieveArtWorkDetailsUseCase(impl: RetrieveArtWorkDetailsUseCaseImpl): RetrieveArtWorkDetailsUseCase
 
 }
