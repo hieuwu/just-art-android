@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -48,7 +49,7 @@ class ArtWorksFragment : Fragment() {
     private fun setObservers() {
         viewModel.navigateToSelectedProperty.observe(this.viewLifecycleOwner) {
             it?.let {
-                navigateToArtWorksDetail()
+                navigateToArtWorksDetail(it.id)
                 viewModel.displayPropertyDetailsComplete()
             }
         }
@@ -69,8 +70,8 @@ class ArtWorksFragment : Fragment() {
         }
     }
 
-    private fun navigateToArtWorksDetail() {
-        val direction = ArtWorksFragmentDirections.actionArtWorksFragmentToArtDetailsFragment()
+    private fun navigateToArtWorksDetail(id: Int) {
+        val direction = ArtWorksFragmentDirections.actionArtWorksFragmentToArtDetailsFragment(id = id)
         findNavController().navigate(direction)
     }
 }
