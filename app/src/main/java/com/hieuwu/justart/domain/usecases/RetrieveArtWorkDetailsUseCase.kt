@@ -1,14 +1,16 @@
 package com.hieuwu.justart.domain.usecases
 
-import com.hieuwu.justartsdk.artworks.v1.domain.ArtWork
+import com.hieuwu.justart.domain.models.ArtWorkDetailsDo
 
-interface RetreiveArtWorkDetailsUseCase: UseCase<RetreiveArtWorkDetailsUseCase.Input, RetreiveArtWorkDetailsUseCase.Result>  {
-    class Input()
+interface RetrieveArtWorkDetailsUseCase: UseCase<RetrieveArtWorkDetailsUseCase.Input, RetrieveArtWorkDetailsUseCase.Result>  {
+    data class Input(val id: Int)
     open class Result {
-        data class Success(val data: List<ArtWork>?) : Result()
-        data class Failure(val error: RetreiveArtWorkDetailsUseCase.Error?) : Result()
+        data class Success(val data: ArtWorkDetailsDo?) : Result()
+        data class Failure(val error: RetrieveArtWorkDetailsUseCase.Error?) : Result()
     }
 
     data class Error(val type: ErrorType)
-    class ErrorType
+    enum class ErrorType {
+        GENERIC
+    }
 }
