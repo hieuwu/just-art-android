@@ -1,17 +1,14 @@
 package com.hieuwu.justart.presentation.artworkdetails
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.hieuwu.justart.R
-import com.hieuwu.justart.databinding.FragmentArtWorksBinding
 import com.hieuwu.justart.databinding.FragmentArtworkDetailsBinding
 import com.hieuwu.justart.domain.usecases.RetrieveArtWorkDetailsUseCase
-import com.hieuwu.justart.presentation.artworks.ArtWorksViewModel
-import com.hieuwu.justart.presentation.artworks.ArtWorksViewModelFactory
+import com.hieuwu.justart.presentation.artworkdetails.ArtDetailsFragmentArgs.Companion.fromBundle
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -24,19 +21,26 @@ class ArtDetailsFragment : Fragment() {
 
     private lateinit var binding: FragmentArtworkDetailsBinding
 
+    private var artWorkId: Int = -1
+
     private lateinit var viewModel: ArtWorkDetailsViewModel
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        artWorkId = ArtDetailsFragmentArgs.fromBundle(arguments as Bundle).id
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentArtworkDetailsBinding.inflate(inflater, container, false)
-        val viewModelFactory = ArtWorkDetailsViewModelFactory(retrieveArtWorkDetailsUseCase)
+        val viewModelFactory =
+            ArtWorkDetailsViewModelFactory(artWorkId, retrieveArtWorkDetailsUseCase)
         viewModel = ViewModelProvider(this, viewModelFactory)[ArtWorkDetailsViewModel::class.java]
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
 
-        viewModel.artWorksDetails?.observe(viewLifecycleOwner){
+        viewModel.artWorksDetails?.observe(viewLifecycleOwner) {
             val a = it
         }
 
