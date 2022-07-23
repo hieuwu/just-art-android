@@ -6,6 +6,7 @@ import com.hieuwu.justartsdk.artworks.v1.domain.ArtWorkDetails
 fun ArtWorkDetails.asDomainModel() = ArtWorkDetailsDo(
     id = this.id,
     thumbnail = this.thumbnail?.asDomainModel(),
+    imageUrl = buildImageUrl(this.imageId),
     dateDisplay = this.dateDisplay,
     artistDisplay = this.artistDisplay,
     publicationHistory = this.publicationHistory,
@@ -38,3 +39,5 @@ fun ArtWorkDetails.Thumbnail.asDomainModel() = ArtWorkDetailsDo.Thumbnail(
     height = this.height,
     altText = this.altText
 )
+
+fun buildImageUrl(imgId: String?) = "https://www.artic.edu/iiif/2/${imgId}/full/843,/0/default.jpg"
