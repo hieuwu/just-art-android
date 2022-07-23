@@ -73,7 +73,7 @@ class ArtWorksViewModel @Inject constructor(private val retrieveArtWorksUseCase:
             when (val result = retrieveArtWorksUseCase.execute(RetrieveArtWorksUseCase.Input())) {
                 is RetrieveArtWorksUseCase.Result.Success -> {
                     result.data?.let {
-                        _artworksNetwork.value = it.response
+
                     }
                 }
             }
