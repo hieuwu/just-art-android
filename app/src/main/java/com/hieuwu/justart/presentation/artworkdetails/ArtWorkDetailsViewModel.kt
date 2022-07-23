@@ -9,7 +9,7 @@ import com.hieuwu.justart.domain.usecases.RetrieveArtWorkDetailsUseCase
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class ArtWorkDetailsViewModel @Inject constructor(
+class ArtWorkDetailsViewModel @Inject constructor(private val artWorkId: Int,
     private val retrieveArtWorkDetailsUseCase: RetrieveArtWorkDetailsUseCase
 ) : ViewModel() {
 
@@ -23,7 +23,7 @@ class ArtWorkDetailsViewModel @Inject constructor(
 
     private fun getArtWorkDetails() {
         viewModelScope.launch {
-            when (val res = retrieveArtWorkDetailsUseCase.execute(RetrieveArtWorkDetailsUseCase.Input(1))) {
+            when (val res = retrieveArtWorkDetailsUseCase.execute(RetrieveArtWorkDetailsUseCase.Input(artWorkId))) {
                 is RetrieveArtWorkDetailsUseCase.Result.Success -> {
                     _artWorkDetails?.value = res.data
                 }
