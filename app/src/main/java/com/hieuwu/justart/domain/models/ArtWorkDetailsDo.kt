@@ -7,7 +7,7 @@ data class ArtWorkDetailsDo(
     var isBoosted: Boolean? = null,
     var title: String? = null,
     var altTitles: String? = null,
-    var thumbnail: Thumbnail? = Thumbnail(),
+    var thumbnail: Thumbnail? = ArtWorkDetailsDo.Thumbnail(),
     var mainReferenceNumber: String? = null,
     var dateDisplay: String? = null,
     var artistDisplay: String? = null,
@@ -26,6 +26,7 @@ data class ArtWorkDetailsDo(
     var artworkTypeId: Int? = null,
     var departmentTitle: String? = null,
     var artistTitle: String? = null,
+    val imageUrl: String? = null
 
     ) {
     data class Thumbnail(
