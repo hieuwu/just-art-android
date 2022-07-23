@@ -9,12 +9,13 @@ import com.hieuwu.justart.domain.usecases.RetrieveArtWorkDetailsUseCase
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class ArtWorkDetailsViewModel @Inject constructor(private val artWorkId: Int,
+class ArtWorkDetailsViewModel @Inject constructor(
+    private val artWorkId: Int,
     private val retrieveArtWorkDetailsUseCase: RetrieveArtWorkDetailsUseCase
 ) : ViewModel() {
 
-    private val _artWorkDetails: MutableLiveData<ArtWorkDetailsDo?>? = null
-    val artWorksDetails: LiveData<ArtWorkDetailsDo?>?
+    private val _artWorkDetails: MutableLiveData<ArtWorkDetailsDo?> = MutableLiveData()
+    val artWorksDetails: LiveData<ArtWorkDetailsDo?>
         get() = _artWorkDetails
 
     init {
@@ -23,9 +24,10 @@ class ArtWorkDetailsViewModel @Inject constructor(private val artWorkId: Int,
 
     private fun getArtWorkDetails() {
         viewModelScope.launch {
-            when (val res = retrieveArtWorkDetailsUseCase.execute(RetrieveArtWorkDetailsUseCase.Input(artWorkId))) {
+            when (val res =
+                retrieveArtWorkDetailsUseCase.execute(RetrieveArtWorkDetailsUseCase.Input(artWorkId))) {
                 is RetrieveArtWorkDetailsUseCase.Result.Success -> {
-                    _artWorkDetails?.value = res.data
+                    _artWorkDetails.value = res.data
                 }
             }
         }
