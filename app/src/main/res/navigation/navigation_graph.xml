@@ -12,7 +12,12 @@
         tools:layout="@layout/fragment_art_works" >
         <action
             android:id="@+id/action_artWorksFragment_to_artDetailsFragment"
-            app:destination="@id/artDetailsFragment" />
+            app:destination="@id/artDetailsFragment" >
+            <argument
+                android:name="id"
+                app:argType="integer"
+                android:defaultValue="0" />
+        </action>
     </fragment>
     <fragment
         android:id="@+id/exploreFragment"
@@ -33,5 +38,10 @@
         android:id="@+id/artDetailsFragment"
         android:name="com.hieuwu.justart.presentation.artworkdetails.ArtDetailsFragment"
         android:label="fragment_art_details"
-        tools:layout="@layout/fragment_artwork_details" />
+        tools:layout="@layout/fragment_artwork_details" >
+        <argument
+            android:name="id"
+            app:argType="integer"
+            android:defaultValue="0" />
+    </fragment>
 </navigation>
