@@ -34,16 +34,16 @@ class ArtDetailsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentArtworkDetailsBinding.inflate(inflater, container, false)
+        binding.lifecycleOwner = this
         val viewModelFactory =
             ArtWorkDetailsViewModelFactory(artWorkId, retrieveArtWorkDetailsUseCase)
         viewModel = ViewModelProvider(this, viewModelFactory)[ArtWorkDetailsViewModel::class.java]
         binding.viewModel = viewModel
-        binding.lifecycleOwner = this
-
-        viewModel.artWorksDetails?.observe(viewLifecycleOwner) {
+        viewModel.artWorksDetails.observe(viewLifecycleOwner) {
             val a = it
         }
 
         return binding.root
     }
+
 }
