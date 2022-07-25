@@ -60,11 +60,30 @@
             app:layout_constraintTop_toBottomOf="@id/date" />
 
         <com.hieuwu.justart.presentation.views.CollapseParagraphView
+            android:id="@+id/publicHistorySection"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:titleValue="Publication history"
             app:contentValue="@{viewModel.artWorksDetails.publicationHistory}"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/artistDisplay" />
+
+        <com.hieuwu.justart.presentation.views.CollapseParagraphView
+            android:id="@+id/exhibitionHistorySection"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:titleValue="Exhibition history"
+            app:contentValue="@{viewModel.artWorksDetails.exhibitionHistory}"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/publicHistorySection" />
+
+        <com.hieuwu.justart.presentation.views.CollapseParagraphView
+            android:id="@+id/provenanceSection"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:titleValue="Provenance"
+            app:contentValue="@{viewModel.artWorksDetails.provenanceText}"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/exhibitionHistorySection" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
