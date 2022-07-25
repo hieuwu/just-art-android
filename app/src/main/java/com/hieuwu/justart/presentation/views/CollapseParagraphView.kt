@@ -3,14 +3,14 @@ package com.hieuwu.justart.presentation.views
 import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
-import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.Transformation
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.withStyledAttributes
-import androidx.databinding.DataBindingUtil
 import com.hieuwu.justart.R
-import com.hieuwu.justart.databinding.CustomCollapseParagraphViewBinding
-
 
 @SuppressLint("ViewConstructor")
 class CollapseParagraphView(
@@ -32,10 +32,19 @@ class CollapseParagraphView(
 
         titleTextView = view.findViewById(R.id.titleText)
         contentTextView = view.findViewById(R.id.paragraphText)
-
+        contentTextView?.visibility = GONE
         context.withStyledAttributes(attrs, R.styleable.CollapseParagraphView) {
             titleTextView?.text = getString(R.styleable.CollapseParagraphView_titleValue)
             contentTextView?.text = getString(R.styleable.CollapseParagraphView_contentValue)
+        }
+        titleTextView?.setOnClickListener {
+            contentTextView?.let {
+                if (it.visibility == VISIBLE) {
+                    collapse(it)
+                } else {
+                    expand(it)
+                }
+            }
         }
     }
 
@@ -50,4 +59,49 @@ class CollapseParagraphView(
             contentTextView?.text = text
         }
     }
+
+    private fun expand(v: View) {
+        v.measure(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        val targetHeight: Int = v.measuredHeight
+        v.layoutParams.height = 0
+        val a: Animation = object : Animation() {
+            override fun applyTransformation(interpolatedTime: Float, t: Transformation?) {
+                v.layoutParams.height =
+                    if (interpolatedTime == 1f) ViewGroup.LayoutParams.WRAP_CONTENT
+                    else (targetHeight * interpolatedTime).toInt()
+                v.requestLayout()
+            }
+
+            override fun willChangeBounds(): Boolean {
+                return true
+            }
+        }
+        v.visibility = View.VISIBLE
+        a.duration = (targetHeight / v.context.resources
+            .displayMetrics.density).toLong()
+        v.startAnimation(a)
+    }
+
+    private fun collapse(v: View) {
+        val initialHeight: Int = v.measuredHeight
+        val a: Animation = object : Animation() {
+            override fun applyTransformation(interpolatedTime: Float, t: Transformation?) {
+                if (interpolatedTime == 1f) {
+                    v.visibility = View.GONE
+                } else {
+                    v.layoutParams.height =
+                        initialHeight - (initialHeight * interpolatedTime).toInt()
+                    v.requestLayout()
+                }
+            }
+
+            override fun willChangeBounds(): Boolean {
+                return true
+            }
+        }
+        a.duration = (initialHeight / v.context.resources
+            .displayMetrics.density).toLong()
+        v.startAnimation(a)
+    }
+
 }
