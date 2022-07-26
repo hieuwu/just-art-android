@@ -9,10 +9,15 @@
             name="viewModel"
             type="com.hieuwu.justart.presentation.artworkdetails.ArtWorkDetailsViewModel" />
     </data>
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/artworkDetailLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
         tools:context=".presentation.artworkdetails.ArtDetailsFragment">
 
         <ImageView
@@ -86,4 +91,6 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/exhibitionHistorySection" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
+
 </layout>
