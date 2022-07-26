@@ -6,11 +6,13 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import android.view.animation.Transformation
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.withStyledAttributes
 import com.hieuwu.justart.R
+import java.nio.file.FileSystemLoopException
 
 @SuppressLint("ViewConstructor")
 class CollapseParagraphView(
@@ -23,7 +25,7 @@ class CollapseParagraphView(
 
     private var titleTextView: TextView? = null
     private var contentTextView: TextView? = null
-
+    private val DURATION = 250L
     init {
         val view = inflate(
             context,
@@ -32,17 +34,21 @@ class CollapseParagraphView(
 
         titleTextView = view.findViewById(R.id.titleText)
         contentTextView = view.findViewById(R.id.paragraphText)
+        val titleLayout: View = view.findViewById(R.id.titleLayout)
+        val arrowButton: View = view.findViewById(R.id.arrowButton)
         contentTextView?.visibility = GONE
         context.withStyledAttributes(attrs, R.styleable.CollapseParagraphView) {
             titleTextView?.text = getString(R.styleable.CollapseParagraphView_titleValue)
             contentTextView?.text = getString(R.styleable.CollapseParagraphView_contentValue)
         }
-        titleTextView?.setOnClickListener {
+        titleLayout.setOnClickListener {
             contentTextView?.let {
                 if (it.visibility == VISIBLE) {
                     collapse(it)
+                    rotateUp(arrowButton)
                 } else {
                     expand(it)
+                    rotateDown(arrowButton)
                 }
             }
         }
@@ -99,9 +105,18 @@ class CollapseParagraphView(
                 return true
             }
         }
-        a.duration = (initialHeight / v.context.resources
-            .displayMetrics.density).toLong()
+        a.duration = DURATION
         v.startAnimation(a)
     }
 
+
+    private fun rotateUp(view: View) {
+        val anim = AnimationUtils.loadAnimation(context, R.anim.rotate_up)
+        view.startAnimation(anim)
+    }
+
+    private fun rotateDown(view: View) {
+        val anim = AnimationUtils.loadAnimation(context, R.anim.rotate_down)
+        view.startAnimation(anim)
+    }
 }
