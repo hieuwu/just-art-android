@@ -21,10 +21,14 @@ class CollapseParagraphView(
 
     private var title: String? = null
     private var content: String? = null
-
+    private var showChevron = false
     private var titleTextView: TextView? = null
     private var contentTextView: TextView? = null
+    private var titleLayout: View? = null
+    private var arrowButton: View? = null
+
     private val duration = 250L
+
     init {
         val view = inflate(
             context,
@@ -33,24 +37,15 @@ class CollapseParagraphView(
 
         titleTextView = view.findViewById(R.id.titleText)
         contentTextView = view.findViewById(R.id.paragraphText)
-        val titleLayout: View = view.findViewById(R.id.titleLayout)
-        val arrowButton: View = view.findViewById(R.id.arrowButton)
-        contentTextView?.visibility = GONE
+        titleLayout = view.findViewById(R.id.titleLayout)
+        arrowButton = view.findViewById(R.id.arrowButton)
+
         context.withStyledAttributes(attrs, R.styleable.CollapseParagraphView) {
             titleTextView?.text = getString(R.styleable.CollapseParagraphView_titleValue)
             contentTextView?.text = getString(R.styleable.CollapseParagraphView_contentValue)
+            showChevron = getBoolean(R.styleable.CollapseParagraphView_showChevron, false)
         }
-        titleLayout.setOnClickListener {
-            contentTextView?.let {
-                if (it.visibility == VISIBLE) {
-                    collapse(it)
-                    rotateUp(arrowButton)
-                } else {
-                    expand(it)
-                    rotateDown(arrowButton)
-                }
-            }
-        }
+        populateChevron(showChevron)
     }
 
     fun setTitle(text: String?) {
@@ -62,6 +57,27 @@ class CollapseParagraphView(
     fun setContent(text: String?) {
         text?.let {
             contentTextView?.text = text
+        }
+    }
+
+    private fun populateChevron(showChevron: Boolean) {
+        if (showChevron) {
+            contentTextView?.visibility = GONE
+            titleLayout?.setOnClickListener {
+                contentTextView?.let {
+                    if (it.visibility == VISIBLE) {
+                        collapse(it)
+                        rotateUp(arrowButton)
+                    } else {
+                        expand(it)
+                        rotateDown(arrowButton)
+                    }
+                }
+            }
+        } else {
+            titleLayout?.isClickable = false
+            arrowButton?.visibility = GONE
+            contentTextView?.visibility = VISIBLE
         }
     }
 
@@ -109,13 +125,13 @@ class CollapseParagraphView(
     }
 
 
-    private fun rotateUp(view: View) {
+    private fun rotateUp(view: View?) {
         val anim = AnimationUtils.loadAnimation(context, R.anim.rotate_up)
-        view.startAnimation(anim)
+        view?.startAnimation(anim)
     }
 
-    private fun rotateDown(view: View) {
+    private fun rotateDown(view: View?) {
         val anim = AnimationUtils.loadAnimation(context, R.anim.rotate_down)
-        view.startAnimation(anim)
+        view?.startAnimation(anim)
     }
 }
