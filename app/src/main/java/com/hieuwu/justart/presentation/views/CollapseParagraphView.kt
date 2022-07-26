@@ -12,7 +12,6 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.withStyledAttributes
 import com.hieuwu.justart.R
-import java.nio.file.FileSystemLoopException
 
 @SuppressLint("ViewConstructor")
 class CollapseParagraphView(
@@ -25,7 +24,7 @@ class CollapseParagraphView(
 
     private var titleTextView: TextView? = null
     private var contentTextView: TextView? = null
-    private val DURATION = 250L
+    private val duration = 250L
     init {
         val view = inflate(
             context,
@@ -105,7 +104,7 @@ class CollapseParagraphView(
                 return true
             }
         }
-        a.duration = DURATION
+        a.duration = duration
         v.startAnimation(a)
     }
 
