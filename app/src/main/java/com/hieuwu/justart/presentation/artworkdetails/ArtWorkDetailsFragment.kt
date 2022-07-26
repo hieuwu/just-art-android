@@ -3,12 +3,12 @@ package com.hieuwu.justart.presentation.artworkdetails
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.hieuwu.justart.databinding.FragmentArtworkDetailsBinding
 import com.hieuwu.justart.domain.usecases.RetrieveArtWorkDetailsUseCase
-import com.hieuwu.justart.presentation.artworkdetails.ArtDetailsFragmentArgs.Companion.fromBundle
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -40,7 +40,7 @@ class ArtDetailsFragment : Fragment() {
         viewModel = ViewModelProvider(this, viewModelFactory)[ArtWorkDetailsViewModel::class.java]
         binding.viewModel = viewModel
         viewModel.artWorksDetails.observe(viewLifecycleOwner) {
-            val a = it
+            binding.artworkDetailLayout.visibility = VISIBLE
         }
 
         return binding.root
