@@ -18,6 +18,7 @@
 
         <com.google.android.flexbox.FlexboxLayout
             android:id="@+id/titleLayout"
+            android:layout_marginHorizontal="8dp"
             android:clickable="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -44,7 +45,7 @@
 
         <TextView
             android:id="@+id/paragraphText"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:hint="This is a very long paragraph"
