@@ -16,7 +16,7 @@ class RetrieveArtWorksUseCaseImpl @Inject constructor(
         val res: ApiResult<ArtWorksResponse>
         try {
             withContext(Dispatchers.IO) {
-                res = artWorksService.getArtWorks(limit = 30)
+                res = artWorksService.getArtWorks(limit = 10)
             }
             return RetrieveArtWorksUseCase.Result.Success(res.response?.artWorks)
         } catch (e: Exception) {
