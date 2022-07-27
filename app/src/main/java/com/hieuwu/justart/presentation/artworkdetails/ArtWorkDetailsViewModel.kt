@@ -18,6 +18,10 @@ class ArtWorkDetailsViewModel @Inject constructor(
     val artWorksDetails: LiveData<ArtWorkDetailsDo?>
         get() = _artWorkDetails
 
+    private val _displayList: MutableLiveData<List<ArtWorkDetailDisplay>?> = MutableLiveData()
+    val displayList: LiveData<List<ArtWorkDetailDisplay>?>
+        get() = _displayList
+
     init {
         getArtWorkDetails()
     }
@@ -31,5 +35,6 @@ class ArtWorkDetailsViewModel @Inject constructor(
                 }
             }
         }
+        _displayList.value = mapToDisplay(_artWorkDetails.value)
     }
 }
