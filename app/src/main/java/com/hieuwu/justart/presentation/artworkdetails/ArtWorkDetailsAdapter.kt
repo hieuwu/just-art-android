@@ -5,7 +5,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.hieuwu.justart.R
-import com.hieuwu.justart.databinding.*
+import com.hieuwu.justart.databinding.LayoutArtworkDetailsSectionViewBinding
+import com.hieuwu.justart.databinding.LayoutArtworkDetailsThumbnailViewBinding
+import com.hieuwu.justart.databinding.LayoutArtworkDetailsTitleViewBinding
+import com.hieuwu.justart.databinding.LayoutArworkDetailsCollapseSectionViewBinding
 
 
 class ArtWorkDetailsAdapter :
@@ -25,8 +28,7 @@ class ArtWorkDetailsAdapter :
                 R.layout.custom_collapse_paragraph_view
             }
             else -> {
-                -1
-//                super.getItemViewType(position)
+                throw(Exception("View not found"))
             }
         }
     }
@@ -36,28 +38,28 @@ class ArtWorkDetailsAdapter :
             R.layout.layout_artwork_details_title_view -> {
                 ArtWorkDetailsViewHolder.TextViewHolder(
                     LayoutArtworkDetailsTitleViewBinding
-                        .inflate(LayoutInflater.from(parent.context))
+                        .inflate(LayoutInflater.from(parent.context), parent, false)
                 )
             }
 
             R.layout.layout_artwork_details_thumbnail_view -> {
                 ArtWorkDetailsViewHolder.ThumbnailViewHolder(
                     LayoutArtworkDetailsThumbnailViewBinding
-                        .inflate(LayoutInflater.from(parent.context))
+                        .inflate(LayoutInflater.from(parent.context), parent, false)
                 )
             }
 
             R.layout.layout_artwork_details_section_view -> {
                 ArtWorkDetailsViewHolder.SectionViewHolder(
                     LayoutArtworkDetailsSectionViewBinding
-                        .inflate(LayoutInflater.from(parent.context))
+                        .inflate(LayoutInflater.from(parent.context), parent, false)
                 )
             }
 
             R.layout.custom_collapse_paragraph_view -> {
                 ArtWorkDetailsViewHolder.CollapseSectionViewHolder(
                     LayoutArworkDetailsCollapseSectionViewBinding
-                        .inflate(LayoutInflater.from(parent.context))
+                        .inflate(LayoutInflater.from(parent.context), parent, false)
                 )
             }
             else -> {
@@ -67,22 +69,8 @@ class ArtWorkDetailsAdapter :
     }
 
     override fun onBindViewHolder(holder: ArtWorkDetailsViewHolder, position: Int) {
-        val artWork = getItem(position)
-        when (holder) {
-            is ArtWorkDetailsViewHolder.ThumbnailViewHolder -> {
-                (holder as ArtWorkDetailsViewHolder.ThumbnailViewHolder).bind(artWork)
-            }
-            is ArtWorkDetailsViewHolder.TextViewHolder -> {
-                (holder as ArtWorkDetailsViewHolder.TextViewHolder).bind(artWork)
-            }
-            is ArtWorkDetailsViewHolder.SectionViewHolder -> {
-                (holder as ArtWorkDetailsViewHolder.SectionViewHolder).bind(artWork)
-            }
-
-            is ArtWorkDetailsViewHolder.CollapseSectionViewHolder -> {
-                (holder as ArtWorkDetailsViewHolder.CollapseSectionViewHolder).bind(artWork)
-            }
-        }
+        val displayItem = getItem(position)
+        holder.bind(displayItem)
     }
 
     companion object DiffCallback : DiffUtil.ItemCallback<ArtWorkDetailDisplay>() {
