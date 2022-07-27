@@ -7,8 +7,10 @@ import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
 import com.hieuwu.justart.databinding.FragmentArtworkDetailsBinding
 import com.hieuwu.justart.domain.usecases.RetrieveArtWorkDetailsUseCase
+import com.hieuwu.justart.presentation.artworks.ArtWorksAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -43,7 +45,11 @@ class ArtDetailsFragment : Fragment() {
             binding.artworkDetailLayout.visibility = VISIBLE
         }
 
+        viewModel.displayList.observe(viewLifecycleOwner) {
+            with(binding.detailsRecyclerView) {
+                adapter = ArtWorkDetailsAdapter()
+            }
+        }
         return binding.root
     }
-
 }
