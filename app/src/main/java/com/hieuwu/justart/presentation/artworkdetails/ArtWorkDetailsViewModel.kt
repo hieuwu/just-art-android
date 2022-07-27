@@ -32,9 +32,9 @@ class ArtWorkDetailsViewModel @Inject constructor(
                 retrieveArtWorkDetailsUseCase.execute(RetrieveArtWorkDetailsUseCase.Input(artWorkId))) {
                 is RetrieveArtWorkDetailsUseCase.Result.Success -> {
                     _artWorkDetails.value = res.data
+                    _displayList.value = mapToDisplay(_artWorkDetails.value)
                 }
             }
         }
-        _displayList.value = mapToDisplay(_artWorkDetails.value)
     }
 }
