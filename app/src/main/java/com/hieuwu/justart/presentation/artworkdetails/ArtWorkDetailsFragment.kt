@@ -45,10 +45,12 @@ class ArtDetailsFragment : Fragment() {
             binding.artworkDetailLayout.visibility = VISIBLE
         }
 
+        with(binding.detailsRecyclerView) {
+            adapter = ArtWorkDetailsAdapter()
+        }
+
         viewModel.displayList.observe(viewLifecycleOwner) {
-            with(binding.detailsRecyclerView) {
-                adapter = ArtWorkDetailsAdapter()
-            }
+            var a = it
         }
         return binding.root
     }
