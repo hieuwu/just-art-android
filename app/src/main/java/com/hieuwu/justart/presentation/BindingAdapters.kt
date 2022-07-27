@@ -8,6 +8,8 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.hieuwu.justart.R
 import com.hieuwu.justart.domain.models.ArtWork
+import com.hieuwu.justart.presentation.artworkdetails.ArtWorkDetailDisplay
+import com.hieuwu.justart.presentation.artworkdetails.ArtWorkDetailsAdapter
 import com.hieuwu.justart.presentation.artworks.ArtWorksAdapter
 import com.hieuwu.justart.presentation.views.CollapseParagraphView
 
@@ -31,9 +33,22 @@ fun bindRecyclerView(recyclerView: RecyclerView, data: List<ArtWork>?) {
     adapter.submitList(data)
 }
 
+@BindingAdapter("detailData")
+fun bindDetailRecyclerView(recyclerView: RecyclerView, data: List<ArtWorkDetailDisplay>?) {
+    val adapter = recyclerView.adapter as ArtWorkDetailsAdapter
+    adapter.submitList(data)
+}
+
 @BindingAdapter("contentValue")
-fun bindRecyclerView(view: CollapseParagraphView, text: String?) {
+fun bindContentValue(view: CollapseParagraphView, text: String?) {
     text?.let {
-        view.setContent (text)
+        view.setContent(text)
+    }
+}
+
+@BindingAdapter("titleValue")
+fun bindingTitleValue(view: CollapseParagraphView, text: String?) {
+    text?.let {
+        view.setTitle(text)
     }
 }
