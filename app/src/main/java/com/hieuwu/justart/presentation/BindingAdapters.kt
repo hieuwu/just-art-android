@@ -35,8 +35,10 @@ fun bindRecyclerView(recyclerView: RecyclerView, data: List<ArtWork>?) {
 
 @BindingAdapter("detailData")
 fun bindDetailRecyclerView(recyclerView: RecyclerView, data: List<ArtWorkDetailDisplay>?) {
-    val adapter = recyclerView.adapter as ArtWorkDetailsAdapter
-    adapter.submitList(data)
+    data?.let {
+        val adapter = recyclerView.adapter as ArtWorkDetailsAdapter
+        adapter.submitList(it)
+    }
 }
 
 @BindingAdapter("contentValue")
