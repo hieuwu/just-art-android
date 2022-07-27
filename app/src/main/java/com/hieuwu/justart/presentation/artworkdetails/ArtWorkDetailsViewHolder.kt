@@ -14,35 +14,39 @@ abstract class ArtWorkDetailsViewHolder(private var binding: ViewBinding) :
     class ThumbnailViewHolder(private var binding: ViewBinding) :
         ArtWorkDetailsViewHolder(binding) {
         override fun bind(artWorkDetailDisplay: ArtWorkDetailDisplay) {
-            val bi = binding as LayoutArtworkDetailsThumbnailViewBinding
-            bi.displayItem = artWorkDetailDisplay as ArtWorkDetailDisplay.Thumbnail
-            bi.executePendingBindings()
+            with(binding as LayoutArtworkDetailsThumbnailViewBinding) {
+                displayItem = artWorkDetailDisplay as ArtWorkDetailDisplay.Thumbnail
+                executePendingBindings()
+            }
         }
 
     }
 
     class TextViewHolder(private var binding: ViewBinding) : ArtWorkDetailsViewHolder(binding) {
         override fun bind(artWorkDetailDisplay: ArtWorkDetailDisplay) {
-            val bi = binding as LayoutArtworkDetailsTitleViewBinding
-            bi.displayItem = artWorkDetailDisplay as ArtWorkDetailDisplay.Text
-            bi.executePendingBindings()
+            with(binding as LayoutArtworkDetailsTitleViewBinding) {
+                displayItem = artWorkDetailDisplay as ArtWorkDetailDisplay.Text
+                executePendingBindings()
+            }
         }
     }
 
     class SectionViewHolder(private var binding: ViewBinding) : ArtWorkDetailsViewHolder(binding) {
         override fun bind(artWorkDetailDisplay: ArtWorkDetailDisplay) {
-            val bi = binding as LayoutArtworkDetailsSectionViewBinding
-            bi.displayItem = artWorkDetailDisplay as ArtWorkDetailDisplay.Section
-            bi.executePendingBindings()
+            with(binding as LayoutArtworkDetailsSectionViewBinding) {
+                displayItem = artWorkDetailDisplay as ArtWorkDetailDisplay.Section
+                executePendingBindings()
+            }
         }
     }
 
     class CollapseSectionViewHolder(private var binding: ViewBinding) :
         ArtWorkDetailsViewHolder(binding) {
         override fun bind(artWorkDetailDisplay: ArtWorkDetailDisplay) {
-            val bi = binding as LayoutArworkDetailsCollapseSectionViewBinding
-            bi.displayItem = artWorkDetailDisplay as ArtWorkDetailDisplay.CollapseSection
-            bi.executePendingBindings()
+            with(binding as LayoutArworkDetailsCollapseSectionViewBinding) {
+                displayItem = artWorkDetailDisplay as ArtWorkDetailDisplay.CollapseSection
+                executePendingBindings()
+            }
         }
     }
 
