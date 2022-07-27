@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CollapseParagraphView">
+        <attr name="titleValue" format="string" />
+        <attr name="contentValue" format="string" />
+        <attr name="showChevron" format="boolean" />
+    </declare-styleable>
+</resources>

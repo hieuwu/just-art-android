@@ -48,7 +48,7 @@ class ArtWorksFragment : Fragment() {
     private fun setObservers() {
         viewModel.navigateToSelectedProperty.observe(this.viewLifecycleOwner) {
             it?.let {
-                navigateToArtWorksDetail()
+                navigateToArtWorksDetail(it.id)
                 viewModel.displayPropertyDetailsComplete()
             }
         }
@@ -69,8 +69,8 @@ class ArtWorksFragment : Fragment() {
         }
     }
 
-    private fun navigateToArtWorksDetail() {
-        val direction = ArtWorksFragmentDirections.actionArtWorksFragmentToArtDetailsFragment()
+    private fun navigateToArtWorksDetail(id: Int) {
+        val direction = ArtWorksFragmentDirections.actionArtWorksFragmentToArtDetailsFragment(id = id)
         findNavController().navigate(direction)
     }
 }

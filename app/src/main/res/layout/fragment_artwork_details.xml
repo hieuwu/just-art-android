@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.hieuwu.justart.presentation.artworkdetails.ArtWorkDetailsViewModel" />
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="80dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/artworkDetailLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            tools:context=".presentation.artworkdetails.ArtDetailsFragment">
+
+            <ImageView
+                android:id="@+id/artWorkImage"
+                android:layout_width="match_parent"
+                android:layout_height="170dp"
+                android:scaleType="center"
+                android:src="@drawable/ic_broken_image"
+                app:imageUrl="@{viewModel.artWorksDetails.imageUrl}"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:hint="Title"
+                android:text="@{viewModel.artWorksDetails.title}"
+                android:textColor="@color/black"
+                android:textSize="22dp"
+                android:textStyle="bold"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/artWorkImage" />
+
+            <TextView
+                android:id="@+id/date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:hint="1989"
+                android:text="@{viewModel.artWorksDetails.title}"
+                android:textColor="@color/black"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/title" />
+
+            <TextView
+                android:id="@+id/artistDisplay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:hint="Vincent van Gogh\nDutch, 1853-1890"
+                android:text="@{viewModel.artWorksDetails.artistDisplay}"
+                android:textColor="@color/black"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/date" />
+
+            <com.hieuwu.justart.presentation.views.CollapseParagraphView
+                android:id="@+id/artistSection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:contentValue="@{viewModel.artWorksDetails.artistTitle}"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/artistDisplay"
+                app:titleValue="Artist" />
+
+            <com.hieuwu.justart.presentation.views.CollapseParagraphView
+                android:id="@+id/titleSection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:contentValue="@{viewModel.artWorksDetails.title}"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/artistSection"
+                app:titleValue="Title" />
+
+            <com.hieuwu.justart.presentation.views.CollapseParagraphView
+                android:id="@+id/originSection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:contentValue="@{viewModel.artWorksDetails.placeOfOrigin}"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/titleSection"
+                app:titleValue="Origin" />
+
+            <com.hieuwu.justart.presentation.views.CollapseParagraphView
+                android:id="@+id/dateSection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:contentValue="@{viewModel.artWorksDetails.dateDisplay}"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/originSection"
+                app:titleValue="Date" />
+
+            <com.hieuwu.justart.presentation.views.CollapseParagraphView
+                android:id="@+id/mediumSection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:contentValue="@{viewModel.artWorksDetails.mediumDisplay}"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/dateSection"
+                app:titleValue="Medium" />
+
+            <com.hieuwu.justart.presentation.views.CollapseParagraphView
+                android:id="@+id/dimensionsSection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:contentValue="@{viewModel.artWorksDetails.dimensions}"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/mediumSection"
+                app:titleValue="Dimensions" />
+
+            <com.hieuwu.justart.presentation.views.CollapseParagraphView
+                android:id="@+id/creditLineSection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:contentValue="@{viewModel.artWorksDetails.creditLine}"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/dimensionsSection"
+                app:titleValue="Credit Line" />
+
+            <com.hieuwu.justart.presentation.views.CollapseParagraphView
+                android:id="@+id/referenceSection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:contentValue="@{viewModel.artWorksDetails.mainReferenceNumber}"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/creditLineSection"
+                app:titleValue="Reference Number" />
+
+            <com.hieuwu.justart.presentation.views.CollapseParagraphView
+                android:id="@+id/publicHistorySection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:contentValue="@{viewModel.artWorksDetails.publicationHistory}"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/referenceSection"
+                app:showChevron="true"
+                app:titleValue="Publication history" />
+
+            <com.hieuwu.justart.presentation.views.CollapseParagraphView
+                android:id="@+id/exhibitionHistorySection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:contentValue="@{viewModel.artWorksDetails.exhibitionHistory}"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/publicHistorySection"
+                app:showChevron="true"
+                app:titleValue="Exhibition history" />
+
+            <com.hieuwu.justart.presentation.views.CollapseParagraphView
+                android:id="@+id/provenanceSection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:contentValue="@{viewModel.artWorksDetails.provenanceText}"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/exhibitionHistorySection"
+                app:showChevron="true"
+                app:titleValue="Provenance" />
+
+            <View
+                android:id="@+id/divider"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="32dp"
+                android:background="@android:color/darker_gray"
+                app:layout_constraintTop_toBottomOf="@id/provenanceSection" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/artwork_detail_footer"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/divider" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+</layout>
