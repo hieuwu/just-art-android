@@ -13,10 +13,10 @@ class ArtWorkDetailsAdapter :
     override fun getItemViewType(position: Int): Int {
         return when (getItem(position)) {
             is ArtWorkDetailDisplay.Thumbnail -> {
-                R.layout.layout_artwork_details_title_view
+                R.layout.layout_artwork_details_thumbnail_view
             }
             is ArtWorkDetailDisplay.Text -> {
-                R.layout.layout_artwork_details_thumbnail_view
+                R.layout.layout_artwork_details_title_view
             }
             is ArtWorkDetailDisplay.Section -> {
                 R.layout.layout_artwork_details_section_view
@@ -25,7 +25,8 @@ class ArtWorkDetailsAdapter :
                 R.layout.custom_collapse_paragraph_view
             }
             else -> {
-                super.getItemViewType(position)
+                -1
+//                super.getItemViewType(position)
             }
         }
     }
@@ -60,16 +61,28 @@ class ArtWorkDetailsAdapter :
                 )
             }
             else -> {
-                return ArtWorkDetailsViewHolder(
-                    LayoutArtWorksItemBinding.inflate(LayoutInflater.from(parent.context))
-                )
+                throw(Exception("view not found"))
             }
         }
     }
 
     override fun onBindViewHolder(holder: ArtWorkDetailsViewHolder, position: Int) {
         val artWork = getItem(position)
+        when (holder) {
+            is ArtWorkDetailsViewHolder.ThumbnailViewHolder -> {
+                (holder as ArtWorkDetailsViewHolder.ThumbnailViewHolder).bind(artWork)
+            }
+            is ArtWorkDetailsViewHolder.TextViewHolder -> {
+                (holder as ArtWorkDetailsViewHolder.TextViewHolder).bind(artWork)
+            }
+            is ArtWorkDetailsViewHolder.SectionViewHolder -> {
+                (holder as ArtWorkDetailsViewHolder.SectionViewHolder).bind(artWork)
+            }
 
+            is ArtWorkDetailsViewHolder.CollapseSectionViewHolder -> {
+                (holder as ArtWorkDetailsViewHolder.CollapseSectionViewHolder).bind(artWork)
+            }
+        }
     }
 
     companion object DiffCallback : DiffUtil.ItemCallback<ArtWorkDetailDisplay>() {
@@ -77,14 +90,14 @@ class ArtWorkDetailsAdapter :
             oldItem: ArtWorkDetailDisplay,
             newItem: ArtWorkDetailDisplay
         ): Boolean {
-            return true
+            return false
         }
 
         override fun areContentsTheSame(
             oldItem: ArtWorkDetailDisplay,
             newItem: ArtWorkDetailDisplay
         ): Boolean {
-            return true
+            return false
         }
     }
 }
