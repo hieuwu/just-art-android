@@ -14,6 +14,5 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:text="@{displayItem.text}"
-        android:hint="1989"
-        android:textColor="@color/black" />
+        android:hint="1989" />
 </layout>
