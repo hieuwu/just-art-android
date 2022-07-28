@@ -19,7 +19,6 @@ abstract class ArtWorkDetailsViewHolder(private var binding: ViewBinding) :
                 executePendingBindings()
             }
         }
-
     }
 
     class TextViewHolder(private var binding: ViewBinding) : ArtWorkDetailsViewHolder(binding) {
