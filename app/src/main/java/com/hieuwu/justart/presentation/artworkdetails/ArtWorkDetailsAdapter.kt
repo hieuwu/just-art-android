@@ -5,10 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.hieuwu.justart.R
-import com.hieuwu.justart.databinding.LayoutArtworkDetailsSectionViewBinding
-import com.hieuwu.justart.databinding.LayoutArtworkDetailsThumbnailViewBinding
-import com.hieuwu.justart.databinding.LayoutArtworkDetailsTitleViewBinding
-import com.hieuwu.justart.databinding.LayoutArworkDetailsCollapseSectionViewBinding
+import com.hieuwu.justart.databinding.*
 
 
 class ArtWorkDetailsAdapter :
@@ -19,6 +16,9 @@ class ArtWorkDetailsAdapter :
                 R.layout.layout_artwork_details_thumbnail_view
             }
             is ArtWorkDetailDisplay.Text -> {
+                R.layout.layout_artwork_details_text_view
+            }
+            is ArtWorkDetailDisplay.Title -> {
                 R.layout.layout_artwork_details_title_view
             }
             is ArtWorkDetailDisplay.Section -> {
@@ -35,13 +35,18 @@ class ArtWorkDetailsAdapter :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArtWorkDetailsViewHolder {
         return when (viewType) {
-            R.layout.layout_artwork_details_title_view -> {
+            R.layout.layout_artwork_details_text_view -> {
                 ArtWorkDetailsViewHolder.TextViewHolder(
+                    LayoutArtworkDetailsTextViewBinding
+                        .inflate(LayoutInflater.from(parent.context), parent, false)
+                )
+            }
+            R.layout.layout_artwork_details_title_view -> {
+                ArtWorkDetailsViewHolder.TitleViewHolder(
                     LayoutArtworkDetailsTitleViewBinding
                         .inflate(LayoutInflater.from(parent.context), parent, false)
                 )
             }
-
             R.layout.layout_artwork_details_thumbnail_view -> {
                 ArtWorkDetailsViewHolder.ThumbnailViewHolder(
                     LayoutArtworkDetailsThumbnailViewBinding
