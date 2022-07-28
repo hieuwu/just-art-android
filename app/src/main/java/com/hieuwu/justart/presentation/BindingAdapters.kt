@@ -10,6 +10,7 @@ import com.hieuwu.justart.R
 import com.hieuwu.justart.domain.models.ArtWork
 import com.hieuwu.justart.presentation.artworkdetails.ArtWorkDetailDisplay
 import com.hieuwu.justart.presentation.artworkdetails.ArtWorkDetailsAdapter
+import com.hieuwu.justart.domain.models.ArtWorkDo
 import com.hieuwu.justart.presentation.artworks.ArtWorksAdapter
 import com.hieuwu.justart.presentation.views.CollapseParagraphView
 
@@ -28,7 +29,7 @@ fun bindImage(imgView: ImageView, imgUrl: String?) {
 }
 
 @BindingAdapter("listData")
-fun bindRecyclerView(recyclerView: RecyclerView, data: List<ArtWork>?) {
+fun bindRecyclerView(recyclerView: RecyclerView, data: List<ArtWorkDo>?) {
     val adapter = recyclerView.adapter as ArtWorksAdapter
     adapter.submitList(data)
 }

@@ -6,15 +6,15 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.hieuwu.justart.databinding.LayoutArtWorksItemBinding
-import com.hieuwu.justart.domain.models.ArtWork
+import com.hieuwu.justart.domain.models.ArtWorkDo
 
 class ArtWorksAdapter(private val onClickListener: OnClickListener) :
-    ListAdapter<ArtWork, ArtWorksAdapter.ArtWorksViewHolder>(DiffCallback) {
+    ListAdapter<ArtWorkDo, ArtWorksAdapter.ArtWorksViewHolder>(DiffCallback) {
 
     class ArtWorksViewHolder(private var binding: LayoutArtWorksItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(artWork: ArtWork) {
+        fun bind(artWork: ArtWorkDo) {
             binding.artWork = artWork
             binding.executePendingBindings()
         }
@@ -34,19 +34,19 @@ class ArtWorksAdapter(private val onClickListener: OnClickListener) :
         holder.bind(artWork)
     }
 
-    companion object DiffCallback : DiffUtil.ItemCallback<ArtWork>() {
-        override fun areItemsTheSame(oldItem: ArtWork, newItem: ArtWork): Boolean {
+    companion object DiffCallback : DiffUtil.ItemCallback<ArtWorkDo>() {
+        override fun areItemsTheSame(oldItem: ArtWorkDo, newItem: ArtWorkDo): Boolean {
             return oldItem == newItem
         }
 
-        override fun areContentsTheSame(oldItem: ArtWork, newItem: ArtWork): Boolean {
+        override fun areContentsTheSame(oldItem: ArtWorkDo, newItem: ArtWorkDo): Boolean {
             return oldItem.id == newItem.id
         }
     }
 
     class OnClickListener(
-        val clickListener: (artWork: ArtWork) -> Unit
+        val clickListener: (artWork: ArtWorkDo) -> Unit
     ) {
-        fun onClick(artWork: ArtWork) = clickListener(artWork)
+        fun onClick(artWork: ArtWorkDo) = clickListener(artWork)
     }
 }
