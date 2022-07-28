@@ -1,19 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent">
 
-    <data>
-
-        <variable
-            name="displayItem"
-            type="com.hieuwu.justart.presentation.artworkdetails.ArtWorkDetailDisplay.Text" />
-    </data>
-
-    <TextView
-        android:id="@+id/date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:text="@{displayItem.text}"
-        android:hint="1989"
-        android:textColor="@color/black" />
-</layout>
+</androidx.constraintlayout.widget.ConstraintLayout>
