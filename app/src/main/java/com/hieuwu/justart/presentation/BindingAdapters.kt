@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.hieuwu.justart.R
-import com.hieuwu.justartsdk.artworks.v1.domain.ArtWork
+import com.hieuwu.justart.domain.models.ArtWorkDo
 import com.hieuwu.justart.presentation.artworks.ArtWorksAdapter
 import com.hieuwu.justart.presentation.views.CollapseParagraphView
 
@@ -26,7 +26,7 @@ fun bindImage(imgView: ImageView, imgUrl: String?) {
 }
 
 @BindingAdapter("listData")
-fun bindRecyclerView(recyclerView: RecyclerView, data: List<ArtWork>?) {
+fun bindRecyclerView(recyclerView: RecyclerView, data: List<ArtWorkDo>?) {
     val adapter = recyclerView.adapter as ArtWorksAdapter
     adapter.submitList(data)
 }

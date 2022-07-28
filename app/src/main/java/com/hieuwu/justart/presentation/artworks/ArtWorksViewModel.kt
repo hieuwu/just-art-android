@@ -1,24 +1,22 @@
 package com.hieuwu.justart.presentation.artworks
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.hieuwu.justartsdk.artworks.v1.domain.ArtWork
+import com.hieuwu.justart.domain.models.ArtWorkDo
 import com.hieuwu.justart.domain.usecases.RetrieveArtWorksUseCase
-import com.hieuwu.justartsdk.artworks.v1.dto.ArtWorksListDto
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class ArtWorksViewModel @Inject constructor(private val retrieveArtWorksUseCase: RetrieveArtWorksUseCase) :
     ViewModel() {
 
-    private val _artWorksList = MutableLiveData<List<ArtWork>>()
-    val artWorksList: LiveData<List<ArtWork>> = _artWorksList
+    private val _artWorksList = MutableLiveData<List<ArtWorkDo>>()
+    val artWorksList: LiveData<List<ArtWorkDo>> = _artWorksList
 
-    private val _navigateToSelectedProperty = MutableLiveData<ArtWork?>()
-    val navigateToSelectedProperty: LiveData<ArtWork?>
+    private val _navigateToSelectedProperty = MutableLiveData<ArtWorkDo?>()
+    val navigateToSelectedProperty: LiveData<ArtWorkDo?>
         get() = _navigateToSelectedProperty
 
     init {
@@ -41,7 +39,7 @@ class ArtWorksViewModel @Inject constructor(private val retrieveArtWorksUseCase:
         _navigateToSelectedProperty.value = null
     }
 
-    fun displayPropertyDetails(artWorkProperty: ArtWork) {
+    fun displayPropertyDetails(artWorkProperty: ArtWorkDo) {
         _navigateToSelectedProperty.value = artWorkProperty
     }
 }
