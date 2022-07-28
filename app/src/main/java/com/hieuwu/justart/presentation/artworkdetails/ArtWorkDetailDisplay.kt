@@ -5,6 +5,8 @@ import com.hieuwu.justart.domain.models.ArtWorkDetailsDo
 open class ArtWorkDetailDisplay {
     class Thumbnail(val imageUrl: String) : ArtWorkDetailDisplay()
     class CollapseSection(val title: String?, val content: String?) : ArtWorkDetailDisplay()
+    class Title(val text: String) : ArtWorkDetailDisplay()
+
     class Text(val text: String) : ArtWorkDetailDisplay()
     class Section(val title: String, val content: String) : ArtWorkDetailDisplay()
 }
@@ -13,7 +15,7 @@ open class ArtWorkDetailDisplay {
 fun mapToDisplay(artWorkDetailsDo: ArtWorkDetailsDo?): List<ArtWorkDetailDisplay> {
     val displayList = mutableListOf<ArtWorkDetailDisplay>()
     artWorkDetailsDo?.imageUrl?.let { displayList.add(ArtWorkDetailDisplay.Thumbnail(imageUrl = it)) }
-    artWorkDetailsDo?.title?.let { displayList.add(ArtWorkDetailDisplay.Text(text = it)) }
+    artWorkDetailsDo?.title?.let { displayList.add(ArtWorkDetailDisplay.Title(text = it)) }
     artWorkDetailsDo?.dateDisplay?.let { displayList.add(ArtWorkDetailDisplay.Text(text = it)) }
     artWorkDetailsDo?.artistDisplay?.let { displayList.add(ArtWorkDetailDisplay.Text(text = it)) }
     artWorkDetailsDo?.artistTitle?.let {
