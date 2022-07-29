@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.android.motion.demo.sharedelement
+package com.hieuwu.justart.presentation.views
 
 import android.content.Context
 import android.graphics.Canvas

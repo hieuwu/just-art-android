@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.android.motion.demo
+package com.hieuwu.justart.presentation.views
 
 // Animation durations.
 // See https://material.io/design/motion/speed.html#duration for the detail.

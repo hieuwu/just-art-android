@@ -19,6 +19,8 @@ package com.example.android.motion.demo
 import android.animation.TimeInterpolator
 import androidx.transition.Transition
 import androidx.transition.TransitionSet
+import com.hieuwu.justart.presentation.views.forEach
+import com.hieuwu.justart.presentation.views.forEachIndexed
 
 /**
  * Runs multiple [Transition]s sequentially.

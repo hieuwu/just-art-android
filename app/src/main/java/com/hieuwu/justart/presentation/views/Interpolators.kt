@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.android.motion.demo
+package com.hieuwu.justart.presentation.views
 
 import android.animation.TimeInterpolator
 import androidx.core.view.animation.PathInterpolatorCompat

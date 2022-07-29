@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.android.motion.demo.sharedelement
+package com.hieuwu.justart.presentation.views
 
 import android.animation.Animator
 import android.animation.ObjectAnimator

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.android.motion.widget
+package com.hieuwu.justart.presentation.views
 
 import android.graphics.Rect
 import android.view.View
