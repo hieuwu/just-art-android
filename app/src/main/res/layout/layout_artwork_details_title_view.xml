@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="displayItem"
+            type="com.hieuwu.justart.presentation.artworkdetails.ArtWorkDetailDisplay.Title" />
+    </data>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:hint="1989"
+        android:text="@{displayItem.text}"
+        android:textColor="@color/black"
+        android:textSize="18dp"
+        android:textStyle="bold" />
+</layout>

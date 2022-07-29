@@ -14,9 +14,8 @@ class ArtWorkDetailsViewModel @Inject constructor(
     private val retrieveArtWorkDetailsUseCase: RetrieveArtWorkDetailsUseCase
 ) : ViewModel() {
 
-    private val _artWorkDetails: MutableLiveData<ArtWorkDetailsDo?> = MutableLiveData()
-    val artWorksDetails: LiveData<ArtWorkDetailsDo?>
-        get() = _artWorkDetails
+    private val _displayList: MutableLiveData<List<ArtWorkDetailDisplay>?> = MutableLiveData()
+    val displayList: LiveData<List<ArtWorkDetailDisplay>?> = _displayList
 
     init {
         getArtWorkDetails()
@@ -27,7 +26,7 @@ class ArtWorkDetailsViewModel @Inject constructor(
             when (val res =
                 retrieveArtWorkDetailsUseCase.execute(RetrieveArtWorkDetailsUseCase.Input(artWorkId))) {
                 is RetrieveArtWorkDetailsUseCase.Result.Success -> {
-                    _artWorkDetails.value = res.data
+                    _displayList.value = mapToDisplay(res.data)
                 }
             }
         }

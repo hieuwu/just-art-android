@@ -3,7 +3,6 @@ package com.hieuwu.justart.presentation.artworkdetails
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -39,11 +38,12 @@ class ArtDetailsFragment : Fragment() {
             ArtWorkDetailsViewModelFactory(artWorkId, retrieveArtWorkDetailsUseCase)
         viewModel = ViewModelProvider(this, viewModelFactory)[ArtWorkDetailsViewModel::class.java]
         binding.viewModel = viewModel
-        viewModel.artWorksDetails.observe(viewLifecycleOwner) {
-            binding.artworkDetailLayout.visibility = VISIBLE
+
+        with(binding.detailsRecyclerView) {
+            adapter = ArtWorkDetailsAdapter()
         }
 
+        viewModel.displayList.observe(viewLifecycleOwner) {}
         return binding.root
     }
-
 }

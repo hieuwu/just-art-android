@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="displayItem"
+            type="com.hieuwu.justart.presentation.artworkdetails.ArtWorkDetailDisplay.Thumbnail" />
+    </data>
+
+    <ImageView
+        android:id="@+id/artWorkImage"
+        android:layout_width="match_parent"
+        android:layout_height="170dp"
+        app:imageUrl="@{displayItem.imageUrl}"
+        android:scaleType="center"
+        android:src="@drawable/ic_broken_image" />
+</layout>
