@@ -5,6 +5,7 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
@@ -87,7 +88,9 @@ class ArtWorksFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+//        super.onViewCreated(view, savedInstanceState)
+        (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
+
         val viewModelFactory = ArtWorksViewModelFactory(retrieveArtWorksUseCase)
         viewModel = ViewModelProvider(this, viewModelFactory)[ArtWorksViewModel::class.java]
         binding.viewModel = viewModel
@@ -128,19 +131,17 @@ class ArtWorksFragment : Fragment() {
     }
 
     private fun setObservers() {
-        viewModel.navigateToSelectedProperty.observe(this.viewLifecycleOwner) {
-            it?.let {
-                navigateToArtWorksDetail(it.id)
-                viewModel.displayPropertyDetailsComplete()
-            }
-        }
+//        viewModel.navigateToSelectedProperty.observe(this.viewLifecycleOwner) {
+//            it?.let {
+//                navigateToArtWorksDetail(it.id)
+//                viewModel.displayPropertyDetailsComplete()
+//            }
+//        }
     }
 
     private fun setupRecyclerView(recyclerView: RecyclerView) {
         recyclerviewAdapter = ArtWorksAdapter(
-            ArtWorksAdapter.OnClickListener(
-                clickListener = { viewModel.displayPropertyDetails(it) },
-            ),
+            null,
             onReadyToTransition = { startPostponedEnterTransition() }
         )
         with(recyclerView) {
