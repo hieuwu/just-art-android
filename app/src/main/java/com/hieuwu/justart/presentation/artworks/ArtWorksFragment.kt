@@ -12,9 +12,6 @@ import androidx.core.view.updateLayoutParams
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.Navigation.findNavController
-import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.Explode
 import androidx.transition.Slide
@@ -41,9 +38,11 @@ class ArtWorksFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setupExitTransition()
+        setupReEnterTransition()
+    }
 
-        // This is the transition to be used for non-shared elements when we are opening the detail
-        // screen.
+    private fun setupExitTransition() {
         exitTransition = transitionTogether {
             duration = LARGE_EXPAND_DURATION / 2
             interpolator = FAST_OUT_LINEAR_IN
@@ -58,9 +57,9 @@ class ArtWorksFragment : Fragment() {
                 excludeTarget(R.id.app_bar, true)
             }
         }
+    }
 
-        // This is the transition to be used for non-shared elements when we are return back from
-        // the detail screen.
+    private fun setupReEnterTransition() {
         reenterTransition = transitionTogether {
             duration = LARGE_COLLAPSE_DURATION / 2
             interpolator = LINEAR_OUT_SLOW_IN
@@ -79,6 +78,11 @@ class ArtWorksFragment : Fragment() {
         }
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        recyclerviewAdapter?.saveInstanceState(outState)
+        super.onSaveInstanceState(outState)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -88,35 +92,32 @@ class ArtWorksFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        super.onViewCreated(view, savedInstanceState)
+        super.onViewCreated(view, savedInstanceState)
         (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
 
         val viewModelFactory = ArtWorksViewModelFactory(retrieveArtWorksUseCase)
         viewModel = ViewModelProvider(this, viewModelFactory)[ArtWorksViewModel::class.java]
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
-        setObservers()
+
         setupRecyclerView(binding.artWorksRecyclerView)
         if (savedInstanceState != null) {
             recyclerviewAdapter?.restoreInstanceState(savedInstanceState)
         }
         if (recyclerviewAdapter!!.expectsTransition) {
-            // We are transitioning back from CheeseDetailFragment.
-            // Postpone the transition animation until the destination item is ready.
             postponeEnterTransition(500L, TimeUnit.MILLISECONDS)
         }
+        setupWindowListener(view)
+    }
 
-//        val toolbar: Toolbar = view.findViewById(R.id.toolbar)
-        val grid: RecyclerView = binding.artWorksRecyclerView
-
-        // Adjust the edge-to-edge display.
+    private fun setupWindowListener(view: View) {
         val gridPadding = resources.getDimensionPixelSize(R.dimen.spacing_tiny)
         ViewCompat.setOnApplyWindowInsetsListener(view.parent as View) { _, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             binding.toolbar.updateLayoutParams<AppBarLayout.LayoutParams> {
                 topMargin = systemBars.top
             }
-            grid.updatePadding(
+            binding.artWorksRecyclerView.updatePadding(
                 left = gridPadding + systemBars.left,
                 right = gridPadding + systemBars.right,
                 bottom = gridPadding + systemBars.bottom
@@ -124,41 +125,16 @@ class ArtWorksFragment : Fragment() {
             insets
         }
 
-        grid.addItemDecoration(
+        binding.artWorksRecyclerView.addItemDecoration(
             SpaceDecoration(resources.getDimensionPixelSize(R.dimen.spacing_tiny))
         )
-//        grid.adapter = recyclerviewAdapter
-    }
-
-    private fun setObservers() {
-//        viewModel.navigateToSelectedProperty.observe(this.viewLifecycleOwner) {
-//            it?.let {
-//                navigateToArtWorksDetail(it.id)
-//                viewModel.displayPropertyDetailsComplete()
-//            }
-//        }
     }
 
     private fun setupRecyclerView(recyclerView: RecyclerView) {
-        recyclerviewAdapter = ArtWorksAdapter(
-            null,
-            onReadyToTransition = { startPostponedEnterTransition() }
-        )
+        recyclerviewAdapter =
+            ArtWorksAdapter(onReadyToTransition = { startPostponedEnterTransition() })
         with(recyclerView) {
             adapter = recyclerviewAdapter
         }
     }
-
-    private fun navigateToArtWorksDetail(id: Int) {
-        val direction =
-            ArtWorksFragmentDirections.actionArtWorksFragmentToArtDetailsFragment(id = id)
-        findNavController().navigate(direction)
-    }
-
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        recyclerviewAdapter?.saveInstanceState(outState)
-        super.onSaveInstanceState(outState)
-    }
-//
 }
