@@ -5,14 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.transition.ChangeBounds
 import androidx.transition.ChangeImageTransform
 import androidx.transition.ChangeTransform
 import androidx.transition.Transition
+import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.hieuwu.justart.databinding.FragmentArtworkDetailsBinding
 import com.hieuwu.justart.domain.usecases.RetrieveArtWorkDetailsUseCase
 import com.hieuwu.justart.presentation.views.*
@@ -88,31 +88,26 @@ class ArtWorkDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 //        super.onViewCreated(view, savedInstanceState)
         (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
-
         postponeEnterTransition(500L, TimeUnit.MILLISECONDS)
-
-        // Transition names. Note that they don't need to match with the names of the selected grid
-        // item. They only have to be unique in this fragment.
+        ViewCompat.setTransitionName(binding.toolbar, TRANSITION_NAME_TOOLBAR)
         ViewCompat.setTransitionName(binding.detailsRecyclerView, TRANSITION_NAME_IMAGE)
-//        ViewCompat.setTransitionName(image!!.itemView, TRANSITION_NAME_NAME)
+        ViewCompat.setTransitionName(binding.detailsRecyclerView, TRANSITION_NAME_NAME)
+        ViewGroupCompat.setTransitionGroup(binding.detailsRecyclerView, true)
 
         // Adjust the edge-to-edge display.
         ViewCompat.setOnApplyWindowInsetsListener(view) { _, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-//            toolbar.updateLayoutParams<CollapsingToolbarLayout.LayoutParams> {
-//                topMargin = systemBars.top
-//            }
-//            content.updatePadding(
-//                left = systemBars.left,
-//                right = systemBars.right,
-//                bottom = systemBars.bottom
-//            )
+            binding.toolbar.updateLayoutParams<CollapsingToolbarLayout.LayoutParams> {
+                topMargin = systemBars.top
+            }
+            binding.detailsRecyclerView.updatePadding(
+                left = systemBars.left,
+                right = systemBars.right,
+                bottom = systemBars.bottom
+            )
             insets
         }
 
-//        toolbar.setNavigationOnClickListener {
-//            findNavController().popBackStack()
-//        }
     }
 
 
