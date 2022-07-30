@@ -21,7 +21,6 @@ import com.hieuwu.justart.presentation.views.doOnEnd
 private const val STATE_LAST_SELECTED_ID = "last_selected_id"
 
 class ArtWorksAdapter(
-    private val onClickListener: OnClickListener? = null,
     private val onReadyToTransition: () -> Unit
 ) :
     ListAdapter<ArtWorkDo, ArtWorksAdapter.ArtWorksViewHolder>(DiffCallback) {
@@ -59,7 +58,6 @@ class ArtWorksAdapter(
                         // The image is the focal element in this shared element transition.
                         image to ArtWorkDetailsFragment.TRANSITION_NAME_IMAGE,
                         card to ArtWorkDetailsFragment.TRANSITION_NAME_BACKGROUND
-//                        card to ArtWorkDetailsFragment.TRANSITION_NAME_BACKGROUND
                     )
                 )
             }
@@ -68,17 +66,11 @@ class ArtWorksAdapter(
 
     override fun onBindViewHolder(holder: ArtWorksViewHolder, position: Int) {
         val artWork = getItem(position)
-//        holder.itemView.setOnClickListener {
-//            onClickListener?.onClick(artWork)
-//        }
-
         // Each of the shared elements has to have a unique transition name, not just in this grid
         // item, but in the entire fragment.
         ViewCompat.setTransitionName(holder.image, "image-${artWork.id}")
         ViewCompat.setTransitionName(holder.title, "name-${artWork.id}")
         ViewCompat.setTransitionName(holder.card, "card-${artWork.id}")
-
-//        ViewCompat.setTransitionName(holder.card, "card-${artWork.id}")
 
         // Load the image asynchronously. See CheeseDetailFragment.kt about "dontTransform()"
         var requestBuilder = Glide.with(holder.image).load(artWork.imageUrl).dontTransform()
@@ -116,11 +108,5 @@ class ArtWorksAdapter(
         override fun areContentsTheSame(oldItem: ArtWorkDo, newItem: ArtWorkDo): Boolean {
             return oldItem.id == newItem.id
         }
-    }
-
-    class OnClickListener(
-        val clickListener: ((artWork: ArtWorkDo) -> Unit)? = null
-    ) {
-        fun onClick(artWork: ArtWorkDo) = clickListener?.invoke(artWork)
     }
 }
