@@ -21,7 +21,7 @@ import com.hieuwu.justart.presentation.views.doOnEnd
 private const val STATE_LAST_SELECTED_ID = "last_selected_id"
 
 class ArtWorksAdapter(
-    private val onClickListener: OnClickListener,
+    private val onClickListener: OnClickListener? = null,
     private val onReadyToTransition: () -> Unit
 ) :
     ListAdapter<ArtWorkDo, ArtWorksAdapter.ArtWorksViewHolder>(DiffCallback) {
@@ -34,7 +34,7 @@ class ArtWorksAdapter(
         RecyclerView.ViewHolder(binding.root) {
         val image = binding.artWorksImage
         val title = binding.artWorksTitle
-
+        val card = binding.cardView
         fun bind(artWork: ArtWorkDo) {
             binding.artWork = artWork
             binding.executePendingBindings()
@@ -55,9 +55,11 @@ class ArtWorksAdapter(
                         // We expand the card into the background.
                         // The fragment will use this first element as the epicenter of all the
                         // fragment transitions, including Explode for non-shared elements.
-                        title to ArtWorkDetailsFragment.TRANSITION_NAME_BACKGROUND,
+                        title to ArtWorkDetailsFragment.TRANSITION_NAME_NAME,
                         // The image is the focal element in this shared element transition.
                         image to ArtWorkDetailsFragment.TRANSITION_NAME_IMAGE,
+                        card to ArtWorkDetailsFragment.TRANSITION_NAME_BACKGROUND
+//                        card to ArtWorkDetailsFragment.TRANSITION_NAME_BACKGROUND
                     )
                 )
             }
@@ -66,14 +68,17 @@ class ArtWorksAdapter(
 
     override fun onBindViewHolder(holder: ArtWorksViewHolder, position: Int) {
         val artWork = getItem(position)
-        holder.itemView.setOnClickListener {
-            onClickListener.onClick(artWork)
-        }
+//        holder.itemView.setOnClickListener {
+//            onClickListener?.onClick(artWork)
+//        }
 
         // Each of the shared elements has to have a unique transition name, not just in this grid
         // item, but in the entire fragment.
         ViewCompat.setTransitionName(holder.image, "image-${artWork.id}")
         ViewCompat.setTransitionName(holder.title, "name-${artWork.id}")
+        ViewCompat.setTransitionName(holder.card, "card-${artWork.id}")
+
+//        ViewCompat.setTransitionName(holder.card, "card-${artWork.id}")
 
         // Load the image asynchronously. See CheeseDetailFragment.kt about "dontTransform()"
         var requestBuilder = Glide.with(holder.image).load(artWork.imageUrl).dontTransform()
@@ -114,8 +119,8 @@ class ArtWorksAdapter(
     }
 
     class OnClickListener(
-        val clickListener: (artWork: ArtWorkDo) -> Unit
+        val clickListener: ((artWork: ArtWorkDo) -> Unit)? = null
     ) {
-        fun onClick(artWork: ArtWorkDo) = clickListener(artWork)
+        fun onClick(artWork: ArtWorkDo) = clickListener?.invoke(artWork)
     }
 }
