@@ -11,7 +11,7 @@ import com.hieuwu.justart.domain.models.ArtWorkDo
 class ArtWorksAdapter(private val onClickListener: OnClickListener) :
     ListAdapter<ArtWorkDo, ArtWorksAdapter.ArtWorksViewHolder>(DiffCallback) {
 
-    class ArtWorksViewHolder(private var binding: LayoutArtWorksItemBinding) :
+    class ArtWorksViewHolder(var binding: LayoutArtWorksItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(artWork: ArtWorkDo) {
@@ -23,14 +23,31 @@ class ArtWorksAdapter(private val onClickListener: OnClickListener) :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArtWorksViewHolder {
         return ArtWorksViewHolder(
             LayoutArtWorksItemBinding.inflate(LayoutInflater.from(parent.context))
-        )
+        ).apply {
+            binding.root.setOnClickListener {
+                val artWork = getItem(adapterPosition)
+                onClickListener.onClick(artWork)
+            }
+            binding.favouriteBtn.setOnClickListener {
+                val artWork = getItem(adapterPosition)
+                onClickListener.favouriteListener(artWork)
+            }
+
+            binding.pinBtn.setOnClickListener {
+                val artWork = getItem(adapterPosition)
+                onClickListener.pinListener(artWork)
+            }
+
+            binding.shareBtn.setOnClickListener {
+                val artWork = getItem(adapterPosition)
+                onClickListener.shareListener(artWork)
+            }
+
+        }
     }
 
     override fun onBindViewHolder(holder: ArtWorksViewHolder, position: Int) {
         val artWork = getItem(position)
-        holder.itemView.setOnClickListener {
-            onClickListener.onClick(artWork)
-        }
         holder.bind(artWork)
     }
 
@@ -45,7 +62,10 @@ class ArtWorksAdapter(private val onClickListener: OnClickListener) :
     }
 
     class OnClickListener(
-        val clickListener: (artWork: ArtWorkDo) -> Unit
+        val clickListener: (artWork: ArtWorkDo) -> Unit,
+        val favouriteListener: (artwork: ArtWorkDo) -> Unit,
+        val pinListener: (artwork: ArtWorkDo) -> Unit,
+        val shareListener: (artwork: ArtWorkDo) -> Unit,
     ) {
         fun onClick(artWork: ArtWorkDo) = clickListener(artWork)
     }
