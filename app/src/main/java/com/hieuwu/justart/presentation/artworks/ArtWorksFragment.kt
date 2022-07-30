@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.hieuwu.justart.databinding.FragmentArtWorksBinding
 import com.hieuwu.justart.domain.usecases.RetrieveArtWorksUseCase
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -57,14 +58,18 @@ class ArtWorksFragment : Fragment() {
             layoutManager = GridLayoutManager(context, 2)
             adapter = ArtWorksAdapter(
                 ArtWorksAdapter.OnClickListener(
-                    clickListener = { viewModel.displayPropertyDetails(it) }
+                    clickListener = { viewModel.displayPropertyDetails(it) },
+                    shareListener = { Timber.d("Share click") },
+                    favouriteListener = { Timber.d("Favourite click") },
+                    pinListener = { Timber.d("Pin click") }
                 )
             )
         }
     }
 
     private fun navigateToArtWorksDetail(id: Int) {
-        val direction = ArtWorksFragmentDirections.actionArtWorksFragmentToArtDetailsFragment(id = id)
+        val direction =
+            ArtWorksFragmentDirections.actionArtWorksFragmentToArtDetailsFragment(id = id)
         findNavController().navigate(direction)
     }
 }
