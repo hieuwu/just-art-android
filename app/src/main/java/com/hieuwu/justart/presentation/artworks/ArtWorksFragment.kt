@@ -1,5 +1,7 @@
 package com.hieuwu.justart.presentation.artworks
 
+import android.content.Intent
+import android.content.Intent.ACTION_SEND
 import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -136,7 +138,9 @@ class ArtWorksFragment : Fragment() {
             ArtWorksAdapter(onReadyToTransition = { startPostponedEnterTransition() },
                 onClickListener = ArtWorksAdapter.OnClickListener(
                     clickListener = { viewModel.displayPropertyDetails(it) },
-                    shareListener = { Timber.d("Share click") },
+                    shareListener = {
+                        shareContent()
+                        Timber.d("Share click") },
                     favouriteListener = { Timber.d("Favourite click") },
                     pinListener = { Timber.d("Pin click") }
                 ))
@@ -144,4 +148,15 @@ class ArtWorksFragment : Fragment() {
             adapter = recyclerviewAdapter
         }
     }
+
+    private fun shareContent() {
+        val intent = Intent().apply {
+            action = ACTION_SEND
+            type = "text/plain"
+            putExtra(Intent.EXTRA_TEXT, "url to share")
+        }
+        startActivity(Intent.createChooser(intent, "Share"));
+
+    }
+
 }
