@@ -2,7 +2,9 @@ package com.hieuwu.justart.presentation.artworks
 
 import android.content.Intent
 import android.content.Intent.ACTION_SEND
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore.Images
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -20,12 +22,15 @@ import androidx.transition.Slide
 import com.google.android.material.appbar.AppBarLayout
 import com.hieuwu.justart.R
 import com.hieuwu.justart.databinding.FragmentArtWorksBinding
+import com.hieuwu.justart.domain.models.ArtWorkDo
 import com.hieuwu.justart.domain.usecases.RetrieveArtWorksUseCase
 import com.hieuwu.justart.presentation.views.*
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.concurrent.TimeUnit
 import timber.log.Timber
+import java.net.URI
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+
 
 @AndroidEntryPoint
 class ArtWorksFragment : Fragment() {
@@ -139,8 +144,9 @@ class ArtWorksFragment : Fragment() {
                 onClickListener = ArtWorksAdapter.OnClickListener(
                     clickListener = { viewModel.displayPropertyDetails(it) },
                     shareListener = {
-                        shareContent()
-                        Timber.d("Share click") },
+                        shareContent(it)
+                        Timber.d("Share click")
+                    },
                     favouriteListener = { Timber.d("Favourite click") },
                     pinListener = { Timber.d("Pin click") }
                 ))
@@ -149,14 +155,16 @@ class ArtWorksFragment : Fragment() {
         }
     }
 
-    private fun shareContent() {
+    private fun shareContent(artwork: ArtWorkDo) {
+        val uri = URI(artwork.imageUrl)
         val intent = Intent().apply {
             action = ACTION_SEND
-            type = "text/plain"
-            putExtra(Intent.EXTRA_TEXT, "url to share")
+            type = "image/*"
+//            putExtra(Intent.EXTRA_TEXT, artwork.title);
+            putExtra(Intent.EXTRA_STREAM,uri)
         }
-        startActivity(Intent.createChooser(intent, "Share"));
 
+        startActivity(Intent.createChooser(intent, "Share"));
     }
 
 }
