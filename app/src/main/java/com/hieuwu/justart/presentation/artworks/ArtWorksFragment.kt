@@ -156,15 +156,16 @@ class ArtWorksFragment : Fragment() {
     }
 
     private fun shareContent(artwork: ArtWorkDo) {
-        val uri = URI(artwork.imageUrl)
         val intent = Intent().apply {
             action = ACTION_SEND
-            type = "image/*"
-//            putExtra(Intent.EXTRA_TEXT, artwork.title);
-            putExtra(Intent.EXTRA_STREAM,uri)
+            type = "text/plain"
+            putExtra(Intent.EXTRA_TEXT, buildShareContent(artwork))
         }
-
         startActivity(Intent.createChooser(intent, "Share"));
+    }
+
+    private fun buildShareContent(artwork: ArtWorkDo): String {
+        return "${artwork.title}, ${artwork.dimensions}\n${artwork.artistDisplay}"
     }
 
 }
