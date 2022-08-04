@@ -4,11 +4,13 @@ import android.content.Intent
 import android.content.Intent.ACTION_SEND
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import androidx.core.view.ViewCompat
@@ -20,6 +22,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.Explode
 import androidx.transition.Slide
+import com.bumptech.glide.Glide
 import com.google.android.material.appbar.AppBarLayout
 import com.hieuwu.justart.BuildConfig
 import com.hieuwu.justart.R
@@ -46,6 +49,8 @@ class ArtWorksFragment : Fragment() {
 
     @Inject
     lateinit var retrieveArtWorksUseCase: RetrieveArtWorksUseCase
+    private val coroutineScope = CoroutineScope(Dispatchers.IO)
+
 
     private lateinit var binding: FragmentArtWorksBinding
 
@@ -165,7 +170,7 @@ class ArtWorksFragment : Fragment() {
     }
 
     private fun shareContent(artwork: ArtWorkDo) {
-        buildImage(artwork.imageUrl)
+        buildImage(artwork)
 //        val intent = Intent().apply {
 //            action = ACTION_SEND
 //            type = "text/plain"
@@ -178,55 +183,53 @@ class ArtWorksFragment : Fragment() {
         return "${artwork.title}, ${artwork.dimensions}\n${artwork.artistDisplay}"
     }
 
-    private fun buildImage(imageUrl: String?) {
+    private fun buildImage(artwork: ArtWorkDo) {
         val file = File(requireContext().externalCacheDir, File.separator + "artwork.jpg")
         val fout = FileOutputStream(file)
         var bitmap: Bitmap? = null
+        var photoUri: Uri? = null
         coroutineScope.launch {
-            bitmap = getBitmapFromURL(imageUrl)
+            bitmap = getBitmapFromURL(artwork.imageUrl)
+            bitmap?.compress(Bitmap.CompressFormat.JPEG, 100, fout)
+            fout.flush()
+            fout.close()
+            file.setReadable(true, false)
+            photoUri = FileProvider.getUriForFile(
+                requireContext(),
+                BuildConfig.APPLICATION_ID + ".provider",
+                file
+            )
         }
-//        val bitmap = getBitmapFromURL(imageUrl)
-        bitmap?.compress(Bitmap.CompressFormat.JPEG, 100, fout)
-        fout.flush()
-        fout.close()
-        file.setReadable(true, false)
-
-        val photoUri = FileProvider.getUriForFile(
-            requireContext(),
-            BuildConfig.APPLICATION_ID + ".provider",
-            file
-        )
 
         val intent = Intent().apply {
             action = ACTION_SEND
             flags = Intent.FLAG_ACTIVITY_NEW_TASK
             addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION)
-            type = "image/url"
+            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
+            putExtra(Intent.EXTRA_TEXT, buildShareContent(artwork = artwork))
+
+            type = "image/jpg"
             putExtra(Intent.EXTRA_STREAM, photoUri)
         }
-        startActivity(Intent.createChooser(intent, "Share"));
-
+        startActivity(Intent.createChooser(intent, "Share"))
     }
 
-    val coroutineScope = CoroutineScope(Dispatchers.IO)
-
-
-    suspend fun getBitmapFromURL(src: String?): Bitmap? {
+    private fun getBitmapFromURL(src: String?): Bitmap? {
         var res: Bitmap? = null
-        coroutineScope.launch {
-            try {
-                val url = URL(src)
-                val connection =
-                    url.openConnection() as HttpURLConnection
-                connection.doInput = true
-                connection.connect()
-                val input = connection.inputStream
-                res = BitmapFactory.decodeStream(input)
-            } catch (e: IOException) {
-                e.printStackTrace()
-                null
-            }
+        try {
+            val url = URL(src)
+            val connection =
+                url.openConnection() as HttpURLConnection
+            connection.doInput = true
+            connection.connect()
+            val input = connection.inputStream
+            res = BitmapFactory.decodeStream(input)
+        } catch (e: IOException) {
+            e.printStackTrace()
+            null
         }
+
         return res
     }
 }
