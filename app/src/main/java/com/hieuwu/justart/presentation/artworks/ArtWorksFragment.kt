@@ -171,16 +171,11 @@ class ArtWorksFragment : Fragment() {
 
     private fun shareContent(artwork: ArtWorkDo) {
         buildImage(artwork)
-//        val intent = Intent().apply {
-//            action = ACTION_SEND
-//            type = "text/plain"
-//            putExtra(Intent.EXTRA_TEXT, buildShareContent(artwork))
-//        }
-//        startActivity(Intent.createChooser(intent, "Share"));
     }
 
     private fun buildShareContent(artwork: ArtWorkDo): String {
-        return "${artwork.title}, ${artwork.dimensions}\n${artwork.artistDisplay}"
+        return "${artwork.title}, ${artwork.dimensions}\n${artwork.artistDisplay}, Art Institute of Chicago\n\nShared from " +
+                "Just Art by @hieuwu, @dohonghuan"
     }
 
     private fun buildImage(artwork: ArtWorkDo) {
@@ -199,23 +194,25 @@ class ArtWorksFragment : Fragment() {
                 BuildConfig.APPLICATION_ID + ".provider",
                 file
             )
-        }
 
-        val intent = Intent().apply {
-            action = ACTION_SEND
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK
-            addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION)
-            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-            addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
-            putExtra(Intent.EXTRA_TEXT, buildShareContent(artwork = artwork))
+            val intent = Intent().apply {
+                action = ACTION_SEND
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION)
+                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
+                putExtra(Intent.EXTRA_TEXT, buildShareContent(artwork))
 
-            type = "image/jpg"
-            putExtra(Intent.EXTRA_STREAM, photoUri)
+                type = "image/jpg"
+                putExtra(Intent.EXTRA_STREAM, photoUri)
+            }
+            with(Dispatchers.Main) {
+                startActivity(Intent.createChooser(intent, "Share artwork"));
+            }
         }
-        startActivity(Intent.createChooser(intent, "Share"))
     }
 
-    private fun getBitmapFromURL(src: String?): Bitmap? {
+    private suspend fun getBitmapFromURL(src: String?): Bitmap? {
         var res: Bitmap? = null
         try {
             val url = URL(src)
