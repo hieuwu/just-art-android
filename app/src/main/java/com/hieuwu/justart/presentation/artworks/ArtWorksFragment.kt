@@ -173,23 +173,20 @@ class ArtWorksFragment : Fragment() {
         buildImage(artwork)
     }
 
-    private fun buildShareContent(artwork: ArtWorkDo): String {
-        return "${artwork.title}, ${artwork.dimensions}\n${artwork.artistDisplay}, Art Institute of Chicago\n\nShared from " +
+    private fun buildShareContent(artwork: ArtWorkDo): String =
+        "${artwork.title}, ${artwork.dimensions}\n${artwork.artistDisplay}, Art Institute of Chicago\n\nShared from " +
                 "Just Art by @hieuwu, @dohonghuan"
-    }
 
     private fun buildImage(artwork: ArtWorkDo) {
         val file = File(requireContext().externalCacheDir, File.separator + "artwork.jpg")
         val fout = FileOutputStream(file)
-        var bitmap: Bitmap? = null
-        var photoUri: Uri? = null
         coroutineScope.launch {
-            bitmap = getBitmapFromURL(artwork.imageUrl)
+            val bitmap = getBitmapFromURL(artwork.imageUrl)
             bitmap?.compress(Bitmap.CompressFormat.JPEG, 100, fout)
             fout.flush()
             fout.close()
             file.setReadable(true, false)
-            photoUri = FileProvider.getUriForFile(
+            val photoUri = FileProvider.getUriForFile(
                 requireContext(),
                 BuildConfig.APPLICATION_ID + ".provider",
                 file
