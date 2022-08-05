@@ -212,7 +212,7 @@ class ArtWorksFragment : Fragment() {
         }
     }
 
-    private suspend fun getBitmapFromURL(src: String?): Bitmap? {
+    private fun getBitmapFromURL(src: String?): Bitmap? {
         var res: Bitmap? = null
         try {
             val url = URL(src)
