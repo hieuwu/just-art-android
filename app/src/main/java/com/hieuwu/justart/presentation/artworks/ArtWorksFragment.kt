@@ -1,11 +1,16 @@
 package com.hieuwu.justart.presentation.artworks
 
+import android.content.Intent
+import android.content.Intent.ACTION_SEND
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.FileProvider
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
@@ -16,19 +21,33 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.Explode
 import androidx.transition.Slide
 import com.google.android.material.appbar.AppBarLayout
+import com.hieuwu.justart.BuildConfig
 import com.hieuwu.justart.R
 import com.hieuwu.justart.databinding.FragmentArtWorksBinding
+import com.hieuwu.justart.domain.models.ArtWorkDo
 import com.hieuwu.justart.domain.usecases.RetrieveArtWorksUseCase
 import com.hieuwu.justart.presentation.views.*
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import timber.log.Timber
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
+import java.net.HttpURLConnection
+import java.net.URL
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+
 
 @AndroidEntryPoint
 class ArtWorksFragment : Fragment() {
 
     @Inject
     lateinit var retrieveArtWorksUseCase: RetrieveArtWorksUseCase
+    private val coroutineScope = CoroutineScope(Dispatchers.IO)
+
 
     private lateinit var binding: FragmentArtWorksBinding
 
@@ -132,9 +151,76 @@ class ArtWorksFragment : Fragment() {
 
     private fun setupRecyclerView(recyclerView: RecyclerView) {
         recyclerviewAdapter =
-            ArtWorksAdapter(onReadyToTransition = { startPostponedEnterTransition() })
+            ArtWorksAdapter(onReadyToTransition = { startPostponedEnterTransition() },
+                onClickListener = ArtWorksAdapter.OnClickListener(
+                    clickListener = { viewModel.displayPropertyDetails(it) },
+                    shareListener = {
+                        shareContent(it)
+                        Timber.d("Share click")
+                    },
+                    favouriteListener = { Timber.d("Favourite click") },
+                    pinListener = { Timber.d("Pin click") }
+                ))
         with(recyclerView) {
             adapter = recyclerviewAdapter
         }
+    }
+
+    private fun shareContent(artwork: ArtWorkDo) {
+        buildImage(artwork)
+    }
+
+    private fun buildShareContent(artwork: ArtWorkDo): String =
+        "${artwork.title}, ${artwork.dimensions}\n${artwork.artistDisplay}, Art Institute of Chicago\n\nShared from " +
+                "Just Art by @hieuwu, @dohonghuan"
+
+    private fun buildImage(artwork: ArtWorkDo) {
+        val file = File(requireContext().externalCacheDir, File.separator + "artwork.jpg")
+        val fout = FileOutputStream(file)
+        coroutineScope.launch {
+            val bitmap = getBitmapFromURL(artwork.imageUrl)
+            bitmap?.compress(Bitmap.CompressFormat.JPEG, 100, fout)
+            fout.flush()
+            fout.close()
+            file.setReadable(true, false)
+            val photoUri = FileProvider.getUriForFile(
+                requireContext(),
+                BuildConfig.APPLICATION_ID + ".provider",
+                file
+            )
+
+            val intent = Intent().apply {
+                action = ACTION_SEND
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION)
+                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
+                putExtra(Intent.EXTRA_TEXT, buildShareContent(artwork))
+
+                type = "image/jpg"
+                putExtra(Intent.EXTRA_STREAM, photoUri)
+            }
+            with(Dispatchers.Main) {
+                startActivity(Intent.createChooser(intent, "Share artwork"));
+            }
+        }
+    }
+
+    private fun getBitmapFromURL(src: String?): Bitmap? {
+        var res: Bitmap? = null
+        try {
+            val url = URL(src)
+            val connection =
+                url.openConnection() as HttpURLConnection
+            connection.doInput = true
+            connection.connect()
+            val input = connection.inputStream
+            res = BitmapFactory.decodeStream(input)
+        } catch (e: IOException) {
+            e.printStackTrace()
+            null
+        }
+
+        return res
     }
 }

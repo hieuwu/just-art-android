@@ -21,6 +21,7 @@ import com.hieuwu.justart.presentation.views.doOnEnd
 private const val STATE_LAST_SELECTED_ID = "last_selected_id"
 
 class ArtWorksAdapter(
+    private val onClickListener: OnClickListener,
     private val onReadyToTransition: () -> Unit
 ) :
     ListAdapter<ArtWorkDo, ArtWorksAdapter.ArtWorksViewHolder>(DiffCallback) {
@@ -29,7 +30,7 @@ class ArtWorksAdapter(
     val expectsTransition: Boolean
         get() = lastSelectedId != null
 
-    class ArtWorksViewHolder(private var binding: LayoutArtWorksItemBinding) :
+    class ArtWorksViewHolder(var binding: LayoutArtWorksItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         val image = binding.artWorksImage
         val title = binding.artWorksTitle
@@ -60,6 +61,20 @@ class ArtWorksAdapter(
                         card to ArtWorkDetailsFragment.TRANSITION_NAME_BACKGROUND
                     )
                 )
+            }
+            binding.favouriteBtn.setOnClickListener {
+                val artWork = getItem(adapterPosition)
+                onClickListener.favouriteListener(artWork)
+            }
+
+            binding.pinBtn.setOnClickListener {
+                val artWork = getItem(adapterPosition)
+                onClickListener.pinListener(artWork)
+            }
+
+            binding.shareBtn.setOnClickListener {
+                val artWork = getItem(adapterPosition)
+                onClickListener.shareListener(artWork)
             }
         }
     }
@@ -108,5 +123,14 @@ class ArtWorksAdapter(
         override fun areContentsTheSame(oldItem: ArtWorkDo, newItem: ArtWorkDo): Boolean {
             return oldItem.id == newItem.id
         }
+    }
+
+    class OnClickListener(
+        val clickListener: (artWork: ArtWorkDo) -> Unit,
+        val favouriteListener: (artwork: ArtWorkDo) -> Unit,
+        val pinListener: (artwork: ArtWorkDo) -> Unit,
+        val shareListener: (artwork: ArtWorkDo) -> Unit,
+    ) {
+        fun onClick(artWork: ArtWorkDo) = clickListener(artWork)
     }
 }
