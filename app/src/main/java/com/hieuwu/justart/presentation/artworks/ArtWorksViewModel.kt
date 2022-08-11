@@ -15,16 +15,28 @@ class ArtWorksViewModel @Inject constructor(private val retrieveArtWorksUseCase:
     private val _artWorksList = MutableLiveData<List<ArtWorkDo>>()
     val artWorksList: LiveData<List<ArtWorkDo>> = _artWorksList
 
+    private val _isLoading = MutableLiveData(false)
+    val isLoading: LiveData<Boolean> = _isLoading
+
     private val _navigateToSelectedProperty = MutableLiveData<ArtWorkDo?>()
     val navigateToSelectedProperty: LiveData<ArtWorkDo?>
         get() = _navigateToSelectedProperty
 
     init {
-        retrieveData()
+        retrieveData(onBeforeExecute = { onBeforeExecute() }, onAfterExecute = { onAfterExecute() })
     }
 
-    private fun retrieveData() {
+    private fun onBeforeExecute() {
+        _isLoading.value = true
+    }
+
+    private fun onAfterExecute() {
+        _isLoading.value = false
+    }
+
+    private fun retrieveData(onBeforeExecute: () -> Unit, onAfterExecute: () -> Unit) {
         viewModelScope.launch {
+            onBeforeExecute()
             when (val result = retrieveArtWorksUseCase.execute(RetrieveArtWorksUseCase.Input())) {
                 is RetrieveArtWorksUseCase.Result.Success -> {
                     result.data?.let {
@@ -32,6 +44,7 @@ class ArtWorksViewModel @Inject constructor(private val retrieveArtWorksUseCase:
                     }
                 }
             }
+            onAfterExecute()
         }
     }
 
