@@ -27,6 +27,8 @@ import com.hieuwu.justart.databinding.FragmentArtWorksBinding
 import com.hieuwu.justart.domain.models.ArtWorkDo
 import com.hieuwu.justart.domain.usecases.RetrieveArtWorksUseCase
 import com.hieuwu.justart.presentation.views.*
+import com.hieuwu.justart.utils.hideLoading
+import com.hieuwu.justart.utils.showLoading
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -127,10 +129,13 @@ class ArtWorksFragment : Fragment() {
             postponeEnterTransition(500L, TimeUnit.MILLISECONDS)
         }
 
-        binding.showLoadingBtn.setOnClickListener{
-            val loadingDialog = LoadingDialogFragment()
-            loadingDialog.show(parentFragmentManager, "FRAGMENT_TAG")
+        viewModel.isLoading.observe(viewLifecycleOwner) {
+            when (it) {
+                true -> showLoading()
+                false -> hideLoading()
+            }
         }
+
         setupWindowListener(view)
     }
 
