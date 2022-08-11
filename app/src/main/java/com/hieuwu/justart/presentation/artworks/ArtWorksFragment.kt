@@ -126,6 +126,11 @@ class ArtWorksFragment : Fragment() {
         if (recyclerviewAdapter!!.expectsTransition) {
             postponeEnterTransition(500L, TimeUnit.MILLISECONDS)
         }
+
+        binding.showLoadingBtn.setOnClickListener{
+            val loadingDialog = LoadingDialogFragment()
+            loadingDialog.show(parentFragmentManager, "FRAGMENT_TAG")
+        }
         setupWindowListener(view)
     }
 
