@@ -17,6 +17,7 @@ import androidx.core.view.updateLayoutParams
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.Explode
 import androidx.transition.Slide
@@ -127,6 +128,7 @@ class ArtWorksFragment : Fragment() {
             postponeEnterTransition(500L, TimeUnit.MILLISECONDS)
         }
         setupWindowListener(view)
+        setupTitle()
     }
 
     private fun setupWindowListener(view: View) {
@@ -163,6 +165,12 @@ class ArtWorksFragment : Fragment() {
                 ))
         with(recyclerView) {
             adapter = recyclerviewAdapter
+        }
+    }
+
+    private fun setupTitle() {
+        binding.toolbar.setNavigationOnClickListener {
+            findNavController().navigate(R.id.searchFragment)
         }
     }
 
