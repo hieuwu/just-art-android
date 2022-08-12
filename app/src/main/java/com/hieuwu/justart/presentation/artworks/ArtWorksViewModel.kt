@@ -44,6 +44,7 @@ class ArtWorksViewModel @Inject constructor(private val retrieveArtWorksUseCase:
                     }
                 }
             }
+        }.invokeOnCompletion {
             onAfterExecute()
         }
     }
