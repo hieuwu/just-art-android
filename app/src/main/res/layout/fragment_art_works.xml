@@ -32,13 +32,6 @@
                 app:title="Just Art" />
         </com.google.android.material.appbar.AppBarLayout>
 
-        <Button
-            android:id="@+id/showLoadingBtn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Show loading"
-            app:layout_constraintTop_toBottomOf="@id/app_bar" />
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/artWorksRecyclerView"
             android:layout_width="match_parent"
