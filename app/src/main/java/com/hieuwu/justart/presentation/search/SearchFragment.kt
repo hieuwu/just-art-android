@@ -1,15 +1,21 @@
 package com.hieuwu.justart.presentation.search
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.addTextChangedListener
 import androidx.navigation.fragment.findNavController
-import com.hieuwu.justart.MainActivity
-import com.hieuwu.justart.R
 import com.hieuwu.justart.databinding.FragmentSearchBinding
-import com.hieuwu.justart.presentation.focusAndShowKeyboard
+import com.hieuwu.justart.presentation.utils.focusAndShowKeyboard
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+
+const val SEARCH_TIME_DELAY = 1500L
 
 class SearchFragment : Fragment() {
 
@@ -36,12 +42,24 @@ class SearchFragment : Fragment() {
             findNavController().navigateUp()
         }
 
+        binding.clearText.setOnClickListener {
+            binding.searchView.text = null
+        }
+
+        setupSearchView()
+    }
+
+    private fun setupSearchView() {
         binding.searchView.apply {
             focusAndShowKeyboard()
         }
 
-        binding.clearText.setOnClickListener {
-            binding.searchView.text = null
+        var job: Job? = null
+        binding.searchView.addTextChangedListener {
+            job?.cancel()
+            job = MainScope().launch {
+                delay(SEARCH_TIME_DELAY)
+            }
         }
     }
 }

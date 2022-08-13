@@ -1,4 +1,4 @@
-package com.hieuwu.justart.presentation
+package com.hieuwu.justart.presentation.utils
 
 import android.view.View
 import android.view.ViewTreeObserver
