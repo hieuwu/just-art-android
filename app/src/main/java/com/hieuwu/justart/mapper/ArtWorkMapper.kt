@@ -8,8 +8,7 @@ fun List<ArtWork>.asDomainModel(): List<ArtWorkDo> {
         ArtWorkDo(
             id = it.id,
             title = it.title,
-//            thumbnail = it.thumbnail?.asDomainModel(),
-            thumbnail = it.thumbnail.asDomainModel(),
+            thumbnail = it.thumbnail?.asDomainModel(),
             artistDisplay = it.artistDisplay,
             dimensions = it.dimensions,
             mediumDisplay = it.mediumDisplay,
