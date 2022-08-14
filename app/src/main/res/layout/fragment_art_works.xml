@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.hieuwu.justart.presentation.artworks.ArtWorksViewModel" />
@@ -24,11 +25,11 @@
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
-                app:navigationIcon="@drawable/ic_search"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="?attr/colorPrimary"
                 app:layout_constraintTop_toTopOf="parent"
+                app:navigationIcon="@drawable/ic_search"
                 app:title="Just Art" />
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -42,6 +43,14 @@
             app:listData="@{viewModel.artWorksList}"
             app:spanCount="2"
             tools:listitem="@layout/layout_art_works_item" />
+
+        <com.hieuwu.justart.presentation.views.custom.ErrorView
+            android:id="@+id/error_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/app_bar"
+            tools:visibility="visible" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
