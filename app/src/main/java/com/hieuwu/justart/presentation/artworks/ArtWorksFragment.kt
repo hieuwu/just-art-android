@@ -28,6 +28,8 @@ import com.hieuwu.justart.databinding.FragmentArtWorksBinding
 import com.hieuwu.justart.domain.models.ArtWorkDo
 import com.hieuwu.justart.domain.usecases.RetrieveArtWorksUseCase
 import com.hieuwu.justart.presentation.views.*
+import com.hieuwu.justart.utils.hideLoading
+import com.hieuwu.justart.utils.showLoading
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -127,6 +129,14 @@ class ArtWorksFragment : Fragment() {
         if (recyclerviewAdapter!!.expectsTransition) {
             postponeEnterTransition(500L, TimeUnit.MILLISECONDS)
         }
+
+        viewModel.isLoading.observe(viewLifecycleOwner) {
+            when (it) {
+                true -> showLoading()
+                false -> hideLoading()
+            }
+        }
+
         setupWindowListener(view)
         setupTitle()
     }
