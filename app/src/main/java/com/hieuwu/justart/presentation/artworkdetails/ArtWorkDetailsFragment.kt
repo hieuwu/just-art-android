@@ -16,6 +16,9 @@ import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.hieuwu.justart.databinding.FragmentArtworkDetailsBinding
 import com.hieuwu.justart.domain.usecases.RetrieveArtWorkDetailsUseCase
 import com.hieuwu.justart.presentation.views.*
+import com.hieuwu.justart.presentation.views.animation.helper.SharedFade
+import com.hieuwu.justart.presentation.views.animation.helper.plusAssign
+import com.hieuwu.justart.presentation.views.animation.helper.transitionTogether
 import com.hieuwu.justart.utils.hideLoading
 import com.hieuwu.justart.utils.showLoading
 import dagger.hilt.android.AndroidEntryPoint
