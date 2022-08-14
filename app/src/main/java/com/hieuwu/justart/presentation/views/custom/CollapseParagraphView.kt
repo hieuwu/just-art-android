@@ -1,4 +1,4 @@
-package com.hieuwu.justart.presentation.views
+package com.hieuwu.justart.presentation.views.custom
 
 import android.annotation.SuppressLint
 import android.content.Context

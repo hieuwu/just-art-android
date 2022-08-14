@@ -1,7 +1,7 @@
 package com.hieuwu.justart.utils
 
 import androidx.fragment.app.Fragment
-import com.hieuwu.justart.presentation.views.LoadingDialogFragment
+import com.hieuwu.justart.presentation.views.custom.LoadingDialogFragment
 
 const val TAG = "LOADING_DIALOG_TAG"
 
