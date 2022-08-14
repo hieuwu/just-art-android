@@ -28,6 +28,9 @@ import com.hieuwu.justart.databinding.FragmentArtWorksBinding
 import com.hieuwu.justart.domain.models.ArtWorkDo
 import com.hieuwu.justart.domain.usecases.RetrieveArtWorksUseCase
 import com.hieuwu.justart.presentation.views.*
+import com.hieuwu.justart.presentation.views.animation.helper.SpaceDecoration
+import com.hieuwu.justart.presentation.views.animation.helper.plusAssign
+import com.hieuwu.justart.presentation.views.animation.helper.transitionTogether
 import com.hieuwu.justart.utils.hideLoading
 import com.hieuwu.justart.utils.showLoading
 import dagger.hilt.android.AndroidEntryPoint
@@ -134,6 +137,21 @@ class ArtWorksFragment : Fragment() {
             when (it) {
                 true -> showLoading()
                 false -> hideLoading()
+            }
+        }
+
+
+        viewModel.showError.observe(viewLifecycleOwner) {
+            when (it) {
+                true -> {
+                    binding.errorView.visibility = View.VISIBLE
+                    binding.artWorksRecyclerView.visibility = View.GONE
+
+                }
+                false -> {
+                    binding.errorView.visibility = View.GONE
+                    binding.artWorksRecyclerView.visibility = View.VISIBLE
+                }
             }
         }
 
