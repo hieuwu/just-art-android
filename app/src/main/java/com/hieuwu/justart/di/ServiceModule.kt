@@ -26,12 +26,12 @@ class ServiceModule {
 
     @Provides
     @Singleton
-    public final fun provideServiceConfiguration(connectionConfiguration: ServiceConfigurationProvider.ConnectionConfiguration) =
+    fun provideServiceConfiguration(connectionConfiguration: ServiceConfigurationProvider.ConnectionConfiguration) =
         getServiceConfigurationBuilder(connectionConfiguration).build()
 
     @Provides
     @Singleton
-    public final fun provideConnectionConfiguration() =
+    fun provideConnectionConfiguration() =
         getConnectionConfigurationBuilder().build()
 
     private fun getConnectionConfigurationBuilder() =
@@ -39,8 +39,10 @@ class ServiceModule {
             .apiBaseUrl("https://api.artic.edu/api/")
             .shouldRetry(true)
 
-    private fun getServiceConfigurationBuilder(connectionConfiguration: ServiceConfigurationProvider.ConnectionConfiguration) =
-        ServiceConfigurationProvider.ServiceConfiguration.Builder()
-            .connectionConfiguration(connectionConfiguration)
-            .logEnabled(true)
+    private fun getServiceConfigurationBuilder(
+        connectionConfiguration:
+        ServiceConfigurationProvider.ConnectionConfiguration
+    ) = ServiceConfigurationProvider.ServiceConfiguration.Builder()
+        .connectionConfiguration(connectionConfiguration)
+        .logEnabled(true)
 }

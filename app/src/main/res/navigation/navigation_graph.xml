@@ -12,7 +12,9 @@
         tools:layout="@layout/fragment_art_works" >
         <action
             android:id="@+id/action_artWorksFragment_to_artDetailsFragment"
-            app:destination="@id/artDetailsFragment" >
+            app:destination="@id/artDetailsFragment"
+            app:restoreState="true"
+            app:popUpToSaveState="true">
             <argument
                 android:name="id"
                 app:argType="integer"
