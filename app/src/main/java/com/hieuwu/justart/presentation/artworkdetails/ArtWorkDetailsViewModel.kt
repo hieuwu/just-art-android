@@ -15,16 +15,31 @@ class ArtWorkDetailsViewModel @Inject constructor(
 
     private val _displayList: MutableLiveData<List<ArtWorkDetailDisplay>?> = MutableLiveData()
     val displayList: LiveData<List<ArtWorkDetailDisplay>?> = _displayList
+
     private val _title: MutableLiveData<String> = MutableLiveData()
     val title: LiveData<String> = _title
 
 
+    private val _isLoading = MutableLiveData(false)
+    val isLoading: LiveData<Boolean> = _isLoading
+
+
     init {
-        getArtWorkDetails()
+        getArtWorkDetails({ onBeforeExecute() }, { onAfterExecute() })
     }
 
-    private fun getArtWorkDetails() {
+    private fun onBeforeExecute() {
+        _isLoading.value = true
+    }
+
+    private fun onAfterExecute() {
+        _isLoading.value = false
+    }
+
+    private fun getArtWorkDetails(onBeforeExecute: () -> Unit, onAfterExecute: () -> Unit) {
         viewModelScope.launch {
+            onBeforeExecute()
+
             when (val res =
                 retrieveArtWorkDetailsUseCase.execute(RetrieveArtWorkDetailsUseCase.Input(artWorkId))) {
                 is RetrieveArtWorkDetailsUseCase.Result.Success -> {
@@ -32,6 +47,9 @@ class ArtWorkDetailsViewModel @Inject constructor(
                     _displayList.value = mapToDisplay(res.data)
                 }
             }
+
+        }.invokeOnCompletion {
+            onAfterExecute()
         }
     }
 }

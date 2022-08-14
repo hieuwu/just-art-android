@@ -25,23 +25,23 @@
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
-                app:title="Just Art"
                 app:navigationIcon="@drawable/ic_search"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="?attr/colorPrimary"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:title="Just Art" />
         </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/artWorksRecyclerView"
-            app:spanCount="2"
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingBottom="120dp"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintTop_toBottomOf="@id/app_bar"
             app:listData="@{viewModel.artWorksList}"
-            android:paddingBottom="120dp"
+            app:spanCount="2"
             tools:listitem="@layout/layout_art_works_item" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

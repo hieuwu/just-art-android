@@ -16,6 +16,8 @@ import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.hieuwu.justart.databinding.FragmentArtworkDetailsBinding
 import com.hieuwu.justart.domain.usecases.RetrieveArtWorkDetailsUseCase
 import com.hieuwu.justart.presentation.views.*
+import com.hieuwu.justart.utils.hideLoading
+import com.hieuwu.justart.utils.showLoading
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -80,6 +82,13 @@ class ArtWorkDetailsFragment : Fragment() {
         (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
         postponeEnterTransition(500L, TimeUnit.MILLISECONDS)
         setupTransition(view)
+
+        viewModel.isLoading.observe(viewLifecycleOwner) {
+            when (it) {
+                true -> showLoading()
+                false -> hideLoading()
+            }
+        }
     }
 
     private fun setupObservers() {
