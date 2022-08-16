@@ -36,7 +36,6 @@ class ArtWorkDetailsFragment : Fragment() {
     private lateinit var viewModel: ArtWorkDetailsViewModel
     private lateinit var binding: FragmentArtworkDetailsBinding
 
-
     companion object {
         const val TRANSITION_NAME_IMAGE = "image"
         const val TRANSITION_NAME_NAME = "name"
@@ -98,6 +97,16 @@ class ArtWorkDetailsFragment : Fragment() {
         viewModel.displayList.observe(viewLifecycleOwner) {}
         viewModel.title.observe(viewLifecycleOwner) {
             binding.toolbar.title = it
+        }
+        viewModel.showErrorView.observe(viewLifecycleOwner) {
+            when (it) {
+                true -> {
+
+                }
+                else -> {
+
+                }
+            }
         }
     }
 
