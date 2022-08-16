@@ -54,7 +54,6 @@ class ArtWorksFragment : Fragment() {
     lateinit var retrieveArtWorksUseCase: RetrieveArtWorksUseCase
     private val coroutineScope = CoroutineScope(Dispatchers.IO)
 
-
     private lateinit var binding: FragmentArtWorksBinding
 
     private lateinit var viewModel: ArtWorksViewModel
@@ -139,7 +138,6 @@ class ArtWorksFragment : Fragment() {
                 false -> hideLoading()
             }
         }
-
 
         viewModel.showError.observe(viewLifecycleOwner) {
             when (it) {
