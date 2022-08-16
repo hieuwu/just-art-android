@@ -42,7 +42,7 @@ class ArtWorkDetailsViewModel @Inject constructor(
         viewModelScope.launch {
             onBeforeExecute()
             when (val res = retrieveArtWorkDetailsUseCase.execute(RetrieveArtWorkDetailsUseCase.Input(artWorkId))) {
-                is RetrieveArtWorkDetailsUseCase.Result.Success -> {'
+                is RetrieveArtWorkDetailsUseCase.Result.Success -> {
                     if (res.data == null) {
                         _showErrorview.value = false
                     } else {
