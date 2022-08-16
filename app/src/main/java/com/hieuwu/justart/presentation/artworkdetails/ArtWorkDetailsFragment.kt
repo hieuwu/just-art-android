@@ -98,13 +98,17 @@ class ArtWorkDetailsFragment : Fragment() {
         viewModel.title.observe(viewLifecycleOwner) {
             binding.toolbar.title = it
         }
-        viewModel.showErrorView.observe(viewLifecycleOwner) {
-            when (it) {
-                true -> {
-
-                }
-                else -> {
-
+        viewModel.showErrorView.observe(viewLifecycleOwner) { shouldShowErrorView ->
+            with(binding) {
+                when (shouldShowErrorView) {
+                    true -> {
+                        detailsRecyclerView.visibility = View.GONE
+                        errorView.visibility = View.VISIBLE
+                    }
+                    else -> {
+                        detailsRecyclerView.visibility = View.VISIBLE
+                        errorView.visibility = View.GONE
+                    }
                 }
             }
         }
