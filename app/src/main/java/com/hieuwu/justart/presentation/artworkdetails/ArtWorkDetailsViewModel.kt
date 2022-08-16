@@ -19,6 +19,8 @@ class ArtWorkDetailsViewModel @Inject constructor(
     private val _title: MutableLiveData<String> = MutableLiveData()
     val title: LiveData<String> = _title
 
+    private val _showErrorview: MutableLiveData<Boolean> = MutableLiveData()
+    val showErrorView: LiveData<Boolean> = _showErrorview
 
     private val _isLoading = MutableLiveData(false)
     val isLoading: LiveData<Boolean> = _isLoading
@@ -39,12 +41,17 @@ class ArtWorkDetailsViewModel @Inject constructor(
     private fun getArtWorkDetails(onBeforeExecute: () -> Unit, onAfterExecute: () -> Unit) {
         viewModelScope.launch {
             onBeforeExecute()
-
-            when (val res =
-                retrieveArtWorkDetailsUseCase.execute(RetrieveArtWorkDetailsUseCase.Input(artWorkId))) {
-                is RetrieveArtWorkDetailsUseCase.Result.Success -> {
-                    _title.value = res.data?.title ?: ""
-                    _displayList.value = mapToDisplay(res.data)
+            when (val res = retrieveArtWorkDetailsUseCase.execute(RetrieveArtWorkDetailsUseCase.Input(artWorkId))) {
+                is RetrieveArtWorkDetailsUseCase.Result.Success -> {'
+                    if (res.data == null) {
+                        _showErrorview.value = false
+                    } else {
+                        _title.value = res.data.title ?: ""
+                        _displayList.value = mapToDisplay(res.data)
+                    }
+                }
+                else -> {
+                    _showErrorview.value = false
                 }
             }
 
