@@ -16,6 +16,9 @@ import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.hieuwu.justart.databinding.FragmentArtworkDetailsBinding
 import com.hieuwu.justart.domain.usecases.RetrieveArtWorkDetailsUseCase
 import com.hieuwu.justart.presentation.views.*
+import com.hieuwu.justart.presentation.views.animation.helper.SharedFade
+import com.hieuwu.justart.presentation.views.animation.helper.plusAssign
+import com.hieuwu.justart.presentation.views.animation.helper.transitionTogether
 import com.hieuwu.justart.utils.hideLoading
 import com.hieuwu.justart.utils.showLoading
 import dagger.hilt.android.AndroidEntryPoint
@@ -32,7 +35,6 @@ class ArtWorkDetailsFragment : Fragment() {
 
     private lateinit var viewModel: ArtWorkDetailsViewModel
     private lateinit var binding: FragmentArtworkDetailsBinding
-
 
     companion object {
         const val TRANSITION_NAME_IMAGE = "image"
@@ -95,6 +97,20 @@ class ArtWorkDetailsFragment : Fragment() {
         viewModel.displayList.observe(viewLifecycleOwner) {}
         viewModel.title.observe(viewLifecycleOwner) {
             binding.toolbar.title = it
+        }
+        viewModel.showErrorView.observe(viewLifecycleOwner) { shouldShowErrorView ->
+            with(binding) {
+                when (shouldShowErrorView) {
+                    true -> {
+                        detailsRecyclerView.visibility = View.GONE
+                        errorView.visibility = View.VISIBLE
+                    }
+                    else -> {
+                        detailsRecyclerView.visibility = View.VISIBLE
+                        errorView.visibility = View.GONE
+                    }
+                }
+            }
         }
     }
 

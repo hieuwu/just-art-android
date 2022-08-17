@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.hieuwu.justart.presentation.views
+package com.hieuwu.justart.presentation.views.animation.helper
 
 import android.content.Context
 import android.graphics.Canvas

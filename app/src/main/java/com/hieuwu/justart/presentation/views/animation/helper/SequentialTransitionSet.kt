@@ -14,13 +14,11 @@
  * limitations under the License.
  */
 
-package com.example.android.motion.demo
+package com.hieuwu.justart.presentation.views.animation.helper
 
 import android.animation.TimeInterpolator
 import androidx.transition.Transition
 import androidx.transition.TransitionSet
-import com.hieuwu.justart.presentation.views.forEach
-import com.hieuwu.justart.presentation.views.forEachIndexed
 
 /**
  * Runs multiple [Transition]s sequentially.

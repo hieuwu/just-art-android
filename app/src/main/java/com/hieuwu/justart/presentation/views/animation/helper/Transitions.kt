@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package com.hieuwu.justart.presentation.views
+package com.hieuwu.justart.presentation.views.animation.helper
 
 import androidx.transition.ChangeBounds
 import androidx.transition.Fade
 import androidx.transition.Transition
 import androidx.transition.TransitionSet
-import com.example.android.motion.demo.SequentialTransitionSet
+import com.hieuwu.justart.presentation.views.FAST_OUT_SLOW_IN
 
 /**
  * Creates a transition like [androidx.transition.AutoTransition], but customized to be more

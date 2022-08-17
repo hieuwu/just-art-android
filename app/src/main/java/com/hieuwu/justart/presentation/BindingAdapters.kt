@@ -11,7 +11,7 @@ import com.hieuwu.justart.presentation.artworkdetails.ArtWorkDetailDisplay
 import com.hieuwu.justart.presentation.artworkdetails.ArtWorkDetailsAdapter
 import com.hieuwu.justart.domain.models.ArtWorkDo
 import com.hieuwu.justart.presentation.artworks.ArtWorksAdapter
-import com.hieuwu.justart.presentation.views.CollapseParagraphView
+import com.hieuwu.justart.presentation.views.custom.CollapseParagraphView
 
 @BindingAdapter("imageUrl")
 fun bindImage(imgView: ImageView, imgUrl: String?) {

@@ -18,6 +18,10 @@ class ArtWorksViewModel @Inject constructor(private val retrieveArtWorksUseCase:
     private val _isLoading = MutableLiveData(false)
     val isLoading: LiveData<Boolean> = _isLoading
 
+
+    private val _showError = MutableLiveData(false)
+    val showError: LiveData<Boolean> = _showError
+
     private val _navigateToSelectedProperty = MutableLiveData<ArtWorkDo?>()
     val navigateToSelectedProperty: LiveData<ArtWorkDo?>
         get() = _navigateToSelectedProperty
@@ -39,9 +43,16 @@ class ArtWorksViewModel @Inject constructor(private val retrieveArtWorksUseCase:
             onBeforeExecute()
             when (val result = retrieveArtWorksUseCase.execute(RetrieveArtWorksUseCase.Input())) {
                 is RetrieveArtWorksUseCase.Result.Success -> {
-                    result.data?.let {
+                    if (result.data == null) {
+                        _showError.value = true
+                    } else {
                         _artWorksList.value = result.data
                     }
+
+
+                }
+                else -> {
+                    _showError.value = true
                 }
             }
         }.invokeOnCompletion {

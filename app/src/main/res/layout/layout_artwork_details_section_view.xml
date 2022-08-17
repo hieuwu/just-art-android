@@ -10,7 +10,7 @@
             type="com.hieuwu.justart.presentation.artworkdetails.ArtWorkDetailDisplay.Section" />
     </data>
 
-    <com.hieuwu.justart.presentation.views.CollapseParagraphView
+    <com.hieuwu.justart.presentation.views.custom.CollapseParagraphView
         android:id="@+id/artistSection"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
