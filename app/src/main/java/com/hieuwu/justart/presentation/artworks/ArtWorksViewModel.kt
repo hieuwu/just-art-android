@@ -52,8 +52,6 @@ class ArtWorksViewModel @Inject constructor(private val retrieveArtWorksUseCase:
                         _artWorksList.value = result.data
                         _showError.value = false
                     }
-
-
                 }
                 else -> {
                     _showError.value = true
