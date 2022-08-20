@@ -30,6 +30,9 @@ class ArtWorksViewModel @Inject constructor(private val retrieveArtWorksUseCase:
         retrieveData(onBeforeExecute = { onBeforeExecute() }, onAfterExecute = { onAfterExecute() })
     }
 
+    fun onRefresh() {
+        retrieveData(onBeforeExecute = { onBeforeExecute() }, onAfterExecute = { onAfterExecute() })
+    }
     private fun onBeforeExecute() {
         _isLoading.value = true
     }
@@ -47,9 +50,8 @@ class ArtWorksViewModel @Inject constructor(private val retrieveArtWorksUseCase:
                         _showError.value = true
                     } else {
                         _artWorksList.value = result.data
+                        _showError.value = false
                     }
-
-
                 }
                 else -> {
                     _showError.value = true

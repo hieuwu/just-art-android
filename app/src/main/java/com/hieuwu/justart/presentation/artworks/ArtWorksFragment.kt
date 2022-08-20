@@ -138,13 +138,14 @@ class ArtWorksFragment : Fragment() {
                 false -> hideLoading()
             }
         }
-
+        binding.errorView.setRefresh {
+            viewModel.onRefresh()
+        }
         viewModel.showError.observe(viewLifecycleOwner) {
             when (it) {
                 true -> {
                     binding.errorView.visibility = View.VISIBLE
                     binding.artWorksRecyclerView.visibility = View.GONE
-
                 }
                 false -> {
                     binding.errorView.visibility = View.GONE

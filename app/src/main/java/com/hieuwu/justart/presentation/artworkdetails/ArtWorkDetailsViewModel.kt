@@ -38,6 +38,10 @@ class ArtWorkDetailsViewModel @Inject constructor(
         _isLoading.value = false
     }
 
+    fun onRefresh() {
+        getArtWorkDetails({ onBeforeExecute() }, { onAfterExecute() })
+    }
+
     private fun getArtWorkDetails(onBeforeExecute: () -> Unit, onAfterExecute: () -> Unit) {
         viewModelScope.launch {
             onBeforeExecute()
@@ -48,6 +52,8 @@ class ArtWorkDetailsViewModel @Inject constructor(
                     } else {
                         _title.value = res.data.title ?: ""
                         _displayList.value = mapToDisplay(res.data)
+                        _showErrorView.value = false
+
                     }
                 }
                 else -> {

@@ -98,6 +98,9 @@ class ArtWorkDetailsFragment : Fragment() {
         viewModel.title.observe(viewLifecycleOwner) {
             binding.toolbar.title = it
         }
+        binding.errorView.setRefresh {
+            viewModel.onRefresh()
+        }
         viewModel.showErrorView.observe(viewLifecycleOwner) { shouldShowErrorView ->
             with(binding) {
                 when (shouldShowErrorView) {
