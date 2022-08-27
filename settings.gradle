@@ -2,7 +2,6 @@ pluginManagement {
     repositories {
         gradlePluginPortal()
         google()
-        mavenCentral()
     }
 }
 dependencyResolutionManagement {
@@ -11,10 +10,13 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
         maven {
-            url 'https://jitpack.io'
-            credentials { username authToken }
+            name = "JustArtSDK"
+            url = uri("https://maven.pkg.github.com/hieuwu/just-art-sdk")
+            credentials {
+                username = gitusername
+                password = gittoken
+            }
         }
-
     }
 }
 rootProject.name = "Just Art"
