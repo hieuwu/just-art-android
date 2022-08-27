@@ -32,10 +32,11 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:hint="Search"
+                    android:textColorHint="@color/light_gray"
                     android:textColor="@color/white"
                     android:inputType="text|textAutoComplete"
-                    android:paddingStart="16dp"
                     android:paddingEnd="16dp"
+                    android:textCursorDrawable="@null"
                     android:background="@null">
                     <requestFocus />
                 </com.google.android.material.textfield.TextInputEditText>
