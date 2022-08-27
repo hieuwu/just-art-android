@@ -206,7 +206,7 @@ class ArtWorksFragment : Fragment() {
     }
 
     private fun buildShareContent(artwork: ArtWorkDo): String =
-        "${artwork.title}, ${artwork.dimensions}\n${artwork.artistDisplay}, Art Institute of Chicago\n\nShared from " +
+        "${artwork.title}, ${artwork.artistDisplay}, Art Institute of Chicago\n\nShared from " +
                 "Just Art by @hieuwu, @dohonghuan"
 
     private fun buildImage(artwork: ArtWorkDo) {
