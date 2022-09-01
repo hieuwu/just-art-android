@@ -11,10 +11,10 @@
         android:label="fragment_art_works"
         tools:layout="@layout/fragment_art_works" >
         <action
+            app:popUpTo="@id/artWorksFragment"
+            app:popUpToSaveState="true"
             android:id="@+id/action_artWorksFragment_to_artDetailsFragment"
-            app:destination="@id/artDetailsFragment"
-            app:restoreState="true"
-            app:popUpToSaveState="true">
+            app:destination="@id/artDetailsFragment">
             <argument
                 android:name="id"
                 app:argType="integer"
