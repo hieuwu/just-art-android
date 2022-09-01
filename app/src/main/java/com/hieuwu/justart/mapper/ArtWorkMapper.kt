@@ -1,6 +1,7 @@
 package com.hieuwu.justart.mapper
 
 import com.hieuwu.justart.domain.models.ArtWorkDo
+import com.hieuwu.justart.domain.models.ArtWorkEntity
 import com.hieuwu.justartsdk.artworks.v1.domain.ArtWork
 
 fun List<ArtWork>.asDomainModel(): List<ArtWorkDo> {
@@ -9,7 +10,11 @@ fun List<ArtWork>.asDomainModel(): List<ArtWorkDo> {
             id = it.id,
             title = it.title,
             imageUrl = it.imageUrl,
-            artistDisplay = it.artistDisplay
+            artistDisplay = it.artistDisplay,
+            isFavorite = false
         )
     }
 }
+
+fun ArtWorkDo.asArtworkEntity(): ArtWorkEntity =
+    ArtWorkEntity(this.id, this.title, this.artistDisplay, this.imageUrl)

@@ -4,13 +4,16 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.hieuwu.justart.data.repository.ArtworkRepository
 import com.hieuwu.justart.domain.models.ArtWorkDo
+import com.hieuwu.justart.domain.usecases.GetFavoriteUseCase
 import com.hieuwu.justart.domain.usecases.RetrieveArtWorksUseCase
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class ArtWorksViewModel @Inject constructor(private val retrieveArtWorksUseCase: RetrieveArtWorksUseCase) :
-    ViewModel() {
+class ArtWorksViewModel @Inject constructor(
+    private val retrieveArtWorksUseCase: RetrieveArtWorksUseCase,
+    private val getFavoriteUseCase: GetFavoriteUseCase) : ViewModel() {
 
     private val _artWorksList = MutableLiveData<List<ArtWorkDo>>()
     val artWorksList: LiveData<List<ArtWorkDo>> = _artWorksList
@@ -59,6 +62,21 @@ class ArtWorksViewModel @Inject constructor(private val retrieveArtWorksUseCase:
             }
         }.invokeOnCompletion {
             onAfterExecute()
+        }
+    }
+
+    suspend fun isArtworkFavorite(artwork: ArtWorkDo): Boolean =
+        getFavoriteUseCase.isArtworkFavorite(artwork)
+
+    fun deleteArtworkFavorite(artwork: ArtWorkDo) {
+        viewModelScope.launch {
+            getFavoriteUseCase.deleteFavoriteArtwork(artwork)
+        }
+    }
+
+    suspend fun saveArtworkFavorite(artwork: ArtWorkDo) {
+        viewModelScope.launch {
+            getFavoriteUseCase.saveFavoriteArtwork(artwork)
         }
     }
 

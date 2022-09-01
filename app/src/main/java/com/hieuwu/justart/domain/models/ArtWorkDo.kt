@@ -5,4 +5,5 @@ data class ArtWorkDo(
     val title: String,
     val artistDisplay: String?,
     val imageUrl: String? = null,
+    var isFavorite: Boolean = false
 )

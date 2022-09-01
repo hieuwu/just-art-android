@@ -1,6 +1,7 @@
 package com.hieuwu.justart.presentation.artworks
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.ViewCompat
@@ -36,6 +37,12 @@ class ArtWorksAdapter(
         val title = binding.artWorksTitle
         val card = binding.cardView
         fun bind(artWork: ArtWorkDo) {
+            binding.favouriteBtn.setImageResource(
+                when {
+                    artWork.isFavorite -> R.drawable.ic_baseline_favorite_24
+                    else -> R.drawable.ic_outline_favorite_border_24
+                }
+            )
             binding.artWork = artWork
             binding.executePendingBindings()
         }
@@ -64,7 +71,7 @@ class ArtWorksAdapter(
             }
             binding.favouriteBtn.setOnClickListener {
                 val artWork = getItem(adapterPosition)
-                onClickListener.favouriteListener(artWork)
+                onClickListener.favouriteListener(artWork, binding)
             }
 
             binding.pinBtn.setOnClickListener {
@@ -127,7 +134,7 @@ class ArtWorksAdapter(
 
     class OnClickListener(
         val clickListener: (artWork: ArtWorkDo) -> Unit,
-        val favouriteListener: (artwork: ArtWorkDo) -> Unit,
+        val favouriteListener: (artwork: ArtWorkDo, binding: LayoutArtWorksItemBinding) -> Unit,
         val pinListener: (artwork: ArtWorkDo) -> Unit,
         val shareListener: (artwork: ArtWorkDo) -> Unit,
     ) {
