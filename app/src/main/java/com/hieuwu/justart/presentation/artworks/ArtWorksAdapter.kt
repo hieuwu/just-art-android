@@ -1,7 +1,6 @@
 package com.hieuwu.justart.presentation.artworks
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.ViewCompat
@@ -37,14 +36,17 @@ class ArtWorksAdapter(
         val title = binding.artWorksTitle
         val card = binding.cardView
         fun bind(artWork: ArtWorkDo) {
-            binding.favouriteBtn.setImageResource(
-                when {
-                    artWork.isFavorite -> R.drawable.ic_baseline_favorite_24
-                    else -> R.drawable.ic_outline_favorite_border_24
-                }
-            )
             binding.artWork = artWork
             binding.executePendingBindings()
+            updateFavouriteIcon(artWork.isFavorite)
+        }
+
+        fun updateFavouriteIcon(isFavorite: Boolean) {
+            val favoriteImage = when (isFavorite) {
+                true -> R.drawable.ic_baseline_favorite_24
+                false -> R.drawable.ic_outline_favorite_border_24
+            }
+            binding.favouriteBtn.setImageResource(favoriteImage)
         }
     }
 
@@ -71,7 +73,10 @@ class ArtWorksAdapter(
             }
             binding.favouriteBtn.setOnClickListener {
                 val artWork = getItem(adapterPosition)
-                onClickListener.favouriteListener(artWork, binding)
+                with(artWork) {
+                    onClickListener.favouriteListener(this)
+                    updateFavouriteIcon(isFavorite)
+                }
             }
 
             binding.pinBtn.setOnClickListener {
@@ -134,10 +139,8 @@ class ArtWorksAdapter(
 
     class OnClickListener(
         val clickListener: (artWork: ArtWorkDo) -> Unit,
-        val favouriteListener: (artwork: ArtWorkDo, binding: LayoutArtWorksItemBinding) -> Unit,
+        val favouriteListener: (artwork: ArtWorkDo) -> Unit,
         val pinListener: (artwork: ArtWorkDo) -> Unit,
         val shareListener: (artwork: ArtWorkDo) -> Unit,
-    ) {
-        fun onClick(artWork: ArtWorkDo) = clickListener(artWork)
-    }
+    )
 }

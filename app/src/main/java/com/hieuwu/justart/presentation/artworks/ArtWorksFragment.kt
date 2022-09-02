@@ -17,8 +17,6 @@ import androidx.core.view.updateLayoutParams
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.asLiveData
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.Explode
@@ -27,12 +25,14 @@ import com.google.android.material.appbar.AppBarLayout
 import com.hieuwu.justart.BuildConfig
 import com.hieuwu.justart.R
 import com.hieuwu.justart.data.FavouriteDataStore
-import com.hieuwu.justart.data.repository.ArtworkRepository
 import com.hieuwu.justart.databinding.FragmentArtWorksBinding
 import com.hieuwu.justart.domain.models.ArtWorkDo
 import com.hieuwu.justart.domain.usecases.GetFavoriteUseCase
 import com.hieuwu.justart.domain.usecases.RetrieveArtWorksUseCase
-import com.hieuwu.justart.presentation.views.*
+import com.hieuwu.justart.presentation.views.FAST_OUT_LINEAR_IN
+import com.hieuwu.justart.presentation.views.LARGE_COLLAPSE_DURATION
+import com.hieuwu.justart.presentation.views.LARGE_EXPAND_DURATION
+import com.hieuwu.justart.presentation.views.LINEAR_OUT_SLOW_IN
 import com.hieuwu.justart.presentation.views.animation.helper.SpaceDecoration
 import com.hieuwu.justart.presentation.views.animation.helper.plusAssign
 import com.hieuwu.justart.presentation.views.animation.helper.transitionTogether
@@ -199,19 +199,8 @@ class ArtWorksFragment : Fragment() {
                         shareContent(it)
                         Timber.d("Share click")
                     },
-                    favouriteListener = { artWork, binding ->
-
-                        lifecycleScope.launch {
-                            if (viewModel.isArtworkFavorite(artWork)) {
-                                viewModel.deleteArtworkFavorite(artWork)
-                                binding.favouriteBtn.setImageResource(R.drawable.ic_outline_favorite_border_24)
-                                binding.artWork?.isFavorite = false
-                            } else {
-                                viewModel.saveArtworkFavorite(artWork)
-                                binding.favouriteBtn.setImageResource(R.drawable.ic_baseline_favorite_24)
-                                binding.artWork?.isFavorite = true
-                            }
-                        }
+                    favouriteListener = {
+                        viewModel.updateFavoriteStatus(it)
                         Timber.d("Favourite click")
                     },
                     pinListener = { Timber.d("Pin click") }
