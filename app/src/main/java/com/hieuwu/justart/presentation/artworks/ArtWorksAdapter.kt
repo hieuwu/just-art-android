@@ -38,6 +38,15 @@ class ArtWorksAdapter(
         fun bind(artWork: ArtWorkDo) {
             binding.artWork = artWork
             binding.executePendingBindings()
+            updateFavouriteIcon(artWork.isFavorite)
+        }
+
+        fun updateFavouriteIcon(isFavorite: Boolean) {
+            val favoriteImage = when (isFavorite) {
+                true -> R.drawable.ic_baseline_favorite_24
+                false -> R.drawable.ic_outline_favorite_border_24
+            }
+            binding.favouriteBtn.setImageResource(favoriteImage)
         }
     }
 
@@ -64,7 +73,10 @@ class ArtWorksAdapter(
             }
             binding.favouriteBtn.setOnClickListener {
                 val artWork = getItem(adapterPosition)
-                onClickListener.favouriteListener(artWork)
+                with(artWork) {
+                    onClickListener.favouriteListener(this)
+                    updateFavouriteIcon(isFavorite)
+                }
             }
 
             binding.pinBtn.setOnClickListener {
@@ -130,7 +142,5 @@ class ArtWorksAdapter(
         val favouriteListener: (artwork: ArtWorkDo) -> Unit,
         val pinListener: (artwork: ArtWorkDo) -> Unit,
         val shareListener: (artwork: ArtWorkDo) -> Unit,
-    ) {
-        fun onClick(artWork: ArtWorkDo) = clickListener(artWork)
-    }
+    )
 }
