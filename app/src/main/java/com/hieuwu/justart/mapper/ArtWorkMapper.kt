@@ -16,5 +16,5 @@ fun List<ArtWork>.asDomainModel(): List<ArtWorkDo> {
     }
 }
 
-fun ArtWorkDo.asArtworkEntity(): ArtWorkEntity =
+fun ArtWorkDo.asEntity(): ArtWorkEntity =
     ArtWorkEntity(this.id, this.title, this.artistDisplay, this.imageUrl)
