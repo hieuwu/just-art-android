@@ -19,17 +19,22 @@ class SearchViewModel @Inject constructor(
     private val _navigateToSelectedProperty = MutableLiveData<ArtWorkDo?>()
     val navigateToSelectedProperty: LiveData<ArtWorkDo?> = _navigateToSelectedProperty
 
+    private val _isLoading = MutableLiveData<Boolean>()
+    val isLoading: LiveData<Boolean> = _isLoading
+
     init {
-        searchArtWorks(query = "monet")
+        searchArtWorks()
     }
 
-    private fun searchArtWorks(query: String) {
+    fun searchArtWorks(query: String = "") {
         viewModelScope.launch {
+            _isLoading.value = true
             when (val res =
                 searchArtWorkUseCase.execute(SearchArtWorkUseCase.Input(query = query))) {
                 is SearchArtWorkUseCase.Result.Success -> {
                     if (res.data != null) {
                         _artWorksList.value = res.data
+                        _isLoading.value = false
                     }
                 }
                 is SearchArtWorkUseCase.Result.Failure -> {
