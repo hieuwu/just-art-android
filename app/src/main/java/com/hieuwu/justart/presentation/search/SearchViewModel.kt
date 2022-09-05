@@ -16,9 +16,6 @@ class SearchViewModel @Inject constructor(
     private val _artWorksList = MutableLiveData<List<ArtWorkDo>>()
     val artWorksList: LiveData<List<ArtWorkDo>> = _artWorksList
 
-    private val _navigateToSelectedProperty = MutableLiveData<ArtWorkDo?>()
-    val navigateToSelectedProperty: LiveData<ArtWorkDo?> = _navigateToSelectedProperty
-
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
@@ -42,13 +39,5 @@ class SearchViewModel @Inject constructor(
                 }
             }
         }
-    }
-
-    fun displayPropertyDetailsComplete() {
-        _navigateToSelectedProperty.value = null
-    }
-
-    fun displayPropertyDetails(artWorkProperty: ArtWorkDo) {
-        _navigateToSelectedProperty.value = artWorkProperty
     }
 }

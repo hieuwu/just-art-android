@@ -29,6 +29,8 @@ import com.hieuwu.justart.presentation.views.LINEAR_OUT_SLOW_IN
 import com.hieuwu.justart.presentation.views.animation.helper.SpaceDecoration
 import com.hieuwu.justart.presentation.views.animation.helper.plusAssign
 import com.hieuwu.justart.presentation.views.animation.helper.transitionTogether
+import com.hieuwu.justart.utils.ArtWorkItemHelper
+import com.hieuwu.justart.utils.ArtWorkItemHelperFactory
 import com.hieuwu.justart.utils.hideLoading
 import com.hieuwu.justart.utils.showLoading
 import dagger.hilt.android.AndroidEntryPoint
@@ -46,6 +48,7 @@ class SearchFragment : Fragment() {
 
     @Inject
     lateinit var searchArtWorkUseCase: SearchArtWorkUseCase
+    lateinit var artWorkItemHelper: ArtWorkItemHelper
 
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
@@ -56,6 +59,7 @@ class SearchFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        artWorkItemHelper = ArtWorkItemHelperFactory.create(requireContext())
         setupExitTransition()
         setupReEnterTransition()
     }
@@ -138,12 +142,6 @@ class SearchFragment : Fragment() {
             }
         }
 
-        viewModel.navigateToSelectedProperty.observe(viewLifecycleOwner) {
-            it?.let {
-                navigateToArtWorksDetail(it.id)
-                viewModel.displayPropertyDetailsComplete()
-            }
-        }
         setupWindowListener(view)
         setupSearchView()
         setupRecyclerView(binding.artWorksRecyclerView)
@@ -174,9 +172,8 @@ class SearchFragment : Fragment() {
         recyclerviewAdapter =
             ArtWorksAdapter(onReadyToTransition = { startPostponedEnterTransition() },
                 onClickListener = ArtWorksAdapter.OnClickListener(
-                    clickListener = { viewModel.displayPropertyDetails(it) },
                     shareListener = {
-//                        shareContent(it)
+                        artWorkItemHelper.shareArtWork(it)
                         Timber.d("Share click")
                     },
                     favouriteListener = { Timber.d("Favourite click") },
