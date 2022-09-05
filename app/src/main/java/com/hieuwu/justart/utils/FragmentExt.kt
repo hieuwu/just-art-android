@@ -1,14 +1,23 @@
 package com.hieuwu.justart.utils
 
 import android.view.Gravity
+import android.view.View
+import androidx.appcompat.widget.Toolbar
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updateLayoutParams
+import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.Explode
 import androidx.transition.Slide
+import com.google.android.material.appbar.AppBarLayout
 import com.hieuwu.justart.R
 import com.hieuwu.justart.presentation.views.FAST_OUT_LINEAR_IN
 import com.hieuwu.justart.presentation.views.LARGE_COLLAPSE_DURATION
 import com.hieuwu.justart.presentation.views.LARGE_EXPAND_DURATION
 import com.hieuwu.justart.presentation.views.LINEAR_OUT_SLOW_IN
+import com.hieuwu.justart.presentation.views.animation.helper.SpaceDecoration
 import com.hieuwu.justart.presentation.views.animation.helper.plusAssign
 import com.hieuwu.justart.presentation.views.animation.helper.transitionTogether
 import com.hieuwu.justart.presentation.views.custom.LoadingDialogFragment
@@ -57,4 +66,23 @@ fun Fragment.setupReEnterTransition() {
             excludeTarget(R.id.app_bar, true)
         }
     }
+}
+
+fun Fragment.setupWindowListener(view: View, toolbar: Toolbar, recyclerView: RecyclerView) {
+    val gridPadding = resources.getDimensionPixelSize(R.dimen.spacing_tiny)
+    ViewCompat.setOnApplyWindowInsetsListener(view.parent as View) { _, insets ->
+        val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+        toolbar.updateLayoutParams<AppBarLayout.LayoutParams> {
+            topMargin = systemBars.top
+        }
+        recyclerView.updatePadding(
+            left = gridPadding + systemBars.left,
+            right = gridPadding + systemBars.right,
+            bottom = gridPadding + systemBars.bottom
+        )
+        insets
+    }
+    recyclerView.addItemDecoration(
+        SpaceDecoration(resources.getDimensionPixelSize(R.dimen.spacing_tiny))
+    )
 }

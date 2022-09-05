@@ -98,29 +98,10 @@ class ArtWorksFragment : Fragment() {
             }
         }
 
-        setupWindowListener(view)
+        setupWindowListener(view, binding.toolbar, binding.artWorksRecyclerView)
         setupTitle()
     }
 
-    private fun setupWindowListener(view: View) {
-        val gridPadding = resources.getDimensionPixelSize(R.dimen.spacing_tiny)
-        ViewCompat.setOnApplyWindowInsetsListener(view.parent as View) { _, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            binding.toolbar.updateLayoutParams<AppBarLayout.LayoutParams> {
-                topMargin = systemBars.top
-            }
-            binding.artWorksRecyclerView.updatePadding(
-                left = gridPadding + systemBars.left,
-                right = gridPadding + systemBars.right,
-                bottom = gridPadding + systemBars.bottom
-            )
-            insets
-        }
-
-        binding.artWorksRecyclerView.addItemDecoration(
-            SpaceDecoration(resources.getDimensionPixelSize(R.dimen.spacing_tiny))
-        )
-    }
 
     private fun setupRecyclerView(recyclerView: RecyclerView) {
         recyclerviewAdapter =
