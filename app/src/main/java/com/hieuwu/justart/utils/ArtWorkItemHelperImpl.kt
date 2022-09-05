@@ -4,11 +4,15 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import androidx.core.content.ContentProviderCompat.requireContext
-import androidx.core.content.ContextCompat.startActivity
+import android.view.View
 import androidx.core.content.FileProvider
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import com.hieuwu.justart.BuildConfig
+import com.hieuwu.justart.R
 import com.hieuwu.justart.domain.models.ArtWorkDo
+import com.hieuwu.justart.presentation.artworkdetails.ArtWorkDetailsFragment
+import com.hieuwu.justart.presentation.artworkdetails.ArtWorkDetailsFragmentArgs
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -18,9 +22,7 @@ import java.io.IOException
 import java.net.HttpURLConnection
 import java.net.URL
 
-class ArtWorkItemHelperImpl: ArtWorkItemHelper {
-    lateinit var context: Context
-
+class ArtWorkItemHelperImpl(val context: Context) : ArtWorkItemHelper {
     override fun shareArtWork(artwork: ArtWorkDo) {
         val coroutineScope = CoroutineScope(Dispatchers.IO)
         val file = File(context.externalCacheDir, File.separator + "artwork.jpg")
@@ -49,8 +51,7 @@ class ArtWorkItemHelperImpl: ArtWorkItemHelper {
                 putExtra(Intent.EXTRA_STREAM, photoUri)
             }
             with(Dispatchers.Main) {
-//                startActivity(Intent.createChooser(intent, "Share artwork"))
-//                startActivity(Intent.createChooser(intent, "Share artwork"))
+                context.startActivity(Intent.createChooser(intent, "Share artwork"))
             }
         }
     }
@@ -59,8 +60,20 @@ class ArtWorkItemHelperImpl: ArtWorkItemHelper {
         TODO("Not yet implemented")
     }
 
-    override fun clickArtWork() {
-        TODO("Not yet implemented")
+    override fun clickArtWork(
+        itemView: View, title: View, image: View, card: View,
+        navArg: Int
+    ) {
+        itemView.findNavController().navigate(
+            R.id.action_artWorksFragment_to_artDetailsFragment,
+            ArtWorkDetailsFragmentArgs(navArg).toBundle(),
+            null,
+            FragmentNavigatorExtras(
+                title to ArtWorkDetailsFragment.TRANSITION_NAME_NAME,
+                image to ArtWorkDetailsFragment.TRANSITION_NAME_IMAGE,
+                card to ArtWorkDetailsFragment.TRANSITION_NAME_BACKGROUND
+            )
+        )
     }
 
     private fun getBitmapFromURL(src: String?): Bitmap? {
@@ -80,7 +93,6 @@ class ArtWorkItemHelperImpl: ArtWorkItemHelper {
 
         return res
     }
-
 
     private fun buildShareContent(artwork: ArtWorkDo): String =
         "${artwork.title}, ${artwork.artistDisplay}, Art Institute of Chicago\n\nShared from " +
