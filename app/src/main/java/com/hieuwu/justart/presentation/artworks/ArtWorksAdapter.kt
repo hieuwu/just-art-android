@@ -2,6 +2,7 @@ package com.hieuwu.justart.presentation.artworks
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.ViewCompat
 import androidx.navigation.findNavController
@@ -17,6 +18,8 @@ import com.hieuwu.justart.domain.models.ArtWorkDo
 import com.hieuwu.justart.presentation.artworkdetails.ArtWorkDetailsFragment
 import com.hieuwu.justart.presentation.artworkdetails.ArtWorkDetailsFragmentArgs
 import com.hieuwu.justart.presentation.views.doOnEnd
+import com.hieuwu.justart.utils.ArtWorkItemHelperFactory
+import com.hieuwu.justart.utils.ArtWorkItemHelperImpl
 
 private const val STATE_LAST_SELECTED_ID = "last_selected_id"
 
@@ -47,20 +50,8 @@ class ArtWorksAdapter(
         ).apply {
             itemView.setOnClickListener {
                 val artWork = getItem(adapterPosition)
-                it?.findNavController()?.navigate(
-                    R.id.action_artWorksFragment_to_artDetailsFragment,
-                    ArtWorkDetailsFragmentArgs(artWork.id).toBundle(),
-                    null,
-                    FragmentNavigatorExtras(
-                        // We expand the card into the background.
-                        // The fragment will use this first element as the epicenter of all the
-                        // fragment transitions, including Explode for non-shared elements.
-                        title to ArtWorkDetailsFragment.TRANSITION_NAME_NAME,
-                        // The image is the focal element in this shared element transition.
-                        image to ArtWorkDetailsFragment.TRANSITION_NAME_IMAGE,
-                        card to ArtWorkDetailsFragment.TRANSITION_NAME_BACKGROUND
-                    )
-                )
+                val itemHelper = ArtWorkItemHelperFactory.create(itemView.context)
+                itemHelper.clickArtWork(it, title, image, card, artWork.id)
             }
             binding.favouriteBtn.setOnClickListener {
                 val artWork = getItem(adapterPosition)
@@ -126,11 +117,8 @@ class ArtWorksAdapter(
     }
 
     class OnClickListener(
-        val clickListener: (artWork: ArtWorkDo) -> Unit,
         val favouriteListener: (artwork: ArtWorkDo) -> Unit,
         val pinListener: (artwork: ArtWorkDo) -> Unit,
         val shareListener: (artwork: ArtWorkDo) -> Unit,
-    ) {
-        fun onClick(artWork: ArtWorkDo) = clickListener(artWork)
-    }
+    )
 }
