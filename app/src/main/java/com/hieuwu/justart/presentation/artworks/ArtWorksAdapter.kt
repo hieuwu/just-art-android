@@ -2,24 +2,18 @@ package com.hieuwu.justart.presentation.artworks
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.ViewCompat
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.Priority
-import com.hieuwu.justart.R
 import com.hieuwu.justart.databinding.LayoutArtWorksItemBinding
 import com.hieuwu.justart.domain.models.ArtWorkDo
-import com.hieuwu.justart.presentation.artworkdetails.ArtWorkDetailsFragment
-import com.hieuwu.justart.presentation.artworkdetails.ArtWorkDetailsFragmentArgs
 import com.hieuwu.justart.presentation.views.doOnEnd
+import com.hieuwu.justart.utils.ArtWorkItemHelper
 import com.hieuwu.justart.utils.ArtWorkItemHelperFactory
-import com.hieuwu.justart.utils.ArtWorkItemHelperImpl
 
 private const val STATE_LAST_SELECTED_ID = "last_selected_id"
 
@@ -35,6 +29,8 @@ class ArtWorksAdapter(
 
     class ArtWorksViewHolder(var binding: LayoutArtWorksItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
+        var artWorkItemHelper: ArtWorkItemHelper =
+            ArtWorkItemHelperFactory.create(context = binding.root.context)
         val image = binding.artWorksImage
         val title = binding.artWorksTitle
         val card = binding.cardView
@@ -50,8 +46,7 @@ class ArtWorksAdapter(
         ).apply {
             itemView.setOnClickListener {
                 val artWork = getItem(adapterPosition)
-                val itemHelper = ArtWorkItemHelperFactory.create(itemView.context)
-                itemHelper.clickArtWork(it, title, image, card, artWork.id)
+                artWorkItemHelper.clickArtWork(it, title, image, card, artWork.id)
             }
             binding.favouriteBtn.setOnClickListener {
                 val artWork = getItem(adapterPosition)
