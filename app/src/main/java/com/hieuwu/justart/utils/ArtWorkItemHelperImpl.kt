@@ -65,7 +65,7 @@ class ArtWorkItemHelperImpl(val context: Context) : ArtWorkItemHelper {
         navArg: Int
     ) {
         itemView.findNavController().navigate(
-            R.id.action_artWorksFragment_to_artDetailsFragment,
+            R.id.artDetailsFragment,
             ArtWorkDetailsFragmentArgs(navArg).toBundle(),
             null,
             FragmentNavigatorExtras(
