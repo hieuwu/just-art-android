@@ -30,8 +30,10 @@ fun Fragment.showLoading() {
 }
 
 fun Fragment.hideLoading() {
-    val dialog = parentFragmentManager.findFragmentByTag(TAG) as DialogFragment
-    dialog.dismiss()
+    val dialog = parentFragmentManager.findFragmentByTag(TAG)
+    dialog?.let {
+        (it as DialogFragment).dismiss()
+    }
 }
 
 fun Fragment.setupExitTransition() {
