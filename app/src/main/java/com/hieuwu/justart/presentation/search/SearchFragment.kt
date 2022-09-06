@@ -94,7 +94,7 @@ class SearchFragment : Fragment() {
                 false -> hideLoading()
             }
         }
-        setupWindowListener(view, binding.toolbar as Toolbar, binding.artWorksRecyclerView)
+        setupWindowListener(view, binding.toolbar, binding.artWorksRecyclerView)
 
         setupWindowListener(view)
         setupSearchView()
@@ -136,12 +136,6 @@ class SearchFragment : Fragment() {
         with(recyclerView) {
             adapter = recyclerviewAdapter
         }
-    }
-
-    private fun navigateToArtWorksDetail(id: Int) {
-        val direction =
-            SearchFragmentDirections.actionSearchFragmentToArtDetailsFragment(id = id)
-        findNavController().navigate(direction)
     }
 
     private fun setupSearchView() {
