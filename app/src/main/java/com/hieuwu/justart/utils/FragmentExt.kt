@@ -7,6 +7,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
 import androidx.core.view.updatePadding
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.Explode
@@ -25,11 +26,12 @@ import com.hieuwu.justart.presentation.views.custom.LoadingDialogFragment
 const val TAG = "LOADING_DIALOG_TAG"
 
 fun Fragment.showLoading() {
-    LoadingDialogFragment.getInstance().show(parentFragmentManager, TAG)
+    LoadingDialogFragment().show(parentFragmentManager,TAG)
 }
 
 fun Fragment.hideLoading() {
-    LoadingDialogFragment.getInstance().dismiss()
+    val dialog = parentFragmentManager.findFragmentByTag(TAG) as DialogFragment
+    dialog.dismiss()
 }
 
 fun Fragment.setupExitTransition() {
