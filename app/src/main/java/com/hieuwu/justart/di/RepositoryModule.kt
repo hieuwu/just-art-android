@@ -1,5 +1,7 @@
 package com.hieuwu.justart.di
 
+import com.hieuwu.justart.data.repository.ArtworkRepository
+import com.hieuwu.justart.data.repository.impl.ArtworkRepositoryImpl
 import com.hieuwu.justart.domain.repositories.SampleRepository
 import com.hieuwu.justart.domain.repositories.impl.SampleRepositoryImpl
 import dagger.Binds
@@ -14,4 +16,8 @@ abstract class RepositoryModule {
     @Singleton
     @Binds
     abstract fun bindSampleRepository(impl: SampleRepositoryImpl): SampleRepository
+
+    @Singleton
+    @Binds
+    abstract fun bindArtworkRepository(impl: ArtworkRepositoryImpl): ArtworkRepository
 }

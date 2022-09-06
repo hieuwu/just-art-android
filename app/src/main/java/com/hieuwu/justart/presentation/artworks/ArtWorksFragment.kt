@@ -5,19 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.updateLayoutParams
-import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.appbar.AppBarLayout
 import com.hieuwu.justart.R
+import com.hieuwu.justart.data.FavouriteDataStore
 import com.hieuwu.justart.databinding.FragmentArtWorksBinding
+import com.hieuwu.justart.domain.usecases.GetFavoriteUseCase
 import com.hieuwu.justart.domain.usecases.RetrieveArtWorksUseCase
-import com.hieuwu.justart.presentation.views.animation.helper.SpaceDecoration
 import com.hieuwu.justart.utils.*
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
@@ -30,6 +26,10 @@ class ArtWorksFragment : Fragment() {
 
     @Inject
     lateinit var retrieveArtWorksUseCase: RetrieveArtWorksUseCase
+
+    @Inject
+    lateinit var getFavoriteUseCase: GetFavoriteUseCase
+
     lateinit var artworkItemHelper: ArtWorkItemHelper
 
     private lateinit var binding: FragmentArtWorksBinding
@@ -38,6 +38,8 @@ class ArtWorksFragment : Fragment() {
 
     private var recyclerviewAdapter: ArtWorksAdapter? = null
 
+    private lateinit var favouriteDataStore: FavouriteDataStore
+    private var setOfFavourite: MutableSet<String> = mutableSetOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,7 +65,7 @@ class ArtWorksFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
 
-        val viewModelFactory = ArtWorksViewModelFactory(retrieveArtWorksUseCase)
+        val viewModelFactory = ArtWorksViewModelFactory(retrieveArtWorksUseCase, getFavoriteUseCase)
         viewModel = ViewModelProvider(this, viewModelFactory)[ArtWorksViewModel::class.java]
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
@@ -111,7 +113,10 @@ class ArtWorksFragment : Fragment() {
                         artworkItemHelper.shareArtWork(it)
                         Timber.d("Share click")
                     },
-                    favouriteListener = { Timber.d("Favourite click") },
+                    favouriteListener = {
+                        viewModel.updateFavoriteStatus(it)
+                        Timber.d("Favourite click")
+                    },
                     pinListener = { Timber.d("Pin click") }
                 ))
         with(recyclerView) {
