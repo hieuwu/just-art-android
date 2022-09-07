@@ -73,5 +73,13 @@
             app:spanCount="2"
             tools:listitem="@layout/layout_art_works_item" />
 
+        <com.hieuwu.justart.presentation.views.custom.CustomErrorView
+            android:id="@+id/error_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:animationFileName="empty_list_error_view.json"
+            app:layout_constraintTop_toBottomOf="@id/appbar"
+            tools:visibility="visible" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
