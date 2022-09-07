@@ -4,8 +4,9 @@ import android.content.Context
 import android.util.AttributeSet
 import android.widget.Button
 import android.widget.LinearLayout
+import androidx.core.content.withStyledAttributes
+import com.airbnb.lottie.LottieAnimationView
 import com.hieuwu.justart.R
-import com.hieuwu.justart.domain.models.ArtWorkDo
 
 class ErrorView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null
@@ -21,6 +22,11 @@ class ErrorView @JvmOverloads constructor(
         refreshButton = view.findViewById(R.id.refresh_button)
         refreshButton.setOnClickListener {
             refreshClick()
+        }
+        val animationView = view.findViewById<LottieAnimationView>(R.id.animation_view)
+
+        context.withStyledAttributes(attrs, R.styleable.ErrorView) {
+            animationView.setAnimation(getString(R.styleable.ErrorView_animationFileName))
         }
     }
 
