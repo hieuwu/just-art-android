@@ -22,6 +22,24 @@ class SearchArtWorkUseCaseImpl @Inject constructor(
                 res = artWorksService.getArtWorks(ids.joinToString(","))
             }
         }
+        handleError(res)
         return SearchArtWorkUseCase.Result.Success(res?.response?.artWorks?.asDomainModel())
+    }
+
+    private fun handleError(res: ApiResult<ArtWorksResponse>?): SearchArtWorkUseCase.Result.Failure {
+        if (res == null) {
+            return SearchArtWorkUseCase.Result.Failure(
+                SearchArtWorkUseCase.Error(
+                    SearchArtWorkUseCase.ErrorType.GENERIC
+                )
+            )
+        } else if (res.response?.artWorks.isNullOrEmpty()) {
+            return SearchArtWorkUseCase.Result.Failure(
+                SearchArtWorkUseCase.Error(
+                    SearchArtWorkUseCase.ErrorType.EMPTY
+                )
+            )
+        }
+        return SearchArtWorkUseCase.Result.Failure()
     }
 }
