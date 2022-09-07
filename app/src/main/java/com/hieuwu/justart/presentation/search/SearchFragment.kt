@@ -93,6 +93,23 @@ class SearchFragment : Fragment() {
                 false -> hideLoading()
             }
         }
+
+        viewModel.showEmptyListError.observe(viewLifecycleOwner) {
+            if (it) {
+
+            } else {
+
+            }
+        }
+
+        viewModel.showGenericError.observe(viewLifecycleOwner) {
+            if (it) {
+
+            } else {
+
+            }
+        }
+
         setupWindowListener(view, binding.toolbar, binding.artWorksRecyclerView)
 
         setupWindowListener(view)

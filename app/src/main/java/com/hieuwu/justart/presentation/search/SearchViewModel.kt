@@ -19,6 +19,12 @@ class SearchViewModel @Inject constructor(
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
+    private val _showGenericError = MutableLiveData(false)
+    val showGenericError: LiveData<Boolean> = _showGenericError
+
+    private val _showEmptyListError = MutableLiveData(false)
+    val showEmptyListError: LiveData<Boolean> = _showEmptyListError
+
     init {
         searchArtWorks()
     }
@@ -31,13 +37,29 @@ class SearchViewModel @Inject constructor(
                 is SearchArtWorkUseCase.Result.Success -> {
                     if (res.data != null) {
                         _artWorksList.value = res.data
-                        _isLoading.value = false
                     }
                 }
                 is SearchArtWorkUseCase.Result.Failure -> {
-
+                    handleError(res.error?.type)
                 }
+            }
+        }.invokeOnCompletion {
+            _isLoading.value = false
+        }
+    }
+
+    private fun handleError(errorType: SearchArtWorkUseCase.ErrorType?) {
+        when (errorType) {
+            SearchArtWorkUseCase.ErrorType.GENERIC -> {
+                _showGenericError.value = true
+            }
+            SearchArtWorkUseCase.ErrorType.EMPTY -> {
+                _showEmptyListError.value = true
+            }
+            else -> {
+                _showGenericError.value = true
             }
         }
     }
+
 }
