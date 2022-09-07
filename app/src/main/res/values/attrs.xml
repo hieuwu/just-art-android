@@ -5,4 +5,9 @@
         <attr name="contentValue" format="string" />
         <attr name="showChevron" format="boolean" />
     </declare-styleable>
+    <declare-styleable name="CustomErrorView">
+        <attr name="animationFileName" format="string" />
+        <attr name="errorMessage" format="string" />
+
+    </declare-styleable>
 </resources>
