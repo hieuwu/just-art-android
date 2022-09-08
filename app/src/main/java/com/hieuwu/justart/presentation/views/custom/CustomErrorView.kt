@@ -18,7 +18,7 @@ class CustomErrorView @JvmOverloads constructor(
 ) : LinearLayout(context, attrs) {
     private var refreshButton: Button
     private var errorTextView: TextView
-    lateinit var refreshClick: () -> Unit
+    var refreshClick: () -> Unit = {}
 
     init {
         val view = inflate(
@@ -29,7 +29,7 @@ class CustomErrorView @JvmOverloads constructor(
         errorTextView = view.findViewById(R.id.errorText)
         refreshButton = view.findViewById(R.id.refresh_button)
         refreshButton.setOnClickListener {
-            refreshClick()
+            refreshClick.invoke()
         }
 
         context.withStyledAttributes(attrs, R.styleable.CustomErrorView) {
