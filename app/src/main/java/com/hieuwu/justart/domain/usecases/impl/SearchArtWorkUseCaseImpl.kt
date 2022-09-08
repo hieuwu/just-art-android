@@ -14,16 +14,25 @@ class SearchArtWorkUseCaseImpl @Inject constructor(
 ) : SearchArtWorkUseCase {
     override suspend fun execute(input: SearchArtWorkUseCase.Input): SearchArtWorkUseCase.Result {
         var res: ApiResult<ArtWorksResponse>? = null
-        withContext(Dispatchers.IO) {
-            val ids = mutableListOf<Int>()
-            val listRes = artWorksService.searchArtWorks(input.query).response?.data
-            listRes?.forEach { it -> it.id?.let { it1 -> ids.add(it1) } }
+        try {
             withContext(Dispatchers.IO) {
-                res = artWorksService.getArtWorks(ids.joinToString(","))
+                val ids = mutableListOf<Int>()
+                val listRes = artWorksService.searchArtWorks(input.query).response?.data
+                listRes?.forEach { it -> it.id?.let { it1 -> ids.add(it1) } }
+                withContext(Dispatchers.IO) {
+                    res = artWorksService.getArtWorks(ids.joinToString(","))
+                }
             }
+            handleError(res)
+            return SearchArtWorkUseCase.Result.Success(res?.response?.artWorks?.asDomainModel())
+        } catch (e: Exception) {
+
         }
-        handleError(res)
-        return SearchArtWorkUseCase.Result.Success(res?.response?.artWorks?.asDomainModel())
+        return SearchArtWorkUseCase.Result.Failure(
+            SearchArtWorkUseCase.Error(
+                SearchArtWorkUseCase.ErrorType.GENERIC
+            )
+        )
     }
 
     private fun handleError(res: ApiResult<ArtWorksResponse>?): SearchArtWorkUseCase.Result.Failure {

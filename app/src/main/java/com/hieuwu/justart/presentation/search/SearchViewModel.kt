@@ -25,15 +25,18 @@ class SearchViewModel @Inject constructor(
     private val _showEmptyListError = MutableLiveData(false)
     val showEmptyListError: LiveData<Boolean> = _showEmptyListError
 
-    init {
-        searchArtWorks()
+    private val _searchQuery = MutableLiveData("")
+    val searchQuery: LiveData<String> = _searchQuery
+    
+    fun getSearchQuery(query: String) {
+        _searchQuery.value = query
     }
 
-    fun searchArtWorks(query: String = "") {
+    fun searchArtWorks() {
         viewModelScope.launch {
             _isLoading.value = true
             when (val res =
-                searchArtWorkUseCase.execute(SearchArtWorkUseCase.Input(query = query))) {
+                searchArtWorkUseCase.execute(SearchArtWorkUseCase.Input(query = _searchQuery.value!!))) {
                 is SearchArtWorkUseCase.Result.Success -> {
                     if (res.data != null) {
                         _artWorksList.value = res.data
@@ -60,6 +63,10 @@ class SearchViewModel @Inject constructor(
                 _showGenericError.value = true
             }
         }
+    }
+
+    fun onRefresh() {
+        _searchQuery.value?.let { searchArtWorks() }
     }
 
 }

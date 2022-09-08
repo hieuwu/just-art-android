@@ -80,11 +80,19 @@ class SearchFragment : Fragment() {
             findNavController().navigateUp()
         }
 
+        binding.errorView.setRefresh {
+            viewModel.onRefresh()
+        }
+
         binding.clearText.setOnClickListener {
             binding.searchView.text = null
         }
 
         viewModel.artWorksList.observe(viewLifecycleOwner) {
+        }
+
+        viewModel.searchQuery.observe(viewLifecycleOwner) {
+            viewModel.searchArtWorks()
         }
 
         viewModel.isLoading.observe(viewLifecycleOwner) {
@@ -165,7 +173,7 @@ class SearchFragment : Fragment() {
             job = MainScope().launch {
                 delay(SEARCH_TIME_DELAY)
             }
-            viewModel.searchArtWorks(it.toString())
+            viewModel.getSearchQuery(it.toString())
         }
     }
 }
