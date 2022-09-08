@@ -27,7 +27,7 @@ class SearchViewModel @Inject constructor(
 
     private val _searchQuery = MutableLiveData("")
     val searchQuery: LiveData<String> = _searchQuery
-    
+
     fun getSearchQuery(query: String) {
         _searchQuery.value = query
     }
@@ -40,6 +40,8 @@ class SearchViewModel @Inject constructor(
                 is SearchArtWorkUseCase.Result.Success -> {
                     if (res.data != null) {
                         _artWorksList.value = res.data
+                        _showGenericError.value = false
+                        _showEmptyListError.value = false
                     }
                 }
                 is SearchArtWorkUseCase.Result.Failure -> {

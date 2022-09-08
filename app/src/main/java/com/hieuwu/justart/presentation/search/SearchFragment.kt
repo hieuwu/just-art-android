@@ -80,7 +80,11 @@ class SearchFragment : Fragment() {
             findNavController().navigateUp()
         }
 
-        binding.errorView.setRefresh {
+        binding.genericErrorView.setRefresh {
+            viewModel.onRefresh()
+        }
+
+        binding.emptyListErrorView.setRefresh {
             viewModel.onRefresh()
         }
 
@@ -104,17 +108,25 @@ class SearchFragment : Fragment() {
 
         viewModel.showEmptyListError.observe(viewLifecycleOwner) {
             if (it) {
-
+                binding.emptyListErrorView.visibility = View.VISIBLE
+                binding.artWorksRecyclerView.visibility = View.GONE
+                binding.genericErrorView.visibility = View.GONE
             } else {
-
+                binding.emptyListErrorView.visibility = View.GONE
+                binding.artWorksRecyclerView.visibility = View.VISIBLE
+                binding.genericErrorView.visibility = View.GONE
             }
         }
 
         viewModel.showGenericError.observe(viewLifecycleOwner) {
             if (it) {
-
+                binding.genericErrorView.visibility = View.VISIBLE
+                binding.artWorksRecyclerView.visibility = View.GONE
+                binding.emptyListErrorView.visibility = View.GONE
             } else {
-
+                binding.emptyListErrorView.visibility = View.GONE
+                binding.artWorksRecyclerView.visibility = View.VISIBLE
+                binding.genericErrorView.visibility = View.GONE
             }
         }
 

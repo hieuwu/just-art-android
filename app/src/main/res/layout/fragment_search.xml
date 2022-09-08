@@ -74,13 +74,20 @@
             tools:listitem="@layout/layout_art_works_item" />
 
         <com.hieuwu.justart.presentation.views.custom.CustomErrorView
-            android:id="@+id/error_view"
+            android:id="@+id/emptyListErrorView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             app:animationFileName="empty_list_error_view.json"
             app:errorMessage="No artwork found. Please try another keyword or refreshing"
-            app:layout_constraintTop_toBottomOf="@id/appbar"
-            tools:visibility="visible" />
+            app:layout_constraintTop_toBottomOf="@id/appbar" />
+
+        <com.hieuwu.justart.presentation.views.custom.CustomErrorView
+            android:id="@+id/genericErrorView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/appbar" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
