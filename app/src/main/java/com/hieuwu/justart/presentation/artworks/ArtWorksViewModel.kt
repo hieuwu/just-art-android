@@ -25,10 +25,6 @@ class ArtWorksViewModel @Inject constructor(
     private val _showError = MutableLiveData(false)
     val showError: LiveData<Boolean> = _showError
 
-    private val _navigateToSelectedProperty = MutableLiveData<ArtWorkDo?>()
-    val navigateToSelectedProperty: LiveData<ArtWorkDo?>
-        get() = _navigateToSelectedProperty
-
     init {
         retrieveData(onBeforeExecute = { onBeforeExecute() }, onAfterExecute = { onAfterExecute() })
     }
@@ -92,13 +88,5 @@ class ArtWorksViewModel @Inject constructor(
         viewModelScope.launch {
             getFavoriteUseCase.saveFavoriteArtwork(artwork)
         }
-    }
-
-    fun displayPropertyDetailsComplete() {
-        _navigateToSelectedProperty.value = null
-    }
-
-    fun displayPropertyDetails(artWorkProperty: ArtWorkDo) {
-        _navigateToSelectedProperty.value = artWorkProperty
     }
 }

@@ -19,6 +19,7 @@ class RetrieveArtWorksUseCaseImpl @Inject constructor(
                 res = artWorksService.getArtWorks(limit = 12)
             }
             return RetrieveArtWorksUseCase.Result.Success(res.response?.artWorks?.asDomainModel())
+
         } catch (e: Exception) {
 
         }

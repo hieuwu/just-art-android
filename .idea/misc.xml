@@ -7,8 +7,11 @@
         <entry key="..\:/just-art/app/src/main/res/drawable/loading_img.xml" value="0.1835" />
         <entry key="..\:/just-art/app/src/main/res/layout/custom_collapse_paragraph_view.xml" value="0.1" />
         <entry key="..\:/just-art/app/src/main/res/layout/fragment_art_details.xml" value="0.19882246376811594" />
+        <entry key="..\:/just-art/app/src/main/res/layout/fragment_art_works.xml" value="0.1" />
         <entry key="..\:/just-art/app/src/main/res/layout/fragment_artwork_details.xml" value="0.1" />
+        <entry key="..\:/just-art/app/src/main/res/layout/fragment_search.xml" value="0.1480978260869565" />
         <entry key="..\:/just-art/app/src/main/res/layout/layout_art_works_item.xml" value="0.19882246376811594" />
+        <entry key="..\:/just-art/app/src/main/res/layout/layout_error_view.xml" value="0.1526268115942029" />
         <entry key="..\:/just-art/app/src/main/res/menu/bottom_nav_bar_menu.xml" value="0.5980582524271845" />
       </map>
     </option>

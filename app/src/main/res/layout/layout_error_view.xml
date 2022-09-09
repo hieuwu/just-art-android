@@ -16,6 +16,7 @@
         app:lottie_loop="true" />
 
     <TextView
+        android:id="@+id/errorText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="It looks like something wrong. Please try refreshing"

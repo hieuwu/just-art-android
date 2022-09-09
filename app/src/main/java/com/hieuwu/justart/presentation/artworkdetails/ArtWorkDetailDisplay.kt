@@ -11,7 +11,6 @@ open class ArtWorkDetailDisplay {
     class Section(val title: String, val content: String) : ArtWorkDetailDisplay()
 }
 
-
 fun mapToDisplay(artWorkDetailsDo: ArtWorkDetailsDo?): List<ArtWorkDetailDisplay> {
     val displayList = mutableListOf<ArtWorkDetailDisplay>()
     artWorkDetailsDo?.imageUrl?.let { displayList.add(ArtWorkDetailDisplay.Thumbnail(imageUrl = it)) }
