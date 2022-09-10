@@ -1,6 +1,7 @@
 package com.hieuwu.justart.data.repository.impl
 
 import com.hieuwu.justart.data.local.ArtworkDao
+import com.hieuwu.justart.data.repository.ArtWorksPagingSource
 import com.hieuwu.justart.data.repository.ArtworkRepository
 import com.hieuwu.justart.domain.models.ArtWorkDo
 import com.hieuwu.justart.mapper.asEntity
@@ -22,4 +23,5 @@ class ArtworkRepositoryImpl @Inject constructor(
     override suspend fun isArtworkFavorite(artwork: ArtWorkDo): Boolean {
         return artworkDao.getArtworkById(artwork.id) != null
     }
+    override fun artWorkPagingSource() = ArtWorksPagingSource()
 }
