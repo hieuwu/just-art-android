@@ -4,15 +4,22 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
+import com.hieuwu.justart.data.repository.ArtworkRepository
 import com.hieuwu.justart.domain.models.ArtWorkDo
 import com.hieuwu.justart.domain.usecases.GetFavoriteUseCase
 import com.hieuwu.justart.domain.usecases.RetrieveArtWorksUseCase
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class ArtWorksViewModel @Inject constructor(
     private val retrieveArtWorksUseCase: RetrieveArtWorksUseCase,
-    private val getFavoriteUseCase: GetFavoriteUseCase
+    private val getFavoriteUseCase: GetFavoriteUseCase,
+    private val artworkRepository: ArtworkRepository
 ) : ViewModel() {
 
     private val _artWorksList = MutableLiveData<List<ArtWorkDo>>()
@@ -40,6 +47,13 @@ class ArtWorksViewModel @Inject constructor(
     private fun onAfterExecute() {
         _isLoading.value = false
     }
+
+    val items: Flow<PagingData<ArtWorkDo>> = Pager(
+        config = PagingConfig(pageSize = 50, enablePlaceholders = false),
+        pagingSourceFactory = { artworkRepository.artWorkPagingSource() }
+    )
+        .flow
+        .cachedIn(viewModelScope)
 
     private fun retrieveData(onBeforeExecute: () -> Unit, onAfterExecute: () -> Unit) {
         viewModelScope.launch {

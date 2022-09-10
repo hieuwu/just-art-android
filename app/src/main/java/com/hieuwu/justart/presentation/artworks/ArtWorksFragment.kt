@@ -1,21 +1,28 @@
 package com.hieuwu.justart.presentation.artworks
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.hieuwu.justart.R
 import com.hieuwu.justart.data.FavouriteDataStore
+import com.hieuwu.justart.data.repository.ArtworkRepository
 import com.hieuwu.justart.databinding.FragmentArtWorksBinding
 import com.hieuwu.justart.domain.usecases.GetFavoriteUseCase
 import com.hieuwu.justart.domain.usecases.RetrieveArtWorksUseCase
 import com.hieuwu.justart.utils.*
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -32,6 +39,9 @@ class ArtWorksFragment : Fragment() {
 
     @Inject
     lateinit var artworkItemHelper: ArtWorkItemHelper
+
+    @Inject
+    lateinit var artworkRepository: ArtworkRepository
 
     private lateinit var binding: FragmentArtWorksBinding
 
@@ -61,11 +71,13 @@ class ArtWorksFragment : Fragment() {
         return binding.root
     }
 
+    @SuppressLint("UnsafeRepeatOnLifecycleDetector")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
 
-        val viewModelFactory = ArtWorksViewModelFactory(retrieveArtWorksUseCase, getFavoriteUseCase)
+        val viewModelFactory = ArtWorksViewModelFactory(retrieveArtWorksUseCase, getFavoriteUseCase,
+            artworkRepository)
         viewModel = ViewModelProvider(this, viewModelFactory)[ArtWorksViewModel::class.java]
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
@@ -76,6 +88,17 @@ class ArtWorksFragment : Fragment() {
         }
         if (recyclerviewAdapter!!.expectsTransition) {
             postponeEnterTransition(500L, TimeUnit.MILLISECONDS)
+        }
+
+        val items = viewModel.items
+        lifecycleScope.launch {
+            // We repeat on the STARTED lifecycle because an Activity may be PAUSED
+            // but still visible on the screen, for example in a multi window app
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                items.collectLatest {
+                    recyclerviewAdapter?.submitData(it)
+                }
+            }
         }
 
         viewModel.isLoading.observe(viewLifecycleOwner) {

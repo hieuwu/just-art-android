@@ -8,11 +8,13 @@ import com.hieuwu.justart.domain.usecases.RetrieveArtWorksUseCase
 
 class ArtWorksViewModelFactory(
     private val retrieveArtWorksUseCase: RetrieveArtWorksUseCase,
-    private val getFavoriteUseCase: GetFavoriteUseCase) : ViewModelProvider.Factory {
+    private val getFavoriteUseCase: GetFavoriteUseCase,
+    private val artworkRepository: ArtworkRepository,
+) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(ArtWorksViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
-            return ArtWorksViewModel(retrieveArtWorksUseCase, getFavoriteUseCase) as T
+            return ArtWorksViewModel(retrieveArtWorksUseCase, getFavoriteUseCase, artworkRepository) as T
         }
         throw IllegalArgumentException("Unable to construct viewmodel")
     }

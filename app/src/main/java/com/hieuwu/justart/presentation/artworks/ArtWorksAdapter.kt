@@ -4,8 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.ViewCompat
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.Priority
@@ -14,7 +14,6 @@ import com.hieuwu.justart.databinding.LayoutArtWorksItemBinding
 import com.hieuwu.justart.domain.models.ArtWorkDo
 import com.hieuwu.justart.presentation.views.doOnEnd
 import com.hieuwu.justart.utils.ArtWorkItemHelper
-import com.hieuwu.justart.utils.ArtWorkItemHelperFactory
 
 private const val STATE_LAST_SELECTED_ID = "last_selected_id"
 
@@ -23,7 +22,7 @@ class ArtWorksAdapter(
     private val onReadyToTransition: () -> Unit,
     private val artWorkItemHelper: ArtWorkItemHelper
 ) :
-    ListAdapter<ArtWorkDo, ArtWorksAdapter.ArtWorksViewHolder>(DiffCallback) {
+    PagingDataAdapter<ArtWorkDo, ArtWorksAdapter.ArtWorksViewHolder>(DiffCallback) {
     private var lastSelectedId: Int? = null
 
     val expectsTransition: Boolean
@@ -55,24 +54,28 @@ class ArtWorksAdapter(
         ).apply {
             itemView.setOnClickListener {
                 val artWork = getItem(adapterPosition)
-                artWorkItemHelper.clickArtWork(it, title, image, card, artWork.id)
+                artWork?.id?.let { it1 ->
+                    artWorkItemHelper.clickArtWork(it, title, image, card,
+                        it1
+                    )
+                }
             }
             binding.favouriteBtn.setOnClickListener {
                 val artWork = getItem(adapterPosition)
                 with(artWork) {
-                    onClickListener.favouriteListener(this)
-                    updateFavouriteIcon(isFavorite)
+                    this?.let { it1 -> onClickListener.favouriteListener(it1) }
+                    updateFavouriteIcon(this!!.isFavorite)
                 }
             }
 
             binding.pinBtn.setOnClickListener {
                 val artWork = getItem(adapterPosition)
-                onClickListener.pinListener(artWork)
+                onClickListener.pinListener(artWork!!)
             }
 
             binding.shareBtn.setOnClickListener {
                 val artWork = getItem(adapterPosition)
-                onClickListener.shareListener(artWork)
+                onClickListener.shareListener(artWork!!)
             }
         }
     }
@@ -81,13 +84,15 @@ class ArtWorksAdapter(
         val artWork = getItem(position)
         // Each of the shared elements has to have a unique transition name, not just in this grid
         // item, but in the entire fragment.
-        ViewCompat.setTransitionName(holder.image, "image-${artWork.id}")
-        ViewCompat.setTransitionName(holder.title, "name-${artWork.id}")
-        ViewCompat.setTransitionName(holder.card, "card-${artWork.id}")
+        if (artWork != null) {
+            ViewCompat.setTransitionName(holder.image, "image-${artWork.id}")
+            ViewCompat.setTransitionName(holder.title, "name-${artWork.id}")
+            ViewCompat.setTransitionName(holder.card, "card-${artWork.id}")
+        }
 
         // Load the image asynchronously. See CheeseDetailFragment.kt about "dontTransform()"
-        var requestBuilder = Glide.with(holder.image).load(artWork.imageUrl).dontTransform()
-        if (artWork.id == lastSelectedId) {
+        var requestBuilder = Glide.with(holder.image).load(artWork?.imageUrl).dontTransform()
+        if (artWork?.id == lastSelectedId) {
             requestBuilder = requestBuilder
                 .priority(Priority.IMMEDIATE)
                 .doOnEnd {
@@ -98,7 +103,7 @@ class ArtWorksAdapter(
                 }
         }
         requestBuilder.into(holder.image)
-        holder.bind(artWork)
+        artWork?.let { holder.bind(it) }
     }
 
     fun saveInstanceState(outState: Bundle) {
