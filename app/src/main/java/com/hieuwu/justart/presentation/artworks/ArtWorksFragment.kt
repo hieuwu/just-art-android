@@ -107,7 +107,9 @@ class ArtWorksFragment : Fragment() {
 
     private fun setupRecyclerView(recyclerView: RecyclerView) {
         recyclerviewAdapter =
-            ArtWorksAdapter(onReadyToTransition = { startPostponedEnterTransition() },
+            ArtWorksAdapter(
+                onReadyToTransition = { startPostponedEnterTransition() },
+                artWorkItemHelper = artworkItemHelper,
                 onClickListener = ArtWorksAdapter.OnClickListener(
                     shareListener = {
                         artworkItemHelper.shareArtWork(it)
@@ -118,7 +120,8 @@ class ArtWorksFragment : Fragment() {
                         Timber.d("Favourite click")
                     },
                     pinListener = { Timber.d("Pin click") }
-                ))
+                ),
+            )
         with(recyclerView) {
             adapter = recyclerviewAdapter
         }
