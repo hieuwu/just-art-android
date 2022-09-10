@@ -20,7 +20,8 @@ private const val STATE_LAST_SELECTED_ID = "last_selected_id"
 
 class ArtWorksAdapter(
     private val onClickListener: OnClickListener,
-    private val onReadyToTransition: () -> Unit
+    private val onReadyToTransition: () -> Unit,
+    private val artWorkItemHelper: ArtWorkItemHelper
 ) :
     ListAdapter<ArtWorkDo, ArtWorksAdapter.ArtWorksViewHolder>(DiffCallback) {
     private var lastSelectedId: Int? = null
@@ -30,8 +31,6 @@ class ArtWorksAdapter(
 
     class ArtWorksViewHolder(var binding: LayoutArtWorksItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        var artWorkItemHelper: ArtWorkItemHelper =
-            ArtWorkItemHelperFactory.create(context = binding.root.context)
         val image = binding.artWorksImage
         val title = binding.artWorksTitle
         val card = binding.cardView

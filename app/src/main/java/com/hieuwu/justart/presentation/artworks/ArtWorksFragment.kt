@@ -30,6 +30,7 @@ class ArtWorksFragment : Fragment() {
     @Inject
     lateinit var getFavoriteUseCase: GetFavoriteUseCase
 
+    @Inject
     lateinit var artworkItemHelper: ArtWorkItemHelper
 
     private lateinit var binding: FragmentArtWorksBinding
@@ -57,7 +58,6 @@ class ArtWorksFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentArtWorksBinding.inflate(inflater, container, false)
-        artworkItemHelper = ArtWorkItemHelperFactory.create(requireContext())
         return binding.root
     }
 
@@ -107,7 +107,9 @@ class ArtWorksFragment : Fragment() {
 
     private fun setupRecyclerView(recyclerView: RecyclerView) {
         recyclerviewAdapter =
-            ArtWorksAdapter(onReadyToTransition = { startPostponedEnterTransition() },
+            ArtWorksAdapter(
+                onReadyToTransition = { startPostponedEnterTransition() },
+                artWorkItemHelper = artworkItemHelper,
                 onClickListener = ArtWorksAdapter.OnClickListener(
                     shareListener = {
                         artworkItemHelper.shareArtWork(it)
@@ -118,7 +120,8 @@ class ArtWorksFragment : Fragment() {
                         Timber.d("Favourite click")
                     },
                     pinListener = { Timber.d("Pin click") }
-                ))
+                ),
+            )
         with(recyclerView) {
             adapter = recyclerviewAdapter
         }

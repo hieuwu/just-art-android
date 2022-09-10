@@ -36,6 +36,8 @@ class SearchFragment : Fragment() {
 
     @Inject
     lateinit var searchArtWorkUseCase: SearchArtWorkUseCase
+
+    @Inject
     lateinit var artWorkItemHelper: ArtWorkItemHelper
 
     private var _binding: FragmentSearchBinding? = null
@@ -47,7 +49,6 @@ class SearchFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        artWorkItemHelper = ArtWorkItemHelperFactory.create(requireContext())
         setupExitTransition()
         setupReEnterTransition()
     }
@@ -161,6 +162,7 @@ class SearchFragment : Fragment() {
     private fun setupRecyclerView(recyclerView: RecyclerView) {
         recyclerviewAdapter =
             ArtWorksAdapter(onReadyToTransition = { startPostponedEnterTransition() },
+                artWorkItemHelper = artWorkItemHelper,
                 onClickListener = ArtWorksAdapter.OnClickListener(
                     shareListener = {
                         artWorkItemHelper.shareArtWork(it)
