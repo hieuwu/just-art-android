@@ -7,13 +7,13 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.FragmentComponent
-import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.android.qualifiers.ActivityContext
 
 @InstallIn(FragmentComponent::class)
 @Module
 class HelperModule {
     @Provides
-    fun provideArtworkItemHelper(@ApplicationContext context: Context): ArtWorkItemHelper {
+    fun provideArtworkItemHelper(@ActivityContext context: Context): ArtWorkItemHelper {
         return ArtWorkItemHelperFactory.create(context)
     }
 }
