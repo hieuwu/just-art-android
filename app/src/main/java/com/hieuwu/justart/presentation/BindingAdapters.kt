@@ -27,11 +27,11 @@ fun bindImage(imgView: ImageView, imgUrl: String?) {
     }
 }
 
-@BindingAdapter("listData")
-fun bindRecyclerView(recyclerView: RecyclerView, data: List<ArtWorkDo>?) {
-    val adapter = recyclerView.adapter as ArtWorksAdapter
-    adapter.submitList(data)
-}
+//@BindingAdapter("listData")
+//fun bindRecyclerView(recyclerView: RecyclerView, data: List<ArtWorkDo>?) {
+//    val adapter = recyclerView.adapter as ArtWorksAdapter
+//    adapter.submitData(data)
+//}
 
 @BindingAdapter("detailData")
 fun bindDetailRecyclerView(recyclerView: RecyclerView, data: List<ArtWorkDetailDisplay>?) {
