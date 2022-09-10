@@ -162,6 +162,7 @@ class SearchFragment : Fragment() {
     private fun setupRecyclerView(recyclerView: RecyclerView) {
         recyclerviewAdapter =
             ArtWorksAdapter(onReadyToTransition = { startPostponedEnterTransition() },
+                artWorkItemHelper = artWorkItemHelper,
                 onClickListener = ArtWorksAdapter.OnClickListener(
                     shareListener = {
                         artWorkItemHelper.shareArtWork(it)
