@@ -23,10 +23,6 @@ abstract class UseCaseModule {
     @Binds
     abstract fun bindRetrieveArtWorkDetailsUseCase(impl: RetrieveArtWorkDetailsUseCaseImpl): RetrieveArtWorkDetailsUseCase
 
-    @Binds
-    @Singleton
-    abstract fun bindGetFavoriteUseCase(impl: GetFavoriteUseCaseImpl): GetFavoriteUseCase
-
     @Singleton
     @Binds
     abstract fun bindSearchArtWorkDetailsUseCase(impl: SearchArtWorkUseCaseImpl): SearchArtWorkUseCase
