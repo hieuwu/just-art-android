@@ -30,6 +30,7 @@ class ArtWorksFragment : Fragment() {
     @Inject
     lateinit var getFavoriteUseCase: GetFavoriteUseCase
 
+    @Inject
     lateinit var artworkItemHelper: ArtWorkItemHelper
 
     private lateinit var binding: FragmentArtWorksBinding
@@ -57,7 +58,6 @@ class ArtWorksFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentArtWorksBinding.inflate(inflater, container, false)
-        artworkItemHelper = ArtWorkItemHelperFactory.create(requireContext())
         return binding.root
     }
 

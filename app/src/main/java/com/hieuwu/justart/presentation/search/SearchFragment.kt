@@ -36,6 +36,8 @@ class SearchFragment : Fragment() {
 
     @Inject
     lateinit var searchArtWorkUseCase: SearchArtWorkUseCase
+
+    @Inject
     lateinit var artWorkItemHelper: ArtWorkItemHelper
 
     private var _binding: FragmentSearchBinding? = null
@@ -47,7 +49,6 @@ class SearchFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        artWorkItemHelper = ArtWorkItemHelperFactory.create(requireContext())
         setupExitTransition()
         setupReEnterTransition()
     }
