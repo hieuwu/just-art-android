@@ -6,7 +6,7 @@ interface CheckFavoriteArtWorkExistedUseCase : UseCase<CheckFavoriteArtWorkExist
         CheckFavoriteArtWorkExistedUseCase.Result> {
     data class Input(val artWork: ArtWorkDo)
     open class Result {
-        class Success(result: Boolean) : Result()
+        data class Success(val result: Boolean) : Result()
         class Failure : Result()
     }
 }
