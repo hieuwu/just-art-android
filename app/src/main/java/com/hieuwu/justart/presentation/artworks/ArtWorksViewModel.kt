@@ -5,14 +5,15 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hieuwu.justart.domain.models.ArtWorkDo
-import com.hieuwu.justart.domain.usecases.GetFavoriteUseCase
-import com.hieuwu.justart.domain.usecases.RetrieveArtWorksUseCase
+import com.hieuwu.justart.domain.usecases.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class ArtWorksViewModel @Inject constructor(
     private val retrieveArtWorksUseCase: RetrieveArtWorksUseCase,
-    private val getFavoriteUseCase: GetFavoriteUseCase
+    private val checkFavoriteArtWorkExistedUseCase: CheckFavoriteArtWorkExistedUseCase,
+    private val deleteFavoriteArtWorkUseCase: DeleteFavoriteArtWorkUseCase,
+    private val saveFavoriteArtWorkUseCase: SaveFavoriteArtWorkUseCase,
 ) : ViewModel() {
 
     private val _artWorksList = MutableLiveData<List<ArtWorkDo>>()
@@ -62,12 +63,19 @@ class ArtWorksViewModel @Inject constructor(
         }
     }
 
-    private suspend fun isArtworkFavorite(artwork: ArtWorkDo): Boolean =
-        getFavoriteUseCase.isArtworkFavorite(artwork)
+    private suspend fun isArtworkFavorite(artwork: ArtWorkDo): Boolean {
+        val res = checkFavoriteArtWorkExistedUseCase.execute(
+            CheckFavoriteArtWorkExistedUseCase.Input(artwork)
+        )
+        if (res is CheckFavoriteArtWorkExistedUseCase.Result.Success) {
+            return res.result
+        }
+        return false
+    }
 
     private fun deleteArtworkFavorite(artwork: ArtWorkDo) {
         viewModelScope.launch {
-            getFavoriteUseCase.deleteFavoriteArtwork(artwork)
+            deleteFavoriteArtWorkUseCase.execute(DeleteFavoriteArtWorkUseCase.Input(artwork))
         }
     }
 
@@ -86,7 +94,7 @@ class ArtWorksViewModel @Inject constructor(
 
     private suspend fun saveArtworkFavorite(artwork: ArtWorkDo) {
         viewModelScope.launch {
-            getFavoriteUseCase.saveFavoriteArtwork(artwork)
+            saveFavoriteArtWorkUseCase.execute(SaveFavoriteArtWorkUseCase.Input(artwork))
         }
     }
 }

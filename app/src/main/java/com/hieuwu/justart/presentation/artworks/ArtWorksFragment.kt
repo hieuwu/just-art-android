@@ -12,8 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.hieuwu.justart.R
 import com.hieuwu.justart.data.FavouriteDataStore
 import com.hieuwu.justart.databinding.FragmentArtWorksBinding
-import com.hieuwu.justart.domain.usecases.GetFavoriteUseCase
-import com.hieuwu.justart.domain.usecases.RetrieveArtWorksUseCase
+import com.hieuwu.justart.domain.usecases.*
 import com.hieuwu.justart.utils.*
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
@@ -28,7 +27,13 @@ class ArtWorksFragment : Fragment() {
     lateinit var retrieveArtWorksUseCase: RetrieveArtWorksUseCase
 
     @Inject
-    lateinit var getFavoriteUseCase: GetFavoriteUseCase
+    lateinit var checkFavoriteArtWorkExistedUseCase: CheckFavoriteArtWorkExistedUseCase
+
+    @Inject
+    lateinit var deleteFavoriteArtWorkUseCase: DeleteFavoriteArtWorkUseCase
+
+    @Inject
+    lateinit var saveFavoriteArtWorkUseCase: SaveFavoriteArtWorkUseCase
 
     @Inject
     lateinit var artworkItemHelper: ArtWorkItemHelper
@@ -65,7 +70,12 @@ class ArtWorksFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
 
-        val viewModelFactory = ArtWorksViewModelFactory(retrieveArtWorksUseCase, getFavoriteUseCase)
+        val viewModelFactory = ArtWorksViewModelFactory(
+            retrieveArtWorksUseCase = retrieveArtWorksUseCase,
+            checkFavoriteArtWorkExistedUseCase = checkFavoriteArtWorkExistedUseCase,
+            deleteFavoriteArtWorkUseCase = deleteFavoriteArtWorkUseCase,
+            saveFavoriteArtWorkUseCase = saveFavoriteArtWorkUseCase
+        )
         viewModel = ViewModelProvider(this, viewModelFactory)[ArtWorksViewModel::class.java]
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
