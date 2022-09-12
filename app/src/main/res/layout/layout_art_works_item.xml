@@ -32,6 +32,7 @@
                 android:layout_width="170dp"
                 android:layout_height="170dp"
                 android:scaleType="center"
+                tools:srcCompat="@tools:sample/backgrounds/scenic"
                 app:imageUrl="@{artWork.imageUrl}" />
 
             <TextView
