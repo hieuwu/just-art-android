@@ -2,12 +2,13 @@ package com.hieuwu.justart.data.local
 
 import androidx.room.*
 import com.hieuwu.justart.domain.models.ArtWorkEntity
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ArtworkDao {
 
-//    @Query("SELECT * FROM favoritesTable")
-//    suspend fun getAllFavoriteArtWorks(): List<ArtWorkEntity>
+    @Query("SELECT * FROM favoritesTable")
+    suspend fun getAllFavoriteArtWorks(): List<ArtWorkEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun saveFavoriteArtwork(artwork: ArtWorkEntity)

@@ -65,7 +65,7 @@ class ArtWorksViewModel @Inject constructor(
 
     private suspend fun isArtworkFavorite(artwork: ArtWorkDo): Boolean {
         val res = checkFavoriteArtWorkExistedUseCase.execute(
-            CheckFavoriteArtWorkExistedUseCase.Input(artwork)
+            CheckFavoriteArtWorkExistedUseCase.Input(artwork.id)
         )
         if (res is CheckFavoriteArtWorkExistedUseCase.Result.Success) {
             return res.result
