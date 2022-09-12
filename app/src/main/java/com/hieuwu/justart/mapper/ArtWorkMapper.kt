@@ -16,5 +16,17 @@ fun List<ArtWork>.asDomainModel(): List<ArtWorkDo> {
     }
 }
 
+fun List<ArtWorkEntity>.entityToDomainModel(): List<ArtWorkDo> {
+    return map {
+        ArtWorkDo(
+            id = it.id,
+            title = it.title,
+            imageUrl = it.imageUrl,
+            artistDisplay = it.artistDisplay,
+            isFavorite = false
+        )
+    }
+}
+
 fun ArtWorkDo.asEntity(): ArtWorkEntity =
     ArtWorkEntity(this.id, this.title, this.artistDisplay, this.imageUrl)

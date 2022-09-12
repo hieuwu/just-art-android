@@ -1,60 +1,104 @@
 package com.hieuwu.justart.presentation.favourite
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewmodel.viewModelFactory
 import com.hieuwu.justart.R
+import com.hieuwu.justart.databinding.FragmentFavouriteBinding
+import com.hieuwu.justart.domain.usecases.GetFavoriteArtWorkUseCase
+import com.hieuwu.justart.utils.*
+import dagger.hilt.android.AndroidEntryPoint
+import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [FavouriteFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
+@AndroidEntryPoint
 class FavouriteFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+
+    @Inject
+    lateinit var getFavoriteArtWorkUseCase: GetFavoriteArtWorkUseCase
+
+    @Inject
+    lateinit var artworkItemHelper: ArtWorkItemHelper
+
+    private lateinit var binding: FragmentFavouriteBinding
+
+    private lateinit var viewModel: FavoriteViewModel
+
+    private var recyclerviewAdapter: FavoriteAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+        setupExitTransition()
+        setupReEnterTransition()
+    }
+
+    override fun onResume() {
+        Log.d("FAVORITEFRAGMENT", "onResume")
+        super.onResume()
+    }
+
+    override fun onStop() {
+        Log.d("FAVORITEFRAGMENT", "onStop")
+        super.onStop()
+    }
+
+    override fun onPause() {
+        Log.d("FAVORITEFRAGMENT", "onPause")
+        super.onPause()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        recyclerviewAdapter?.saveInstanceState(outState)
+        super.onSaveInstanceState(outState)
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_favourite, container, false)
+        binding = FragmentFavouriteBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment FavouriteFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            FavouriteFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        Log.d("FAVORITEFRAGMENT", "onViewCreated")
+        val viewModelFactory = FavoriteViewModelFactory(
+            getFavoriteArtWorkUseCase = getFavoriteArtWorkUseCase
+        )
+        viewModel = ViewModelProvider(this, viewModelFactory)[FavoriteViewModel::class.java]
+
+        recyclerviewAdapter = FavoriteAdapter(
+            onReadyToTransition = { startPostponedEnterTransition() },
+            artWorkItemHelper = artworkItemHelper
+        )
+
+        binding.favoriteRecyclerView.adapter = recyclerviewAdapter
+
+        viewModel.isLoading.observe(viewLifecycleOwner) {
+            when (it) {
+                true -> showLoading()
+                false -> hideLoading()
             }
+        }
+
+        viewModel.updateFavoriteArtWork()
+
+        viewModel.favoriteArtWork.observe(viewLifecycleOwner) {
+            recyclerviewAdapter?.submitList(it)
+        }
+
+        if (savedInstanceState != null) {
+            recyclerviewAdapter?.restoreInstanceState(savedInstanceState)
+        }
+        if (recyclerviewAdapter!!.expectsTransition) {
+            postponeEnterTransition(500L, TimeUnit.MILLISECONDS)
+        }
+
     }
 }
