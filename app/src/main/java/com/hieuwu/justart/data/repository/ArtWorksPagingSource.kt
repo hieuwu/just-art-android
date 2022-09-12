@@ -13,17 +13,16 @@ import javax.inject.Inject
 
 private const val STARTING_KEY = 0
 
-class ArtWorksPagingSource : PagingSource<Int, ArtWorkDo>() {
+class ArtWorksPagingSource @Inject constructor(private val artWorksService: ArtWorksService) :
+    PagingSource<Int, ArtWorkDo>() {
 
-    @Inject
-    lateinit var artWorksService: ArtWorksService
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, ArtWorkDo> {
         val start = params.key ?: STARTING_KEY
         val range = start.until(start + params.loadSize)
         val res: ApiResult<ArtWorksResponse>
         withContext(Dispatchers.IO) {
-            res = artWorksService.getArtWorks(limit = 12)
+            res = artWorksService.getArtWorks(limit = 12, page = 12)
         }
         val data = res.response?.artWorks?.asDomainModel()!!
         return LoadResult.Page(
