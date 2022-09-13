@@ -4,13 +4,15 @@ import com.hieuwu.justart.data.local.ArtworkDao
 import com.hieuwu.justart.data.repository.ArtWorksPagingSource
 import com.hieuwu.justart.data.repository.ArtworkRepository
 import com.hieuwu.justart.domain.models.ArtWorkDo
+import com.hieuwu.justart.domain.usecases.RetrieveArtWorksUseCase
 import com.hieuwu.justart.mapper.asEntity
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class ArtworkRepositoryImpl @Inject constructor(
-    private val artworkDao: ArtworkDao
+    private val artworkDao: ArtworkDao,
+    private val retrieveArtWorksUseCase: RetrieveArtWorksUseCase
 ) : ArtworkRepository {
     override suspend fun saveFavoriteArtwork(artwork: ArtWorkDo) {
         artworkDao.saveFavoriteArtwork(artwork.asEntity())
@@ -23,5 +25,6 @@ class ArtworkRepositoryImpl @Inject constructor(
     override suspend fun isArtworkFavorite(artwork: ArtWorkDo): Boolean {
         return artworkDao.getArtworkById(artwork.id) != null
     }
-    override fun artWorkPagingSource() = ArtWorksPagingSource()
+
+    override fun artWorkPagingSource() = ArtWorksPagingSource(retrieveArtWorksUseCase)
 }
