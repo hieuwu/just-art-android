@@ -12,7 +12,7 @@ class ArtWorksPagingSource @Inject constructor(private val retrieveArtWorksUseCa
     PagingSource<Int, ArtWorkDo>() {
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, ArtWorkDo> {
         val start = params.key ?: STARTING_KEY
-        val range = start.until(start + params.loadSize)
+        val range = start.until(start + 1)
         val res = retrieveArtWorksUseCase.execute(
             RetrieveArtWorksUseCase.Input(
                 limit = params.loadSize,
@@ -32,8 +32,7 @@ class ArtWorksPagingSource @Inject constructor(private val retrieveArtWorksUseCa
 
     override fun getRefreshKey(state: PagingState<Int, ArtWorkDo>): Int? {
         val anchorPosition = state.anchorPosition ?: return null
-//        val index = state.closestItemToPosition(anchorPosition) ?: return null
-        return ensureValidKey(anchorPosition - (state.config.pageSize / 2))
+        return ensureValidKey(anchorPosition - (state.config.pageSize / 3))
     }
 
     private fun ensureValidKey(key: Int) = Integer.max(STARTING_KEY, key)
