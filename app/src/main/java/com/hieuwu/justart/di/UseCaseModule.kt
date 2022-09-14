@@ -39,4 +39,7 @@ abstract class UseCaseModule {
     @Binds
     abstract fun bindDeleteFavoriteArtWorkUseCase(impl: DeleteFavoriteArtWorkUseCaseImpl): DeleteFavoriteArtWorkUseCase
 
+    @Singleton
+    @Binds
+    abstract fun bindGetFavoriteArtWorkUseCase(impl: GetFavoriteArtWorkUseCaseImpl): GetFavoriteArtWorkUseCase
 }

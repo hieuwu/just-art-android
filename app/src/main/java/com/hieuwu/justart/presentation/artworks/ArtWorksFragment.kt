@@ -44,9 +44,6 @@ class ArtWorksFragment : Fragment() {
 
     private var recyclerviewAdapter: ArtWorksAdapter? = null
 
-    private lateinit var favouriteDataStore: FavouriteDataStore
-    private var setOfFavourite: MutableSet<String> = mutableSetOf()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setupExitTransition()
@@ -90,7 +87,8 @@ class ArtWorksFragment : Fragment() {
 
         viewModel.isLoading.observe(viewLifecycleOwner) {
             when (it) {
-                true -> showLoading()
+//                true -> showLoading()
+                true -> hideLoading()
                 false -> hideLoading()
             }
         }

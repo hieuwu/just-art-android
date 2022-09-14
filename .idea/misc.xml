@@ -3,6 +3,16 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/AndroidProjects/just-art-android/app/src/main/res/drawable/ic_baseline_favorite_24.xml" value="0.1" />
+        <entry key="..\:/AndroidProjects/just-art-android/app/src/main/res/drawable/ic_baseline_favorite_app_bar.xml" value="0.1" />
+        <entry key="..\:/AndroidProjects/just-art-android/app/src/main/res/drawable/ic_outline_favorite_app_bar.xml" value="0.1" />
+        <entry key="..\:/AndroidProjects/just-art-android/app/src/main/res/drawable/ic_outline_favorite_border_24.xml" value="0.144" />
+        <entry key="..\:/AndroidProjects/just-art-android/app/src/main/res/layout/fragment_art_works.xml" value="0.16666666666666666" />
+        <entry key="..\:/AndroidProjects/just-art-android/app/src/main/res/layout/fragment_artwork_details.xml" value="0.22" />
+        <entry key="..\:/AndroidProjects/just-art-android/app/src/main/res/layout/fragment_favourite.xml" value="0.16666666666666666" />
+        <entry key="..\:/AndroidProjects/just-art-android/app/src/main/res/layout/layout_art_works_item.xml" value="0.1" />
+        <entry key="..\:/AndroidProjects/just-art-android/app/src/main/res/layout/layout_favorite_item.xml" value="0.22" />
+        <entry key="..\:/AndroidProjects/just-art-android/app/src/main/res/menu/top_app_bar_menu.xml" value="0.16666666666666666" />
         <entry key="..\:/just-art/app/src/main/res/drawable/ic_broken_image.xml" value="0.1835" />
         <entry key="..\:/just-art/app/src/main/res/drawable/loading_img.xml" value="0.1835" />
         <entry key="..\:/just-art/app/src/main/res/layout/custom_collapse_paragraph_view.xml" value="0.1" />

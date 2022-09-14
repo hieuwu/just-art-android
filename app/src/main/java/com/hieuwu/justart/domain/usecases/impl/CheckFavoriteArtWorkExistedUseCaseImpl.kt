@@ -12,7 +12,7 @@ class CheckFavoriteArtWorkExistedUseCaseImpl @Inject constructor(
     override suspend fun execute(input: CheckFavoriteArtWorkExistedUseCase.Input): CheckFavoriteArtWorkExistedUseCase.Result {
         var res = false
         withContext(Dispatchers.IO) {
-            res = artworkRepository.isArtworkFavorite(input.artWork)
+            res = artworkRepository.isArtworkFavorite(input.artWorkId)
         }
         return CheckFavoriteArtWorkExistedUseCase.Result.Success(result = res)
     }
