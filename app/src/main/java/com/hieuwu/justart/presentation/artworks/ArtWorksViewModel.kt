@@ -49,7 +49,7 @@ class ArtWorksViewModel @Inject constructor(
     }
 
     val items: Flow<PagingData<ArtWorkDo>> = Pager(
-        config = PagingConfig(pageSize = 50, enablePlaceholders = false),
+        config = PagingConfig(pageSize = 12, enablePlaceholders = false, initialLoadSize = 50),
         pagingSourceFactory = { artworkRepository.artWorkPagingSource() }
     )
         .flow

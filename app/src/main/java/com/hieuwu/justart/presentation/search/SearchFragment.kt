@@ -44,7 +44,7 @@ class SearchFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var viewModel: SearchViewModel
-    private var recyclerviewAdapter: ArtWorksAdapter? = null
+    private var recyclerviewAdapter: SearchResultAdapter? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -161,9 +161,9 @@ class SearchFragment : Fragment() {
 
     private fun setupRecyclerView(recyclerView: RecyclerView) {
         recyclerviewAdapter =
-            ArtWorksAdapter(onReadyToTransition = { startPostponedEnterTransition() },
+            SearchResultAdapter(onReadyToTransition = { startPostponedEnterTransition() },
                 artWorkItemHelper = artWorkItemHelper,
-                onClickListener = ArtWorksAdapter.OnClickListener(
+                onClickListener = SearchResultAdapter.OnClickListener(
                     shareListener = {
                         artWorkItemHelper.shareArtWork(it)
                         Timber.d("Share click")
