@@ -6,12 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.RecyclerView
 import com.hieuwu.justart.R
 import com.hieuwu.justart.data.FavouriteDataStore
@@ -101,6 +103,15 @@ class ArtWorksFragment : Fragment() {
             }
         }
 
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                recyclerviewAdapter?.loadStateFlow?.collect {
+                    binding.prependProgress.isVisible = it.source.prepend is LoadState.Loading
+                    binding.appendProgress.isVisible = it.source.append is LoadState.Loading
+                }
+            }
+        }
+
         viewModel.isLoading.observe(viewLifecycleOwner) {
             when (it) {
                 true -> showLoading()
@@ -108,7 +119,7 @@ class ArtWorksFragment : Fragment() {
             }
         }
         binding.errorView.setRefresh {
-            viewModel.onRefresh()
+//            viewModel.onRefresh()
         }
         viewModel.showError.observe(viewLifecycleOwner) {
             when (it) {
