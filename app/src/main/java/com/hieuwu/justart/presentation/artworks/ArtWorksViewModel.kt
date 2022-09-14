@@ -1,9 +1,6 @@
 package com.hieuwu.justart.presentation.artworks
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
@@ -16,14 +13,13 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+private const val DEFAULT_ITEMS_PER_PAGE = 32
+
 class ArtWorksViewModel @Inject constructor(
     private val retrieveArtWorksUseCase: RetrieveArtWorksUseCase,
     private val getFavoriteUseCase: GetFavoriteUseCase,
     private val artworkRepository: ArtworkRepository
 ) : ViewModel() {
-
-    private val _artWorksList = MutableLiveData<List<ArtWorkDo>>()
-    val artWorksList: LiveData<List<ArtWorkDo>> = _artWorksList
 
     private val _isLoading = MutableLiveData(false)
     val isLoading: LiveData<Boolean> = _isLoading
@@ -31,14 +27,6 @@ class ArtWorksViewModel @Inject constructor(
 
     private val _showError = MutableLiveData(false)
     val showError: LiveData<Boolean> = _showError
-
-    init {
-        retrieveData(onBeforeExecute = { onBeforeExecute() }, onAfterExecute = { onAfterExecute() })
-    }
-
-    fun onRefresh() {
-        retrieveData(onBeforeExecute = { onBeforeExecute() }, onAfterExecute = { onAfterExecute() })
-    }
 
     private fun onBeforeExecute() {
         _isLoading.value = true
@@ -49,21 +37,30 @@ class ArtWorksViewModel @Inject constructor(
     }
 
     val items: Flow<PagingData<ArtWorkDo>> = Pager(
-        config = PagingConfig(pageSize = 12, enablePlaceholders = false, initialLoadSize = 50),
+        config = PagingConfig(
+            pageSize = DEFAULT_ITEMS_PER_PAGE,
+            enablePlaceholders = false,
+            initialLoadSize = DEFAULT_ITEMS_PER_PAGE
+        ),
         pagingSourceFactory = { artworkRepository.artWorkPagingSource() }
     )
         .flow
         .cachedIn(viewModelScope)
 
     private fun retrieveData(onBeforeExecute: () -> Unit, onAfterExecute: () -> Unit) {
+
         viewModelScope.launch {
             onBeforeExecute()
-            when (val result = retrieveArtWorksUseCase.execute(RetrieveArtWorksUseCase.Input())) {
+            when (val result = retrieveArtWorksUseCase.execute(
+                RetrieveArtWorksUseCase.Input(
+                    limit = DEFAULT_ITEMS_PER_PAGE, page = 0
+                )
+            )) {
                 is RetrieveArtWorksUseCase.Result.Success -> {
                     if (result.data == null) {
                         _showError.value = true
                     } else {
-                        _artWorksList.value = result.data
+                        // Handle setting data here
                         _showError.value = false
                     }
                 }
