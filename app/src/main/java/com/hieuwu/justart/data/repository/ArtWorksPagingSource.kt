@@ -32,7 +32,7 @@ class ArtWorksPagingSource @Inject constructor(private val retrieveArtWorksUseCa
 
     override fun getRefreshKey(state: PagingState<Int, ArtWorkDo>): Int? {
         val anchorPosition = state.anchorPosition ?: return null
-        return ensureValidKey(anchorPosition - (state.config.pageSize / 3))
+        return ensureValidKey(anchorPosition - (state.config.pageSize / 2))
     }
 
     private fun ensureValidKey(key: Int) = Integer.max(STARTING_KEY, key)
