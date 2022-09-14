@@ -16,7 +16,7 @@ class ArtWorksPagingSource @Inject constructor(private val retrieveArtWorksUseCa
         val res = retrieveArtWorksUseCase.execute(
             RetrieveArtWorksUseCase.Input(
                 limit = params.loadSize,
-                start
+                page = start
             )
         ) as RetrieveArtWorksUseCase.Result.Success
 
