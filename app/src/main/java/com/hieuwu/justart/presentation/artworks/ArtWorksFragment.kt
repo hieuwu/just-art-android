@@ -1,6 +1,5 @@
 package com.hieuwu.justart.presentation.artworks
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,11 +15,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.RecyclerView
 import com.hieuwu.justart.R
-import com.hieuwu.justart.data.FavouriteDataStore
 import com.hieuwu.justart.data.repository.ArtworkRepository
 import com.hieuwu.justart.databinding.FragmentArtWorksBinding
-import com.hieuwu.justart.domain.usecases.GetFavoriteUseCase
-import com.hieuwu.justart.domain.usecases.RetrieveArtWorksUseCase
+import com.hieuwu.justart.domain.usecases.*
 import com.hieuwu.justart.utils.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -37,7 +34,13 @@ class ArtWorksFragment : Fragment() {
     lateinit var retrieveArtWorksUseCase: RetrieveArtWorksUseCase
 
     @Inject
-    lateinit var getFavoriteUseCase: GetFavoriteUseCase
+    lateinit var checkFavoriteArtWorkExistedUseCase: CheckFavoriteArtWorkExistedUseCase
+
+    @Inject
+    lateinit var deleteFavoriteArtWorkUseCase: DeleteFavoriteArtWorkUseCase
+
+    @Inject
+    lateinit var saveFavoriteArtWorkUseCase: SaveFavoriteArtWorkUseCase
 
     @Inject
     lateinit var artworkItemHelper: ArtWorkItemHelper
@@ -50,9 +53,6 @@ class ArtWorksFragment : Fragment() {
     private lateinit var viewModel: ArtWorksViewModel
 
     private var recyclerviewAdapter: ArtWorksAdapter? = null
-
-    private lateinit var favouriteDataStore: FavouriteDataStore
-    private var setOfFavourite: MutableSet<String> = mutableSetOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,13 +73,17 @@ class ArtWorksFragment : Fragment() {
         return binding.root
     }
 
-    @SuppressLint("UnsafeRepeatOnLifecycleDetector")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
 
-        val viewModelFactory = ArtWorksViewModelFactory(retrieveArtWorksUseCase, getFavoriteUseCase,
-            artworkRepository)
+        val viewModelFactory = ArtWorksViewModelFactory(
+            retrieveArtWorksUseCase = retrieveArtWorksUseCase,
+            checkFavoriteArtWorkExistedUseCase = checkFavoriteArtWorkExistedUseCase,
+            deleteFavoriteArtWorkUseCase = deleteFavoriteArtWorkUseCase,
+            saveFavoriteArtWorkUseCase = saveFavoriteArtWorkUseCase,
+            artworkRepository = artworkRepository
+        )
         viewModel = ViewModelProvider(this, viewModelFactory)[ArtWorksViewModel::class.java]
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
@@ -114,7 +118,8 @@ class ArtWorksFragment : Fragment() {
 
         viewModel.isLoading.observe(viewLifecycleOwner) {
             when (it) {
-                true -> showLoading()
+//                true -> showLoading()
+                true -> hideLoading()
                 false -> hideLoading()
             }
         }

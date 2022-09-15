@@ -1,6 +1,7 @@
 package com.hieuwu.justart.presentation.artworkdetails
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,14 +9,19 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.transition.ChangeBounds
 import androidx.transition.ChangeImageTransform
 import androidx.transition.ChangeTransform
 import androidx.transition.Transition
 import com.google.android.material.appbar.CollapsingToolbarLayout
+import com.hieuwu.justart.R
 import com.hieuwu.justart.databinding.FragmentArtworkDetailsBinding
+import com.hieuwu.justart.domain.usecases.CheckFavoriteArtWorkExistedUseCase
+import com.hieuwu.justart.domain.usecases.DeleteFavoriteArtWorkUseCase
 import com.hieuwu.justart.domain.usecases.RetrieveArtWorkDetailsUseCase
+import com.hieuwu.justart.domain.usecases.SaveFavoriteArtWorkUseCase
 import com.hieuwu.justart.presentation.views.*
 import com.hieuwu.justart.presentation.views.animation.helper.SharedFade
 import com.hieuwu.justart.presentation.views.animation.helper.plusAssign
@@ -23,6 +29,7 @@ import com.hieuwu.justart.presentation.views.animation.helper.transitionTogether
 import com.hieuwu.justart.utils.hideLoading
 import com.hieuwu.justart.utils.showLoading
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -32,6 +39,18 @@ class ArtWorkDetailsFragment : Fragment() {
 
     @Inject
     lateinit var retrieveArtWorkDetailsUseCase: RetrieveArtWorkDetailsUseCase
+
+    @Inject
+    lateinit var checkFavoriteArtWorkExistedUseCase: CheckFavoriteArtWorkExistedUseCase
+
+    @Inject
+    lateinit var deleteFavoriteArtWorkUseCase: DeleteFavoriteArtWorkUseCase
+
+    @Inject
+    lateinit var saveFavoriteArtWorkUseCase: SaveFavoriteArtWorkUseCase
+
+    private var isArtWorkFavorited: Boolean? = null
+
     private var artWorkId: Int = -1
 
     private lateinit var viewModel: ArtWorkDetailsViewModel
@@ -69,7 +88,13 @@ class ArtWorkDetailsFragment : Fragment() {
         binding = FragmentArtworkDetailsBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = this
         val viewModelFactory =
-            ArtWorkDetailsViewModelFactory(artWorkId, retrieveArtWorkDetailsUseCase)
+            ArtWorkDetailsViewModelFactory(
+                artWorkId,
+                retrieveArtWorkDetailsUseCase,
+                checkFavoriteArtWorkExistedUseCase,
+                deleteFavoriteArtWorkUseCase,
+                saveFavoriteArtWorkUseCase
+            )
         viewModel = ViewModelProvider(this, viewModelFactory)[ArtWorkDetailsViewModel::class.java]
         binding.viewModel = viewModel
 
@@ -77,6 +102,11 @@ class ArtWorkDetailsFragment : Fragment() {
             adapter = ArtWorkDetailsAdapter()
         }
         setupObservers()
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            isArtWorkFavorited = viewModel.isArtWorkFavorite(artWorkId)
+        }
+
         return binding.root
     }
 
@@ -118,6 +148,14 @@ class ArtWorkDetailsFragment : Fragment() {
         }
         binding.toolbar.setNavigationOnClickListener {
             findNavController().navigateUp()
+        }
+
+        binding.toolbar.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.favorite -> {
+                    true
+                } else -> false
+            }
         }
     }
 

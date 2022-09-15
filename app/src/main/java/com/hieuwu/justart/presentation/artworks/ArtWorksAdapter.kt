@@ -35,8 +35,8 @@ class ArtWorksAdapter(
         val card = binding.cardView
         fun bind(artWork: ArtWorkDo) {
             binding.artWork = artWork
-            binding.executePendingBindings()
             updateFavouriteIcon(artWork.isFavorite)
+            binding.executePendingBindings()
         }
 
         fun updateFavouriteIcon(isFavorite: Boolean) {

@@ -1,15 +1,7 @@
 package com.hieuwu.justart.di
 
-import com.hieuwu.justart.domain.usecases.GetFavoriteUseCase
-import com.hieuwu.justart.domain.usecases.RetrieveArtWorkDetailsUseCase
-import com.hieuwu.justart.domain.usecases.RetrieveArtWorksUseCase
-import com.hieuwu.justart.domain.usecases.SampleUseCase
-import com.hieuwu.justart.domain.usecases.impl.GetFavoriteUseCaseImpl
-import com.hieuwu.justart.domain.usecases.SearchArtWorkUseCase
-import com.hieuwu.justart.domain.usecases.impl.RetrieveArtWorkDetailsUseCaseImpl
-import com.hieuwu.justart.domain.usecases.impl.RetrieveArtWorksUseCaseImpl
-import com.hieuwu.justart.domain.usecases.impl.SampleUseCaseImpl
-import com.hieuwu.justart.domain.usecases.impl.SearchArtWorkUseCaseImpl
+import com.hieuwu.justart.domain.usecases.*
+import com.hieuwu.justart.domain.usecases.impl.*
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -31,11 +23,23 @@ abstract class UseCaseModule {
     @Binds
     abstract fun bindRetrieveArtWorkDetailsUseCase(impl: RetrieveArtWorkDetailsUseCaseImpl): RetrieveArtWorkDetailsUseCase
 
-    @Binds
-    @Singleton
-    abstract fun bindGetFavoriteUseCase(impl: GetFavoriteUseCaseImpl): GetFavoriteUseCase
-
     @Singleton
     @Binds
     abstract fun bindSearchArtWorkDetailsUseCase(impl: SearchArtWorkUseCaseImpl): SearchArtWorkUseCase
+
+    @Singleton
+    @Binds
+    abstract fun bindSaveFavoriteArtWorkUseCase(impl: SaveFavoriteArtWorkUseCaseImpl): SaveFavoriteArtWorkUseCase
+
+    @Singleton
+    @Binds
+    abstract fun bindCheckFavoriteArtWorkExistedUseCase(impl: CheckFavoriteArtWorkExistedUseCaseImpl): CheckFavoriteArtWorkExistedUseCase
+
+    @Singleton
+    @Binds
+    abstract fun bindDeleteFavoriteArtWorkUseCase(impl: DeleteFavoriteArtWorkUseCaseImpl): DeleteFavoriteArtWorkUseCase
+
+    @Singleton
+    @Binds
+    abstract fun bindGetFavoriteArtWorkUseCase(impl: GetFavoriteArtWorkUseCaseImpl): GetFavoriteArtWorkUseCase
 }
