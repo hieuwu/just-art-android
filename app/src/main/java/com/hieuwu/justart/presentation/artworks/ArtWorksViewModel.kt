@@ -36,7 +36,7 @@ class ArtWorksViewModel @Inject constructor(
         _isLoading.value = false
     }
 
-    val items: Flow<PagingData<ArtWorkDo>> = Pager(
+    val artWorkList: Flow<PagingData<ArtWorkDo>> = Pager(
         config = PagingConfig(
             pageSize = DEFAULT_ITEMS_PER_PAGE,
             enablePlaceholders = false,
@@ -47,31 +47,6 @@ class ArtWorksViewModel @Inject constructor(
         .flow
         .cachedIn(viewModelScope)
 
-    private fun retrieveData(onBeforeExecute: () -> Unit, onAfterExecute: () -> Unit) {
-
-        viewModelScope.launch {
-            onBeforeExecute()
-            when (val result = retrieveArtWorksUseCase.execute(
-                RetrieveArtWorksUseCase.Input(
-                    limit = DEFAULT_ITEMS_PER_PAGE, page = 0
-                )
-            )) {
-                is RetrieveArtWorksUseCase.Result.Success -> {
-                    if (result.data == null) {
-                        _showError.value = true
-                    } else {
-                        // Handle setting data here
-                        _showError.value = false
-                    }
-                }
-                else -> {
-                    _showError.value = true
-                }
-            }
-        }.invokeOnCompletion {
-            onAfterExecute()
-        }
-    }
 
     private suspend fun isArtworkFavorite(artwork: ArtWorkDo): Boolean =
         getFavoriteUseCase.isArtworkFavorite(artwork)

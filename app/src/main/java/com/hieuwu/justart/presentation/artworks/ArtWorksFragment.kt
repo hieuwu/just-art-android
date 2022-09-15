@@ -92,7 +92,7 @@ class ArtWorksFragment : Fragment() {
             postponeEnterTransition(500L, TimeUnit.MILLISECONDS)
         }
 
-        val items = viewModel.items
+        val items = viewModel.artWorkList
         lifecycleScope.launch {
             // We repeat on the STARTED lifecycle because an Activity may be PAUSED
             // but still visible on the screen, for example in a multi window app
@@ -119,8 +119,9 @@ class ArtWorksFragment : Fragment() {
             }
         }
         binding.errorView.setRefresh {
-//            viewModel.onRefresh()
+            recyclerviewAdapter?.refresh()
         }
+
         viewModel.showError.observe(viewLifecycleOwner) {
             when (it) {
                 true -> {
