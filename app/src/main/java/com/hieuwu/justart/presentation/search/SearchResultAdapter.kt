@@ -51,7 +51,7 @@ class SearchResultAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArtWorksViewHolder {
         return ArtWorksViewHolder(
-            LayoutArtWorksItemBinding.inflate(LayoutInflater.from(parent.context))
+            LayoutArtWorksItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         ).apply {
             itemView.setOnClickListener {
                 val artWork = getItem(adapterPosition)
