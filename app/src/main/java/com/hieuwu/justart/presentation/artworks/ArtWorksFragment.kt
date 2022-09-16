@@ -5,16 +5,23 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.RecyclerView
 import com.hieuwu.justart.R
-import com.hieuwu.justart.data.FavouriteDataStore
+import com.hieuwu.justart.data.repository.ArtworkRepository
 import com.hieuwu.justart.databinding.FragmentArtWorksBinding
 import com.hieuwu.justart.domain.usecases.*
 import com.hieuwu.justart.utils.*
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -37,6 +44,9 @@ class ArtWorksFragment : Fragment() {
 
     @Inject
     lateinit var artworkItemHelper: ArtWorkItemHelper
+
+    @Inject
+    lateinit var artworkRepository: ArtworkRepository
 
     private lateinit var binding: FragmentArtWorksBinding
 
@@ -71,7 +81,8 @@ class ArtWorksFragment : Fragment() {
             retrieveArtWorksUseCase = retrieveArtWorksUseCase,
             checkFavoriteArtWorkExistedUseCase = checkFavoriteArtWorkExistedUseCase,
             deleteFavoriteArtWorkUseCase = deleteFavoriteArtWorkUseCase,
-            saveFavoriteArtWorkUseCase = saveFavoriteArtWorkUseCase
+            saveFavoriteArtWorkUseCase = saveFavoriteArtWorkUseCase,
+            artworkRepository = artworkRepository
         )
         viewModel = ViewModelProvider(this, viewModelFactory)[ArtWorksViewModel::class.java]
         binding.viewModel = viewModel
@@ -85,6 +96,26 @@ class ArtWorksFragment : Fragment() {
             postponeEnterTransition(500L, TimeUnit.MILLISECONDS)
         }
 
+        val items = viewModel.artWorkList
+        lifecycleScope.launch {
+            // We repeat on the STARTED lifecycle because an Activity may be PAUSED
+            // but still visible on the screen, for example in a multi window app
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                items.collectLatest {
+                    recyclerviewAdapter?.submitData(it)
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                recyclerviewAdapter?.loadStateFlow?.collect {
+                    binding.prependProgress.isVisible = it.source.prepend is LoadState.Loading
+                    binding.appendProgress.isVisible = it.source.append is LoadState.Loading
+                }
+            }
+        }
+
         viewModel.isLoading.observe(viewLifecycleOwner) {
             when (it) {
 //                true -> showLoading()
@@ -93,8 +124,9 @@ class ArtWorksFragment : Fragment() {
             }
         }
         binding.errorView.setRefresh {
-            viewModel.onRefresh()
+            recyclerviewAdapter?.refresh()
         }
+
         viewModel.showError.observe(viewLifecycleOwner) {
             when (it) {
                 true -> {
