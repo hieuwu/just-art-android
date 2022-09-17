@@ -45,9 +45,6 @@ class ArtWorksFragment : Fragment() {
     @Inject
     lateinit var artworkItemHelper: ArtWorkItemHelper
 
-    @Inject
-    lateinit var artworkRepository: ArtworkRepository
-
     private lateinit var binding: FragmentArtWorksBinding
 
     private lateinit var viewModel: ArtWorksViewModel
@@ -82,7 +79,6 @@ class ArtWorksFragment : Fragment() {
             checkFavoriteArtWorkExistedUseCase = checkFavoriteArtWorkExistedUseCase,
             deleteFavoriteArtWorkUseCase = deleteFavoriteArtWorkUseCase,
             saveFavoriteArtWorkUseCase = saveFavoriteArtWorkUseCase,
-            artworkRepository = artworkRepository
         )
         viewModel = ViewModelProvider(this, viewModelFactory)[ArtWorksViewModel::class.java]
         binding.viewModel = viewModel
