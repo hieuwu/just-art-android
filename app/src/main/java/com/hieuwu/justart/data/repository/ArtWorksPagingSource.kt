@@ -4,11 +4,10 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.hieuwu.justart.domain.models.ArtWorkDo
 import com.hieuwu.justart.domain.usecases.RetrieveArtWorksUseCase
-import javax.inject.Inject
 
 private const val STARTING_KEY = 0
 
-class ArtWorksPagingSource @Inject constructor(private val retrieveArtWorksUseCase: RetrieveArtWorksUseCase) :
+class ArtWorksPagingSource constructor(private val retrieveArtWorksUseCase: RetrieveArtWorksUseCase) :
     PagingSource<Int, ArtWorkDo>() {
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, ArtWorkDo> {
         val start = params.key ?: STARTING_KEY
