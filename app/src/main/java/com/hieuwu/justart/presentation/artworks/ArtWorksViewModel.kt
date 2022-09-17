@@ -5,6 +5,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import com.hieuwu.justart.data.repository.ArtWorksPagingSource
 import com.hieuwu.justart.data.repository.ArtworkRepository
 import com.hieuwu.justart.domain.models.ArtWorkDo
 import com.hieuwu.justart.domain.usecases.*
@@ -20,7 +21,6 @@ class ArtWorksViewModel @Inject constructor(
     private val checkFavoriteArtWorkExistedUseCase: CheckFavoriteArtWorkExistedUseCase,
     private val deleteFavoriteArtWorkUseCase: DeleteFavoriteArtWorkUseCase,
     private val saveFavoriteArtWorkUseCase: SaveFavoriteArtWorkUseCase,
-    private val artworkRepository: ArtworkRepository
 ) : ViewModel() {
 
     private val _isLoading = MutableLiveData(false)
@@ -44,11 +44,10 @@ class ArtWorksViewModel @Inject constructor(
             enablePlaceholders = false,
             initialLoadSize = DEFAULT_ITEMS_PER_PAGE
         ),
-        pagingSourceFactory = { artworkRepository.artWorkPagingSource() }
+        pagingSourceFactory = { ArtWorksPagingSource(retrieveArtWorksUseCase) }
     )
         .flow
         .cachedIn(viewModelScope)
-
 
     private suspend fun isArtworkFavorite(artwork: ArtWorkDo): Boolean {
         val res = checkFavoriteArtWorkExistedUseCase.execute(
