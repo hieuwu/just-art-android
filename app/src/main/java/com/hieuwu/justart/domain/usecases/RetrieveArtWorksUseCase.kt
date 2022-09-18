@@ -11,5 +11,8 @@ interface RetrieveArtWorksUseCase :
     }
 
     data class Error(val type: ErrorType)
-    class ErrorType
+    enum class ErrorType {
+        GENERIC,
+        EMPTY,
+    }
 }

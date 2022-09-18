@@ -7,6 +7,5 @@ interface ArtworkRepository {
     suspend fun getAllFavoriteArtwork(): List<ArtWorkEntity>
     suspend fun saveFavoriteArtwork(artwork: ArtWorkDo)
     suspend fun deleteFavoriteArtwork(artwork: ArtWorkDo)
-    fun artWorkPagingSource(): ArtWorksPagingSource
     suspend fun isArtworkFavorite(artworkId: Int): Boolean
 }
