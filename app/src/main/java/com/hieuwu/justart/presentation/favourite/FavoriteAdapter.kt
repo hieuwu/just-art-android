@@ -40,7 +40,7 @@ class FavoriteAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoriteViewHolder {
         return FavoriteViewHolder(
-            LayoutFavoriteItemBinding.inflate(LayoutInflater.from(parent.context))
+            LayoutFavoriteItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         ).apply {
             itemView.setOnClickListener {
                 val artWork = getItem(adapterPosition)
