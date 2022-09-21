@@ -30,3 +30,6 @@ fun List<ArtWorkEntity>.entityToDomainModel(): List<ArtWorkDo> {
 
 fun ArtWorkDo.asEntity(): ArtWorkEntity =
     ArtWorkEntity(this.id, this.title, this.artistDisplay, this.imageUrl)
+
+fun ArtWorkEntity.asDo(): ArtWorkDo =
+    ArtWorkDo(this.id, this.title, this.artistDisplay, this.imageUrl, true)

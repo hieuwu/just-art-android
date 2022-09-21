@@ -9,6 +9,7 @@ import com.hieuwu.justart.domain.usecases.CheckFavoriteArtWorkExistedUseCase
 import com.hieuwu.justart.domain.usecases.DeleteFavoriteArtWorkUseCase
 import com.hieuwu.justart.domain.usecases.RetrieveArtWorkDetailsUseCase
 import com.hieuwu.justart.domain.usecases.SaveFavoriteArtWorkUseCase
+import com.hieuwu.justart.mapper.asDo
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -32,6 +33,8 @@ class ArtWorkDetailsViewModel @Inject constructor(
     private val _isLoading = MutableLiveData(false)
     val isLoading: LiveData<Boolean> = _isLoading
 
+    private lateinit var artistDisplay: String
+    private lateinit var imageUrl: String
 
     init {
         getArtWorkDetails({ onBeforeExecute() }, { onAfterExecute() })
@@ -60,7 +63,8 @@ class ArtWorkDetailsViewModel @Inject constructor(
                         _title.value = res.data.title ?: ""
                         _displayList.value = mapToDisplay(res.data)
                         _showErrorView.value = false
-
+                        artistDisplay = res.data.artistDisplay ?: ""
+                        imageUrl = res.data.imageUrl ?: ""
                     }
                 }
                 else -> {
@@ -73,13 +77,32 @@ class ArtWorkDetailsViewModel @Inject constructor(
         }
     }
 
-    suspend fun isArtWorkFavorite(artworkId: Int): Boolean {
-        val res = checkFavoriteArtWorkExistedUseCase.execute(
-            CheckFavoriteArtWorkExistedUseCase.Input(artworkId)
-        )
-        if (res is CheckFavoriteArtWorkExistedUseCase.Result.Success) {
-            return res.result
+    suspend fun isArtWorkFavorite(artworkId: Int): ArtWorkDo? {
+        when (val res = checkFavoriteArtWorkExistedUseCase.execute(CheckFavoriteArtWorkExistedUseCase.Input(artworkId))) {
+            is CheckFavoriteArtWorkExistedUseCase.Result.Success -> {
+                res.result?.let {
+                    return it.asDo()
+                }
+                return null
+            }
+            else -> return null
         }
-        return false
+    }
+
+    suspend fun saveOrDeleteFavoriteArtWork(artworkId: Int) {
+        val res = isArtWorkFavorite(artworkId)
+        res?.let {
+            deleteFavoriteArtWorkUseCase.execute(DeleteFavoriteArtWorkUseCase.Input(it))
+            return
+        }
+        saveFavoriteArtWorkUseCase.execute(SaveFavoriteArtWorkUseCase.Input(
+            ArtWorkDo(
+                artworkId,
+                title = title.value!!,
+                artistDisplay = artistDisplay,
+                imageUrl = imageUrl,
+                true
+            )
+        ))
     }
 }
