@@ -78,31 +78,30 @@ class ArtWorkDetailsViewModel @Inject constructor(
     }
 
     suspend fun isArtWorkFavorite(artworkId: Int): ArtWorkDo? {
-        when (val res = checkFavoriteArtWorkExistedUseCase.execute(CheckFavoriteArtWorkExistedUseCase.Input(artworkId))) {
+        return when (val res = checkFavoriteArtWorkExistedUseCase.execute(CheckFavoriteArtWorkExistedUseCase.Input(artworkId))) {
             is CheckFavoriteArtWorkExistedUseCase.Result.Success -> {
-                res.result?.let {
-                    return it.asDo()
-                }
-                return null
+                res.result?.asDo()
             }
-            else -> return null
+            else -> null
         }
     }
 
     suspend fun saveOrDeleteFavoriteArtWork(artworkId: Int) {
         val res = isArtWorkFavorite(artworkId)
-        res?.let {
-            deleteFavoriteArtWorkUseCase.execute(DeleteFavoriteArtWorkUseCase.Input(it))
-            return
-        }
-        saveFavoriteArtWorkUseCase.execute(SaveFavoriteArtWorkUseCase.Input(
-            ArtWorkDo(
-                artworkId,
-                title = title.value!!,
-                artistDisplay = artistDisplay,
-                imageUrl = imageUrl,
-                true
+        if (res != null) {
+            deleteFavoriteArtWorkUseCase.execute(DeleteFavoriteArtWorkUseCase.Input(res))
+        } else {
+            saveFavoriteArtWorkUseCase.execute(
+                SaveFavoriteArtWorkUseCase.Input(
+                    ArtWorkDo(
+                        artworkId,
+                        title = title.value!!,
+                        artistDisplay = artistDisplay,
+                        imageUrl = imageUrl,
+                        true
+                    )
+                )
             )
-        ))
+        }
     }
 }

@@ -54,10 +54,7 @@ class ArtWorksViewModel @Inject constructor(
             CheckFavoriteArtWorkExistedUseCase.Input(artwork.id)
         )
         if (res is CheckFavoriteArtWorkExistedUseCase.Result.Success) {
-            res.result?.let {
-                return true
-            }
-            return false
+            return res.result != null
         }
         return false
     }
