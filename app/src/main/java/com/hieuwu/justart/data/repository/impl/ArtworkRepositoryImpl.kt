@@ -24,7 +24,7 @@ class ArtworkRepositoryImpl @Inject constructor(
         artworkDao.deleteFavoriteArtwork(artwork.asEntity())
     }
 
-    override suspend fun isArtworkFavorite(artworkId: Int): Boolean {
-        return artworkDao.getArtworkById(artworkId) != null
+    override suspend fun getArtworkFavorite(artworkId: Int): ArtWorkEntity? {
+        return artworkDao.getArtworkById(artworkId)
     }
 }

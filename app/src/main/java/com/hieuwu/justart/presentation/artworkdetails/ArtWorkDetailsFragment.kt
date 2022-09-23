@@ -1,7 +1,6 @@
 package com.hieuwu.justart.presentation.artworkdetails
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,7 +31,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
-
 
 @AndroidEntryPoint
 class ArtWorkDetailsFragment : Fragment() {
@@ -103,9 +101,7 @@ class ArtWorkDetailsFragment : Fragment() {
         }
         setupObservers()
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            isArtWorkFavorited = viewModel.isArtWorkFavorite(artWorkId)
-        }
+        updateFavorite()
 
         return binding.root
     }
@@ -153,9 +149,30 @@ class ArtWorkDetailsFragment : Fragment() {
         binding.toolbar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.favorite -> {
+                    viewLifecycleOwner.lifecycleScope.launch {
+                        viewModel.saveOrDeleteFavoriteArtWork(artWorkId)
+                        updateFavorite()
+                    }
                     true
                 } else -> false
             }
+        }
+    }
+
+    private fun updateFavorite() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            val data = viewModel.isArtWorkFavorite(artWorkId)
+            if (data != null) {
+                binding.toolbar.menu.getItem(0).setIcon(R.drawable.ic_baseline_favorite_app_bar)
+            } else {
+                binding.toolbar.menu.getItem(0).setIcon(R.drawable.ic_outline_favorite_app_bar)
+            }
+
+//            data?.let {
+//                binding.toolbar.menu.getItem(0).setIcon(R.drawable.ic_baseline_favorite_app_bar)
+//                return@launch
+//            }
+//            binding.toolbar.menu.getItem(0).setIcon(R.drawable.ic_outline_favorite_app_bar)
         }
     }
 
