@@ -4,6 +4,8 @@
         <attr name="titleValue" format="string" />
         <attr name="contentValue" format="string" />
         <attr name="showChevron" format="boolean" />
+        <attr name="showTopDivider" format="boolean" />
+
     </declare-styleable>
     <declare-styleable name="CustomErrorView">
         <attr name="animationFileName" format="string" />
