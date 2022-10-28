@@ -11,6 +11,7 @@ import android.view.animation.Transformation
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.withStyledAttributes
+import androidx.core.view.isVisible
 import com.hieuwu.justart.R
 
 @SuppressLint("ViewConstructor")
@@ -19,9 +20,8 @@ class CollapseParagraphView(
     attrs: AttributeSet?,
 ) : ConstraintLayout(context, attrs) {
 
-    private var title: String? = null
-    private var content: String? = null
     private var showChevron = false
+    private var showDivider = false
     private var titleTextView: TextView? = null
     private var contentTextView: TextView? = null
     private var titleLayout: View? = null
@@ -44,6 +44,11 @@ class CollapseParagraphView(
             titleTextView?.text = getString(R.styleable.CollapseParagraphView_titleValue)
             contentTextView?.text = getString(R.styleable.CollapseParagraphView_contentValue)
             showChevron = getBoolean(R.styleable.CollapseParagraphView_showChevron, false)
+            showDivider = getBoolean(R.styleable.CollapseParagraphView_showTopDivider, false)
+        }
+        if (!showDivider) {
+            val divider = findViewById<View>(R.id.divider)
+            divider.visibility = GONE
         }
         populateChevron(showChevron)
     }
