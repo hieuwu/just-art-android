@@ -42,4 +42,10 @@ abstract class UseCaseModule {
     @Singleton
     @Binds
     abstract fun bindGetFavoriteArtWorkUseCase(impl: GetFavoriteArtWorkUseCaseImpl): GetFavoriteArtWorkUseCase
+
+    @Singleton
+    @Binds
+    abstract fun bindRetrieveExhibitionsUseCase(impl: RetrieveExhibitionsUseCaseImpl): RetrieveExhibitionsUseCase
+
+
 }
