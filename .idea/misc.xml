@@ -20,8 +20,15 @@
         <entry key="..\:/just-art/app/src/main/res/layout/fragment_art_details.xml" value="0.19882246376811594" />
         <entry key="..\:/just-art/app/src/main/res/layout/fragment_art_works.xml" value="0.136" />
         <entry key="..\:/just-art/app/src/main/res/layout/fragment_artwork_details.xml" value="0.1" />
+        <entry key="..\:/just-art/app/src/main/res/layout/fragment_explore.xml" value="0.19440745672436752" />
+        <entry key="..\:/just-art/app/src/main/res/layout/fragment_schedule.xml" value="0.16530797101449277" />
         <entry key="..\:/just-art/app/src/main/res/layout/fragment_search.xml" value="0.1480978260869565" />
         <entry key="..\:/just-art/app/src/main/res/layout/layout_art_works_item.xml" value="0.19882246376811594" />
+        <entry key="..\:/just-art/app/src/main/res/layout/layout_artwork_details_section_view.xml" value="0.16530797101449277" />
+        <entry key="..\:/just-art/app/src/main/res/layout/layout_artwork_details_text_view.xml" value="0.16530797101449277" />
+        <entry key="..\:/just-art/app/src/main/res/layout/layout_artwork_details_thumbnail_view.xml" value="0.16530797101449277" />
+        <entry key="..\:/just-art/app/src/main/res/layout/layout_artwork_details_title_view.xml" value="0.16530797101449277" />
+        <entry key="..\:/just-art/app/src/main/res/layout/layout_arwork_details_collapse_section_view.xml" value="0.1" />
         <entry key="..\:/just-art/app/src/main/res/layout/layout_error_view.xml" value="0.1526268115942029" />
         <entry key="..\:/just-art/app/src/main/res/menu/bottom_nav_bar_menu.xml" value="0.5980582524271845" />
       </map>

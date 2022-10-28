@@ -8,7 +8,7 @@
         android:layout_height="match_parent">
 
         <com.hieuwu.justart.presentation.views.custom.CollapseParagraphView
-            android:id="@+id/artistSection"
+            android:id="@+id/exhibitionsSection"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:contentValue="@string/exhibitions_description"
@@ -17,5 +17,17 @@
             app:showChevron="false"
             app:showTopDivider="false"
             app:titleValue="Exhibitions" />
+
+        <com.hieuwu.justart.presentation.views.custom.CollapseParagraphView
+            android:id="@+id/eventsSection"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:contentValue="@string/events_description"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:showChevron="false"
+            app:showTopDivider="false"
+            app:titleValue="Events" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
