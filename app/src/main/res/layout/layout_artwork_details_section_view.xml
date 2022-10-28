@@ -14,6 +14,7 @@
         android:id="@+id/artistSection"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:showTopDivider="true"
         app:contentValue="@{displayItem.content}"
         app:titleValue="@{displayItem.title}" />
 </layout>

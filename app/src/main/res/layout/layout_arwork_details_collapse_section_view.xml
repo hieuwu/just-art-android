@@ -2,16 +2,19 @@
 <layout>
 
     <data>
+
         <variable
             name="displayItem"
             type="com.hieuwu.justart.presentation.artworkdetails.ArtWorkDetailDisplay.CollapseSection" />
     </data>
+
     <com.hieuwu.justart.presentation.views.custom.CollapseParagraphView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/publicHistorySection"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:contentValue="@{displayItem.content}"
         app:showChevron="true"
-        app:titleValue="@{displayItem.title}"
-        app:contentValue="@{displayItem.content}"/>
+        app:showTopDivider="true"
+        app:titleValue="@{displayItem.title}" />
 </layout>
