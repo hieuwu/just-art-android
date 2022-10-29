@@ -1,24 +1,44 @@
 package com.hieuwu.justart.presentation.explore
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.hieuwu.justart.R
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import com.hieuwu.justart.databinding.FragmentExploreBinding
+import com.hieuwu.justart.domain.usecases.RetrieveExhibitionsUseCase
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
-
-/**
- * A simple [Fragment] subclass.
- * Use the [ExploreFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
+@AndroidEntryPoint
 class ExploreFragment : Fragment() {
+
+    @Inject
+    lateinit var retrieveExhibitionsUseCase: RetrieveExhibitionsUseCase
+
+    private lateinit var binding: FragmentExploreBinding
+    private var adapter: ExhibitionAdapter? = null
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_explore, container, false)
+        binding = FragmentExploreBinding.inflate(inflater, container, false)
+        binding.lifecycleOwner = this
+        val viewModelFactory = ExploreViewModelFactory(
+            retrieveExhibitionsUseCase = retrieveExhibitionsUseCase,
+        )
+
+        val viewModel = ViewModelProvider(this, viewModelFactory)[ExploreViewModel::class.java]
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = this
+        adapter = ExhibitionAdapter(ExhibitionAdapter.OnClickListener {})
+
+        viewModel.exhibitions.observe(viewLifecycleOwner) {}
+        return binding.root
     }
+
+
 }
