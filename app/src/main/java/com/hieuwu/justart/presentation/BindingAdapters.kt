@@ -10,8 +10,11 @@ import com.hieuwu.justart.R
 import com.hieuwu.justart.presentation.artworkdetails.ArtWorkDetailDisplay
 import com.hieuwu.justart.presentation.artworkdetails.ArtWorkDetailsAdapter
 import com.hieuwu.justart.domain.models.ArtWorkDo
+import com.hieuwu.justart.domain.models.ExhibitionsDo
+import com.hieuwu.justart.presentation.explore.ExhibitionAdapter
 import com.hieuwu.justart.presentation.search.SearchResultAdapter
 import com.hieuwu.justart.presentation.views.custom.CollapseParagraphView
+import com.hieuwu.justartsdk.exhibitions.v1.domain.Exhibition
 
 @BindingAdapter("imageUrl")
 fun bindImage(imgView: ImageView, imgUrl: String?) {
@@ -38,6 +41,15 @@ fun bindDetailRecyclerView(recyclerView: RecyclerView, data: List<ArtWorkDetailD
     data?.let {
         val adapter = recyclerView.adapter as ArtWorkDetailsAdapter
         adapter.submitList(it)
+    }
+}
+
+
+@BindingAdapter("exhibitionData")
+fun bindExhibitionRecyclerView(recyclerView: RecyclerView, data: List<ExhibitionsDo>?) {
+    data?.let {
+        val adapter = recyclerView.adapter as ExhibitionAdapter?
+        adapter?.submitList(data)
     }
 }
 
