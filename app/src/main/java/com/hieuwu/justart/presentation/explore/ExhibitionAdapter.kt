@@ -1,10 +1,13 @@
 package com.hieuwu.justart.presentation.explore
 
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.hieuwu.justart.R
 import com.hieuwu.justart.databinding.LayoutExhibitionItemBinding
 import com.hieuwu.justart.domain.models.ExhibitionsDo
 
@@ -13,9 +16,21 @@ class ExhibitionAdapter(private val onClickListener: OnClickListener) :
 
     class ExhibitionViewHolder(val binding: LayoutExhibitionItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
+        init {
+            val titleView = binding.root.findViewById<TextView>(R.id.titleText)
+            titleView.truncateText(maxLine = 1)
+
+            val contentTextView = binding.root.findViewById<TextView>(R.id.paragraphText)
+            contentTextView.truncateText()
+        }
 
         fun bind(exhibition: ExhibitionsDo) {
             binding.exhibition = exhibition
+        }
+
+        private fun TextView.truncateText(maxLine: Int = 2) {
+            maxLines = maxLine
+            ellipsize = TextUtils.TruncateAt.END
         }
     }
 
