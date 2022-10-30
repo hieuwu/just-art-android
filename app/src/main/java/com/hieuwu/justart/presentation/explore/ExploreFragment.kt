@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.hieuwu.justart.databinding.FragmentExploreBinding
+import com.hieuwu.justart.domain.usecases.GetEventsUseCase
 import com.hieuwu.justart.domain.usecases.RetrieveExhibitionsUseCase
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -16,6 +17,9 @@ class ExploreFragment : Fragment() {
 
     @Inject
     lateinit var retrieveExhibitionsUseCase: RetrieveExhibitionsUseCase
+
+    @Inject
+    lateinit var getEventsUseCase: GetEventsUseCase
 
     private lateinit var binding: FragmentExploreBinding
     private var adapter: ExhibitionAdapter? = null
@@ -29,6 +33,7 @@ class ExploreFragment : Fragment() {
         binding.lifecycleOwner = this
         val viewModelFactory = ExploreViewModelFactory(
             retrieveExhibitionsUseCase = retrieveExhibitionsUseCase,
+            getEventsUseCase = getEventsUseCase
         )
 
         val viewModel = ViewModelProvider(this, viewModelFactory)[ExploreViewModel::class.java]
