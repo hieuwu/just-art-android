@@ -35,10 +35,9 @@ class ExploreFragment : Fragment() {
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
         adapter = ExhibitionAdapter(ExhibitionAdapter.OnClickListener {})
-
+        binding.exhibitionsList.adapter = adapter
         viewModel.exhibitions.observe(viewLifecycleOwner) {}
         return binding.root
     }
-
 
 }
