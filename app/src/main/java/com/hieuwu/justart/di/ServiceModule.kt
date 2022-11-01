@@ -3,6 +3,8 @@ package com.hieuwu.justart.di
 import com.hieuwu.justartsdk.ServiceConfigurationProvider
 import com.hieuwu.justartsdk.artworks.v1.ArtWorksService
 import com.hieuwu.justartsdk.artworks.v1.ArtWorksServiceConfigProvider
+import com.hieuwu.justartsdk.events.v1.EventsService
+import com.hieuwu.justartsdk.events.v1.EventsServiceConfigProvider
 import com.hieuwu.justartsdk.exhibitions.v1.ExhibitionsService
 import com.hieuwu.justartsdk.exhibitions.v1.ExhibitionsServiceConfigProvider
 import dagger.Module
@@ -35,6 +37,17 @@ class ServiceModule {
             .build()
         return ExhibitionsServiceConfigProvider(config)
             .exhibitionsServiceBuilder().build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideEventsService(serviceConfiguration: ServiceConfigurationProvider.ServiceConfiguration):
+            EventsService {
+        val config = EventsServiceConfigProvider.EventsConfiguration.Builder()
+            .serviceConfiguration(serviceConfiguration)
+            .build()
+        return EventsServiceConfigProvider(config)
+            .eventsServiceBuilder().build()
     }
 
     @Provides
