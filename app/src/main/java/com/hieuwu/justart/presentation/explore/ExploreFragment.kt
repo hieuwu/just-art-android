@@ -42,6 +42,7 @@ class ExploreFragment : Fragment() {
         adapter = ExhibitionAdapter(ExhibitionAdapter.OnClickListener {})
         binding.exhibitionsList.adapter = adapter
         viewModel.exhibitions.observe(viewLifecycleOwner) {}
+        viewModel.events.observe(viewLifecycleOwner) {}
         return binding.root
     }
 

@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.hieuwu.justart.domain.models.EventDo
 import com.hieuwu.justart.domain.models.ExhibitionsDo
 import com.hieuwu.justart.domain.usecases.GetEventsUseCase
 import com.hieuwu.justart.domain.usecases.RetrieveExhibitionsUseCase
@@ -18,8 +19,12 @@ class ExploreViewModel @Inject constructor(
     private val _exhibitions: MutableLiveData<List<ExhibitionsDo>> = MutableLiveData()
     val exhibitions: LiveData<List<ExhibitionsDo>> = _exhibitions
 
+    private val _events: MutableLiveData<List<EventDo>> = MutableLiveData()
+    val events: LiveData<List<EventDo>> = _events
+
     init {
         getExhibitions()
+        getEvents()
     }
 
     private fun getExhibitions() {
@@ -35,6 +40,21 @@ class ExploreViewModel @Inject constructor(
                 }
                 is RetrieveExhibitionsUseCase.Result.Failure -> {
                     // Handle generic errors
+                }
+            }
+        }
+    }
+
+    private fun getEvents() {
+        viewModelScope.launch {
+            when (val res = getEventsUseCase.execute(GetEventsUseCase.Input())) {
+                is GetEventsUseCase.Result.Success -> {
+                    if (res.data != null) {
+                        _events.value = res.data!!
+                    }
+                }
+                is GetEventsUseCase.Result.Failure -> {
+
                 }
             }
         }
