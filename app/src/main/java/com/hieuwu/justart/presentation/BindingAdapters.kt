@@ -10,7 +10,9 @@ import com.hieuwu.justart.R
 import com.hieuwu.justart.presentation.artworkdetails.ArtWorkDetailDisplay
 import com.hieuwu.justart.presentation.artworkdetails.ArtWorkDetailsAdapter
 import com.hieuwu.justart.domain.models.ArtWorkDo
+import com.hieuwu.justart.domain.models.EventDo
 import com.hieuwu.justart.domain.models.ExhibitionsDo
+import com.hieuwu.justart.presentation.explore.EventAdapter
 import com.hieuwu.justart.presentation.explore.ExhibitionAdapter
 import com.hieuwu.justart.presentation.search.SearchResultAdapter
 import com.hieuwu.justart.presentation.views.custom.CollapseParagraphView
@@ -49,6 +51,14 @@ fun bindDetailRecyclerView(recyclerView: RecyclerView, data: List<ArtWorkDetailD
 fun bindExhibitionRecyclerView(recyclerView: RecyclerView, data: List<ExhibitionsDo>?) {
     data?.let {
         val adapter = recyclerView.adapter as ExhibitionAdapter?
+        adapter?.submitList(data)
+    }
+}
+
+@BindingAdapter("eventData")
+fun bindEventRecyclerView(recyclerView: RecyclerView, data: List<EventDo>?) {
+    data?.let {
+        val adapter = recyclerView.adapter as EventAdapter?
         adapter?.submitList(data)
     }
 }
