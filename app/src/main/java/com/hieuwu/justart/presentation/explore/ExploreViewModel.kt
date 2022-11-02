@@ -8,6 +8,7 @@ import com.hieuwu.justart.domain.models.EventDo
 import com.hieuwu.justart.domain.models.ExhibitionsDo
 import com.hieuwu.justart.domain.usecases.GetEventsUseCase
 import com.hieuwu.justart.domain.usecases.RetrieveExhibitionsUseCase
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -23,40 +24,52 @@ class ExploreViewModel @Inject constructor(
     val events: LiveData<List<EventDo>> = _events
 
     init {
-        getExhibitions()
-        getEvents()
-    }
-
-    private fun getExhibitions() {
         viewModelScope.launch {
-            when (val res =
-                retrieveExhibitionsUseCase.execute(RetrieveExhibitionsUseCase.Input())) {
-                is RetrieveExhibitionsUseCase.Result.Success -> {
-                    if (res.data != null) {
-                        _exhibitions.value = res.data!!
-                    } else {
-                        // Handle data null
-                    }
-                }
-                is RetrieveExhibitionsUseCase.Result.Failure -> {
-                    // Handle generic errors
-                }
-            }
+            getData()
         }
     }
 
-    private fun getEvents() {
-        viewModelScope.launch {
-            when (val res = getEventsUseCase.execute(GetEventsUseCase.Input())) {
-                is GetEventsUseCase.Result.Success -> {
-                    if (res.data != null) {
-                        _events.value = res.data!!
-                    }
-                }
-                is GetEventsUseCase.Result.Failure -> {
+    private suspend fun getData() {
+        mutableListOf(
+            viewModelScope.async {
+                getExhibitions()
+            },
+            viewModelScope.async {
+                getEvents()
+            },
+        )
+    }
 
+    private suspend fun getExhibitions(): List<ExhibitionsDo>? {
+        when (val res = retrieveExhibitionsUseCase.execute(RetrieveExhibitionsUseCase.Input())) {
+            is RetrieveExhibitionsUseCase.Result.Success -> {
+                if (res.data != null) {
+                    _exhibitions.value = res.data!!
+                    return res.data
+                } else {
+                    // Handle data null
                 }
             }
+            is RetrieveExhibitionsUseCase.Result.Failure -> {
+                // Handle generic errors
+            }
         }
+        return null
+    }
+
+
+    private suspend fun getEvents(): List<EventDo>? {
+        when (val res = getEventsUseCase.execute(GetEventsUseCase.Input())) {
+            is GetEventsUseCase.Result.Success -> {
+                if (res.data != null) {
+                    _events.value = res.data!!
+                    return res.data
+                }
+            }
+            is GetEventsUseCase.Result.Failure -> {
+
+            }
+        }
+        return null
     }
 }
