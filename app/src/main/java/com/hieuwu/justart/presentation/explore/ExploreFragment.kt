@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.hieuwu.justart.databinding.FragmentExploreBinding
+import com.hieuwu.justart.domain.models.EventDo
 import com.hieuwu.justart.domain.usecases.GetEventsUseCase
 import com.hieuwu.justart.domain.usecases.RetrieveExhibitionsUseCase
 import dagger.hilt.android.AndroidEntryPoint
@@ -22,8 +23,8 @@ class ExploreFragment : Fragment() {
     lateinit var getEventsUseCase: GetEventsUseCase
 
     private lateinit var binding: FragmentExploreBinding
-    private var adapter: ExhibitionAdapter? = null
-
+    private val exhibitionAdapter = ExhibitionAdapter(ExhibitionAdapter.OnClickListener {})
+    private val eventAdapter = EventAdapter(EventAdapter.OnClickListener {})
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,8 +40,8 @@ class ExploreFragment : Fragment() {
         val viewModel = ViewModelProvider(this, viewModelFactory)[ExploreViewModel::class.java]
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
-        adapter = ExhibitionAdapter(ExhibitionAdapter.OnClickListener {})
-        binding.exhibitionsList.adapter = adapter
+        binding.exhibitionsList.adapter = exhibitionAdapter
+        binding.eventsList.adapter = eventAdapter
         viewModel.exhibitions.observe(viewLifecycleOwner) {}
         viewModel.events.observe(viewLifecycleOwner) {}
         return binding.root
