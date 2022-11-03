@@ -24,20 +24,16 @@ class ExploreViewModel @Inject constructor(
     val events: LiveData<List<EventDo>> = _events
 
     init {
-        viewModelScope.launch {
-            getData()
-        }
+        getData()
     }
 
-    private suspend fun getData() {
-        mutableListOf(
-            viewModelScope.async {
-                getExhibitions()
-            },
-            viewModelScope.async {
-                getEvents()
-            },
-        )
+    private fun getData() {
+        viewModelScope.async {
+            getExhibitions()
+        }
+        viewModelScope.async {
+            getEvents()
+        }
     }
 
     private suspend fun getExhibitions(): List<ExhibitionsDo>? {
@@ -56,7 +52,6 @@ class ExploreViewModel @Inject constructor(
         }
         return null
     }
-
 
     private suspend fun getEvents(): List<EventDo>? {
         when (val res = getEventsUseCase.execute(GetEventsUseCase.Input())) {
