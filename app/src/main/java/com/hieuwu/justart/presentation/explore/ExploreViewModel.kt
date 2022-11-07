@@ -9,12 +9,11 @@ import com.hieuwu.justart.domain.models.ExhibitionsDo
 import com.hieuwu.justart.domain.usecases.GetEventsUseCase
 import com.hieuwu.justart.domain.usecases.RetrieveExhibitionsUseCase
 import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class ExploreViewModel @Inject constructor(
     private val retrieveExhibitionsUseCase: RetrieveExhibitionsUseCase,
-    private val getEventsUseCase: GetEventsUseCase
+    private val getEventsUseCase: GetEventsUseCase,
 ) : ViewModel() {
 
     private val _exhibitions: MutableLiveData<List<ExhibitionsDo>> = MutableLiveData()
@@ -28,9 +27,9 @@ class ExploreViewModel @Inject constructor(
     }
 
     private fun getData() {
-        viewModelScope.async {
-            getExhibitions()
-        }
+//        viewModelScope.async {
+//            getExhibitions()
+//        }
         viewModelScope.async {
             getEvents()
         }
