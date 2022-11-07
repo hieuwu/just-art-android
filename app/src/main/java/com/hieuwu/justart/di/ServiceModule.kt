@@ -1,6 +1,8 @@
 package com.hieuwu.justart.di
 
 import com.hieuwu.justartsdk.ServiceConfigurationProvider
+import com.hieuwu.justartsdk.articles.v1.ArticlesService
+import com.hieuwu.justartsdk.articles.v1.ArticlesServiceConfigProvider
 import com.hieuwu.justartsdk.artworks.v1.ArtWorksService
 import com.hieuwu.justartsdk.artworks.v1.ArtWorksServiceConfigProvider
 import com.hieuwu.justartsdk.events.v1.EventsService
@@ -37,6 +39,16 @@ class ServiceModule {
             .build()
         return ExhibitionsServiceConfigProvider(config)
             .exhibitionsServiceBuilder().build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideArticlesService(serviceConfiguration: ServiceConfigurationProvider.ServiceConfiguration):
+            ArticlesService {
+        val config = ArticlesServiceConfigProvider.ArticlesConfiguration.Builder()
+            .serviceConfiguration(serviceConfiguration)
+            .build()
+        return ArticlesServiceConfigProvider(config).articlesServiceBuilder().build()
     }
 
     @Provides
