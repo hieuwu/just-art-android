@@ -47,9 +47,12 @@ abstract class UseCaseModule {
     @Binds
     abstract fun bindRetrieveExhibitionsUseCase(impl: RetrieveExhibitionsUseCaseImpl): RetrieveExhibitionsUseCase
 
-
     @Singleton
     @Binds
     abstract fun bindGetEventsUseCase(impl: GetEventsUseCaseImpl): GetEventsUseCase
+
+    @Singleton
+    @Binds
+    abstract fun bindGetArticlesUseCase(impl: GetArticlesUseCaseImpl): GetArticlesUseCase
 
 }
