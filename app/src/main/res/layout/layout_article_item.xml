@@ -4,8 +4,8 @@
 
     <data>
         <variable
-            name="event"
-            type="com.hieuwu.justart.domain.models.EventDo" />
+            name="article"
+            type="com.hieuwu.justart.domain.models.ArticleDo" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -27,14 +27,14 @@
                 android:id="@+id/image"
                 android:layout_width="230dp"
                 android:layout_height="130dp"
-                app:imageUrl="@{event.imageUrl}" />
+                app:imageUrl="@{article.imageUrl}" />
 
             <com.hieuwu.justart.presentation.views.custom.CollapseParagraphView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:contentValue="@{event.shortDescription}"
+                app:contentValue="@{article.title}"
                 app:showChevron="false"
-                app:titleValue="@{event.title}" />
+                app:titleValue="@{article.title}" />
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>
