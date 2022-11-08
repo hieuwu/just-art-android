@@ -8,13 +8,13 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.hieuwu.justart.R
-import com.hieuwu.justart.databinding.LayoutEventItemBinding
-import com.hieuwu.justart.domain.models.EventDo
+import com.hieuwu.justart.databinding.LayoutArticleItemBinding
+import com.hieuwu.justart.domain.models.ArticleDo
 
-class EventAdapter(private val onClickListener: OnClickListener) :
-    ListAdapter<EventDo, EventAdapter.EventViewHolder>(EventAdapter) {
+class ArticleAdapter(private val onClickListener: OnClickListener) :
+    ListAdapter<ArticleDo, ArticleAdapter.ArticleViewHolder>(ArticleAdapter) {
 
-    class EventViewHolder(val binding: LayoutEventItemBinding) :
+    class ArticleViewHolder(val binding: LayoutArticleItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         init {
             val titleView = binding.root.findViewById<TextView>(R.id.titleText)
@@ -24,8 +24,8 @@ class EventAdapter(private val onClickListener: OnClickListener) :
             contentTextView.truncateText()
         }
 
-        fun bind(exhibition: EventDo) {
-            binding.event = exhibition
+        fun bind(article: ArticleDo) {
+            binding.article = article
         }
 
         private fun TextView.truncateText(maxLine: Int = 2) {
@@ -34,30 +34,30 @@ class EventAdapter(private val onClickListener: OnClickListener) :
         }
     }
 
-    companion object DiffCallback : DiffUtil.ItemCallback<EventDo>() {
-        override fun areItemsTheSame(oldItem: EventDo, newItem: EventDo): Boolean {
+    companion object DiffCallback : DiffUtil.ItemCallback<ArticleDo>() {
+        override fun areItemsTheSame(oldItem: ArticleDo, newItem: ArticleDo): Boolean {
             return oldItem == newItem
         }
 
-        override fun areContentsTheSame(oldItem: EventDo, newItem: EventDo): Boolean {
+        override fun areContentsTheSame(oldItem: ArticleDo, newItem: ArticleDo): Boolean {
             return oldItem.id == newItem.id
         }
     }
 
     class OnClickListener(
-        val itemClickListener: (exhibition: EventDo) -> Unit
+        val itemClickListener: (exhibition: ArticleDo) -> Unit
     )
 
-    override fun onBindViewHolder(holder: EventViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ArticleViewHolder, position: Int) {
         val exhibition = getItem(position)
         exhibition?.let {
             holder.bind(it)
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventViewHolder {
-        val viewHolder = EventViewHolder(
-            LayoutEventItemBinding
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArticleViewHolder {
+        val viewHolder = ArticleViewHolder(
+            LayoutArticleItemBinding
                 .inflate(LayoutInflater.from(parent.context), parent, false)
         )
 
@@ -68,8 +68,8 @@ class EventAdapter(private val onClickListener: OnClickListener) :
             }
         }
 
-        return EventViewHolder(
-            LayoutEventItemBinding
+        return ArticleViewHolder(
+            LayoutArticleItemBinding
                 .inflate(LayoutInflater.from(parent.context), parent, false)
         )
     }
