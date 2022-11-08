@@ -10,13 +10,12 @@ import com.hieuwu.justart.R
 import com.hieuwu.justart.presentation.artworkdetails.ArtWorkDetailDisplay
 import com.hieuwu.justart.presentation.artworkdetails.ArtWorkDetailsAdapter
 import com.hieuwu.justart.domain.models.ArtWorkDo
-import com.hieuwu.justart.domain.models.EventDo
+import com.hieuwu.justart.domain.models.ArticleDo
 import com.hieuwu.justart.domain.models.ExhibitionsDo
-import com.hieuwu.justart.presentation.explore.EventAdapter
+import com.hieuwu.justart.presentation.explore.ArticleAdapter
 import com.hieuwu.justart.presentation.explore.ExhibitionAdapter
 import com.hieuwu.justart.presentation.search.SearchResultAdapter
 import com.hieuwu.justart.presentation.views.custom.CollapseParagraphView
-import com.hieuwu.justartsdk.exhibitions.v1.domain.Exhibition
 
 @BindingAdapter("imageUrl")
 fun bindImage(imgView: ImageView, imgUrl: String?) {
@@ -55,10 +54,10 @@ fun bindExhibitionRecyclerView(recyclerView: RecyclerView, data: List<Exhibition
     }
 }
 
-@BindingAdapter("eventData")
-fun bindEventRecyclerView(recyclerView: RecyclerView, data: List<EventDo>?) {
+@BindingAdapter("articleData")
+fun bindArticleRecyclerView(recyclerView: RecyclerView, data: List<ArticleDo>?) {
     data?.let {
-        val adapter = recyclerView.adapter as EventAdapter?
+        val adapter = recyclerView.adapter as ArticleAdapter?
         adapter?.submitList(data)
     }
 }
