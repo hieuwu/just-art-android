@@ -13,6 +13,9 @@
         <entry key="..\:/AndroidProjects/just-art-android/app/src/main/res/layout/layout_art_works_item.xml" value="0.1" />
         <entry key="..\:/AndroidProjects/just-art-android/app/src/main/res/layout/layout_favorite_item.xml" value="0.22" />
         <entry key="..\:/AndroidProjects/just-art-android/app/src/main/res/menu/top_app_bar_menu.xml" value="0.16666666666666666" />
+        <entry key="..\:/just-art/app/src/main/res/drawable/app_logo_128.xml" value="0.1065" />
+        <entry key="..\:/just-art/app/src/main/res/drawable/app_logo_128x128.xml" value="0.104" />
+        <entry key="..\:/just-art/app/src/main/res/drawable/ic_app_logo_64x64.xml" value="0.1065" />
         <entry key="..\:/just-art/app/src/main/res/drawable/ic_broken_image.xml" value="0.1835" />
         <entry key="..\:/just-art/app/src/main/res/drawable/loading_img.xml" value="0.1835" />
         <entry key="..\:/just-art/app/src/main/res/layout/activity_main.xml" value="0.152" />
@@ -20,7 +23,7 @@
         <entry key="..\:/just-art/app/src/main/res/layout/fragment_art_details.xml" value="0.19882246376811594" />
         <entry key="..\:/just-art/app/src/main/res/layout/fragment_art_works.xml" value="0.136" />
         <entry key="..\:/just-art/app/src/main/res/layout/fragment_artwork_details.xml" value="0.1" />
-        <entry key="..\:/just-art/app/src/main/res/layout/fragment_explore.xml" value="0.19440745672436752" />
+        <entry key="..\:/just-art/app/src/main/res/layout/fragment_explore.xml" value="0.10400000000000001" />
         <entry key="..\:/just-art/app/src/main/res/layout/fragment_schedule.xml" value="0.16530797101449277" />
         <entry key="..\:/just-art/app/src/main/res/layout/fragment_search.xml" value="0.1480978260869565" />
         <entry key="..\:/just-art/app/src/main/res/layout/layout_art_works_item.xml" value="0.19882246376811594" />
@@ -33,6 +36,7 @@
         <entry key="..\:/just-art/app/src/main/res/layout/layout_event_item.xml" value="0.1" />
         <entry key="..\:/just-art/app/src/main/res/layout/layout_exhibition_item.xml" value="0.16530797101449277" />
         <entry key="..\:/just-art/app/src/main/res/menu/bottom_nav_bar_menu.xml" value="0.5980582524271845" />
+        <entry key="..\:/just-art/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1065" />
       </map>
     </option>
   </component>
