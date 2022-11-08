@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hieuwu.justart.domain.models.EventDo
 import com.hieuwu.justart.domain.models.ExhibitionsDo
+import com.hieuwu.justart.domain.usecases.GetArticlesUseCase
 import com.hieuwu.justart.domain.usecases.GetEventsUseCase
 import com.hieuwu.justart.domain.usecases.RetrieveExhibitionsUseCase
 import kotlinx.coroutines.async
@@ -14,6 +15,7 @@ import javax.inject.Inject
 class ExploreViewModel @Inject constructor(
     private val retrieveExhibitionsUseCase: RetrieveExhibitionsUseCase,
     private val getEventsUseCase: GetEventsUseCase,
+    private val getArticlesUseCase: GetArticlesUseCase
 ) : ViewModel() {
 
     private val _exhibitions: MutableLiveData<List<ExhibitionsDo>> = MutableLiveData()
