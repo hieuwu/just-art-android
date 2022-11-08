@@ -13,13 +13,8 @@ class GetArticlesUseCaseImpl @Inject constructor(
     override suspend fun execute(input: GetArticlesUseCase.Input): GetArticlesUseCase.Result {
         withContext(Dispatchers.IO) {
             val res = articlesService.getArticles()
-            return@withContext res.response?.articles?.map {
-                it.asDomainModel()
-            }?.let {
-                GetArticlesUseCase.Result.Success(
-                    it
-                )
-            }
+            val data = res.response?.articles?.map { it.asDomainModel() }
+            return@withContext GetArticlesUseCase.Result.Success(data = data)
         }
         return GetArticlesUseCase.Result.Failure
     }

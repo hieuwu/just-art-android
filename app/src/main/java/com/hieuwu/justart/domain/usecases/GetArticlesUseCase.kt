@@ -6,7 +6,7 @@ interface GetArticlesUseCase : UseCase<GetArticlesUseCase.Input, GetArticlesUseC
     class Input
 
     open class Result {
-        class Success(val data: List<ArticleDo>) : GetArticlesUseCase.Result()
+        data class Success(val data: List<ArticleDo>?) : Result()
         object Failure : Result()
     }
 
