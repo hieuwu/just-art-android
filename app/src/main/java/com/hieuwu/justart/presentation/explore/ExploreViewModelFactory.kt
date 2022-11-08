@@ -6,14 +6,14 @@ import com.hieuwu.justart.domain.usecases.*
 
 class ExploreViewModelFactory(
     private val retrieveExhibitionsUseCase: RetrieveExhibitionsUseCase,
-    private val getEventsUseCase: GetEventsUseCase
+    private val getArticlesUseCase: GetArticlesUseCase,
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(ExploreViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
             return ExploreViewModel(
                 retrieveExhibitionsUseCase = retrieveExhibitionsUseCase,
-                getEventsUseCase = getEventsUseCase
+                getArticlesUseCase = getArticlesUseCase
             ) as T
         }
         throw IllegalArgumentException("Unable to construct viewmodel")

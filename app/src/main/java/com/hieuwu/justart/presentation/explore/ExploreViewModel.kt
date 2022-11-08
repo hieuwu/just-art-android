@@ -4,36 +4,35 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.hieuwu.justart.domain.models.ArticleDo
 import com.hieuwu.justart.domain.models.EventDo
 import com.hieuwu.justart.domain.models.ExhibitionsDo
 import com.hieuwu.justart.domain.usecases.GetArticlesUseCase
 import com.hieuwu.justart.domain.usecases.GetEventsUseCase
 import com.hieuwu.justart.domain.usecases.RetrieveExhibitionsUseCase
 import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class ExploreViewModel @Inject constructor(
     private val retrieveExhibitionsUseCase: RetrieveExhibitionsUseCase,
-    private val getEventsUseCase: GetEventsUseCase,
     private val getArticlesUseCase: GetArticlesUseCase
 ) : ViewModel() {
 
     private val _exhibitions: MutableLiveData<List<ExhibitionsDo>> = MutableLiveData()
     val exhibitions: LiveData<List<ExhibitionsDo>> = _exhibitions
 
-    private val _events: MutableLiveData<List<EventDo>> = MutableLiveData()
-    val events: LiveData<List<EventDo>> = _events
+    private val _articles: MutableLiveData<List<ArticleDo>> = MutableLiveData()
+    val articles: LiveData<List<ArticleDo>> = _articles
 
     init {
         getData()
     }
 
     private fun getData() {
-//        viewModelScope.async {
-//            getExhibitions()
-//        }
+        getEvents()
         viewModelScope.async {
-            getEvents()
+            getExhibitions()
         }
     }
 
@@ -54,18 +53,18 @@ class ExploreViewModel @Inject constructor(
         return null
     }
 
-    private suspend fun getEvents(): List<EventDo>? {
-        when (val res = getEventsUseCase.execute(GetEventsUseCase.Input())) {
-            is GetEventsUseCase.Result.Success -> {
-                if (res.data != null) {
-                    _events.value = res.data!!
-                    return res.data
+    private fun getEvents() {
+        viewModelScope.launch {
+            when (val res = getArticlesUseCase.execute(GetArticlesUseCase.Input())) {
+                is GetArticlesUseCase.Result.Success -> {
+                    if (res.data != null) {
+                        _articles.value = res.data!!
+                    }
+                }
+                is GetArticlesUseCase.Result.Failure -> {
+
                 }
             }
-            is GetEventsUseCase.Result.Failure -> {
-
-            }
         }
-        return null
     }
 }

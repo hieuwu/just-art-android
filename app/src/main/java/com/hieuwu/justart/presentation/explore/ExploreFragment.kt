@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.hieuwu.justart.databinding.FragmentExploreBinding
-import com.hieuwu.justart.domain.models.EventDo
+import com.hieuwu.justart.domain.usecases.GetArticlesUseCase
 import com.hieuwu.justart.domain.usecases.GetEventsUseCase
 import com.hieuwu.justart.domain.usecases.RetrieveExhibitionsUseCase
 import dagger.hilt.android.AndroidEntryPoint
@@ -20,11 +20,11 @@ class ExploreFragment : Fragment() {
     lateinit var retrieveExhibitionsUseCase: RetrieveExhibitionsUseCase
 
     @Inject
-    lateinit var getEventsUseCase: GetEventsUseCase
+    lateinit var getArticlesUseCase: GetArticlesUseCase
 
     private lateinit var binding: FragmentExploreBinding
     private val exhibitionAdapter = ExhibitionAdapter(ExhibitionAdapter.OnClickListener {})
-    private val eventAdapter = EventAdapter(EventAdapter.OnClickListener {})
+    private val articleAdapter = ArticleAdapter(ArticleAdapter.OnClickListener {})
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,16 +34,16 @@ class ExploreFragment : Fragment() {
         binding.lifecycleOwner = this
         val viewModelFactory = ExploreViewModelFactory(
             retrieveExhibitionsUseCase = retrieveExhibitionsUseCase,
-            getEventsUseCase = getEventsUseCase
+            getArticlesUseCase = getArticlesUseCase
         )
 
         val viewModel = ViewModelProvider(this, viewModelFactory)[ExploreViewModel::class.java]
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
         binding.exhibitionsList.adapter = exhibitionAdapter
-        binding.eventsList.adapter = eventAdapter
+        binding.eventsList.adapter = articleAdapter
         viewModel.exhibitions.observe(viewLifecycleOwner) {}
-        viewModel.events.observe(viewLifecycleOwner) {}
+        viewModel.articles.observe(viewLifecycleOwner) {}
         return binding.root
     }
 
