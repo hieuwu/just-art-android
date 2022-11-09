@@ -7,5 +7,6 @@ fun Article.asDomainModel() = ArticleDo(
     id = this.id,
     title = this.title,
     artistDisplay = this.artistDisplay,
-    imageUrl = this.imageUrl
+    imageUrl = this.imageUrl,
+    copy = this.copy,
 )
