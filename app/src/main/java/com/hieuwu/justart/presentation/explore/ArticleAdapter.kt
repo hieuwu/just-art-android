@@ -21,7 +21,7 @@ class ArticleAdapter(private val onClickListener: OnClickListener) :
             titleView.truncateText(maxLine = 1)
 
             val contentTextView = binding.root.findViewById<TextView>(R.id.paragraphText)
-            contentTextView.truncateText()
+            contentTextView.truncateText(maxLine = 5)
         }
 
         fun bind(article: ArticleDo) {
