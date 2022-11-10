@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.JustArt.SplashScreen" parent="@style/Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/red_wine_700</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/app_logo_splash_screen</item>
+        <item name="postSplashScreenTheme">@style/Theme.JustArt</item>
+    </style>
+</resources>

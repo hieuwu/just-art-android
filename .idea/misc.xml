@@ -3,19 +3,21 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/AndroidProjects/just-art-android/app/src/main/res/drawable/app_logo_128x128.xml" value="0.1" />
+        <entry key="..\:/AndroidProjects/just-art-android/app/src/main/res/drawable/app_logo_splash_screen.xml" value="0.1" />
         <entry key="..\:/AndroidProjects/just-art-android/app/src/main/res/drawable/ic_baseline_favorite_24.xml" value="0.1" />
         <entry key="..\:/AndroidProjects/just-art-android/app/src/main/res/drawable/ic_baseline_favorite_app_bar.xml" value="0.1" />
+        <entry key="..\:/AndroidProjects/just-art-android/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
+        <entry key="..\:/AndroidProjects/just-art-android/app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.1" />
         <entry key="..\:/AndroidProjects/just-art-android/app/src/main/res/drawable/ic_outline_favorite_app_bar.xml" value="0.1" />
         <entry key="..\:/AndroidProjects/just-art-android/app/src/main/res/drawable/ic_outline_favorite_border_24.xml" value="0.144" />
+        <entry key="..\:/AndroidProjects/just-art-android/app/src/main/res/drawable/linear_gradient_nav.xml" value="0.1" />
         <entry key="..\:/AndroidProjects/just-art-android/app/src/main/res/layout/fragment_art_works.xml" value="0.16666666666666666" />
         <entry key="..\:/AndroidProjects/just-art-android/app/src/main/res/layout/fragment_artwork_details.xml" value="0.22" />
         <entry key="..\:/AndroidProjects/just-art-android/app/src/main/res/layout/fragment_favourite.xml" value="0.16666666666666666" />
         <entry key="..\:/AndroidProjects/just-art-android/app/src/main/res/layout/layout_art_works_item.xml" value="0.1" />
         <entry key="..\:/AndroidProjects/just-art-android/app/src/main/res/layout/layout_favorite_item.xml" value="0.22" />
         <entry key="..\:/AndroidProjects/just-art-android/app/src/main/res/menu/top_app_bar_menu.xml" value="0.16666666666666666" />
-        <entry key="..\:/just-art/app/src/main/res/drawable/app_logo_128.xml" value="0.1065" />
-        <entry key="..\:/just-art/app/src/main/res/drawable/app_logo_128x128.xml" value="0.104" />
-        <entry key="..\:/just-art/app/src/main/res/drawable/ic_app_logo_64x64.xml" value="0.1065" />
         <entry key="..\:/just-art/app/src/main/res/drawable/ic_broken_image.xml" value="0.1835" />
         <entry key="..\:/just-art/app/src/main/res/drawable/loading_img.xml" value="0.1835" />
         <entry key="..\:/just-art/app/src/main/res/layout/activity_main.xml" value="0.152" />
@@ -27,7 +29,6 @@
         <entry key="..\:/just-art/app/src/main/res/layout/fragment_schedule.xml" value="0.16530797101449277" />
         <entry key="..\:/just-art/app/src/main/res/layout/fragment_search.xml" value="0.1480978260869565" />
         <entry key="..\:/just-art/app/src/main/res/layout/layout_art_works_item.xml" value="0.19882246376811594" />
-        <entry key="..\:/just-art/app/src/main/res/layout/layout_article_item.xml" value="0.1" />
         <entry key="..\:/just-art/app/src/main/res/layout/layout_artwork_details_section_view.xml" value="0.16530797101449277" />
         <entry key="..\:/just-art/app/src/main/res/layout/layout_artwork_details_text_view.xml" value="0.16530797101449277" />
         <entry key="..\:/just-art/app/src/main/res/layout/layout_artwork_details_thumbnail_view.xml" value="0.16530797101449277" />
