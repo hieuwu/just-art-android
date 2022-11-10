@@ -11,11 +11,12 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.JustArt"
+        android:theme="@style/Theme.JustArt.SplashScreen"
         android:usesCleartextTraffic="true"
         tools:replace="android:theme">
         <activity
             android:name=".MainActivity"
+            android:theme="@style/Theme.JustArt.SplashScreen"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
