@@ -37,21 +37,6 @@ class FavouriteFragment : Fragment() {
         setupReEnterTransition()
     }
 
-    override fun onResume() {
-        Log.d("FAVORITEFRAGMENT", "onResume")
-        super.onResume()
-    }
-
-    override fun onStop() {
-        Log.d("FAVORITEFRAGMENT", "onStop")
-        super.onStop()
-    }
-
-    override fun onPause() {
-        Log.d("FAVORITEFRAGMENT", "onPause")
-        super.onPause()
-    }
-
     override fun onSaveInstanceState(outState: Bundle) {
         recyclerviewAdapter?.saveInstanceState(outState)
         super.onSaveInstanceState(outState)
@@ -67,7 +52,6 @@ class FavouriteFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Log.d("FAVORITEFRAGMENT", "onViewCreated")
         val viewModelFactory = FavoriteViewModelFactory(
             getFavoriteArtWorkUseCase = getFavoriteArtWorkUseCase
         )
