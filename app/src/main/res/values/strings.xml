@@ -12,7 +12,7 @@
     </string>
     <string name="exhibitions_description">Explore recent exhibitions at Art Institute Chicago</string>
     <string name="articles_description">Latest articles with new artworks and artists</string>
-    <string name="onboard_introduce">An online exhibition</string>
+    <string name="onboard_introduce">An online exhibition with mobile experience</string>
     <string name="onboard_explore">Explore thousands of artworks in the museum’s collection</string>
-    <string name="onboard_favorite">Easy to save and review</string>
+    <string name="onboard_favorite">Save your favourite artworks and review. Easy and simple</string>
 </resources>
