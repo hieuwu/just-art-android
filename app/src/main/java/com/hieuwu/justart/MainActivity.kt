@@ -2,7 +2,6 @@ package com.hieuwu.justart
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -20,5 +19,9 @@ class MainActivity : AppCompatActivity() {
 
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
         bottomNavigationView.setupWithNavController(navController)
+    }
+
+    override fun onBackPressed() {
+        return
     }
 }
