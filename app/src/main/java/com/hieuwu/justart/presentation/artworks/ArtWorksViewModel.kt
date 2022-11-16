@@ -6,16 +6,17 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.hieuwu.justart.data.repository.ArtWorksPagingSource
-import com.hieuwu.justart.data.repository.ArtworkRepository
 import com.hieuwu.justart.domain.models.ArtWorkDo
 import com.hieuwu.justart.domain.usecases.*
 import com.hieuwu.justart.domain.usecases.RetrieveArtWorksUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 private const val DEFAULT_ITEMS_PER_PAGE = 32
 
+@HiltViewModel
 class ArtWorksViewModel @Inject constructor(
     private val retrieveArtWorksUseCase: RetrieveArtWorksUseCase,
     private val checkFavoriteArtWorkExistedUseCase: CheckFavoriteArtWorkExistedUseCase,

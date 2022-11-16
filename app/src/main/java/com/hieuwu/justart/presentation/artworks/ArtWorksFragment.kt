@@ -7,15 +7,14 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.RecyclerView
 import com.hieuwu.justart.R
-import com.hieuwu.justart.data.repository.ArtworkRepository
 import com.hieuwu.justart.databinding.FragmentArtWorksBinding
 import com.hieuwu.justart.domain.usecases.*
 import com.hieuwu.justart.utils.*
@@ -47,7 +46,7 @@ class ArtWorksFragment : Fragment() {
 
     private lateinit var binding: FragmentArtWorksBinding
 
-    private lateinit var viewModel: ArtWorksViewModel
+    val viewModel: ArtWorksViewModel by viewModels()
 
     private var recyclerviewAdapter: ArtWorksAdapter? = null
 
@@ -73,15 +72,6 @@ class ArtWorksFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
-
-        val viewModelFactory = ArtWorksViewModelFactory(
-            retrieveArtWorksUseCase = retrieveArtWorksUseCase,
-            checkFavoriteArtWorkExistedUseCase = checkFavoriteArtWorkExistedUseCase,
-            deleteFavoriteArtWorkUseCase = deleteFavoriteArtWorkUseCase,
-            saveFavoriteArtWorkUseCase = saveFavoriteArtWorkUseCase,
-        )
-        viewModel = ViewModelProvider(this, viewModelFactory)[ArtWorksViewModel::class.java]
-        binding.viewModel = viewModel
         binding.lifecycleOwner = this
 
         setupRecyclerView(binding.artWorksRecyclerView)
@@ -114,8 +104,7 @@ class ArtWorksFragment : Fragment() {
 
         viewModel.isLoading.observe(viewLifecycleOwner) {
             when (it) {
-//                true -> showLoading()
-                true -> hideLoading()
+                true -> showLoading()
                 false -> hideLoading()
             }
         }
