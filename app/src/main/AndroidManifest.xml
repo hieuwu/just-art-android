@@ -16,7 +16,7 @@
         android:theme="@style/Theme.JustArt.NoActionBar" >
 
         <activity
-            android:name=".LauncherActivity"
+            android:name=".presentation.launcher.LauncherActivity"
             android:theme="@style/Theme.JustArt.SplashScreen"
             android:exported="true">
             <intent-filter>

@@ -1,11 +1,11 @@
-package com.hieuwu.justart
+package com.hieuwu.justart.presentation.launcher
 
 import androidx.lifecycle.ViewModel
 import com.hieuwu.justart.data.prefs.PreferenceStorage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.map
-import com.hieuwu.justart.LauncherNavigationAction.NavigateToMainAction
-import com.hieuwu.justart.LauncherNavigationAction.NavigateToOnboardingAction
+import com.hieuwu.justart.presentation.launcher.LauncherNavigationAction.NavigateToMainAction
+import com.hieuwu.justart.presentation.launcher.LauncherNavigationAction.NavigateToOnboardingAction
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
