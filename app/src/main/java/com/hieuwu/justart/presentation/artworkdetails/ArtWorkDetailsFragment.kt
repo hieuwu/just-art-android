@@ -167,12 +167,6 @@ class ArtWorkDetailsFragment : Fragment() {
             } else {
                 binding.toolbar.menu.getItem(0).setIcon(R.drawable.ic_outline_favorite_app_bar)
             }
-
-//            data?.let {
-//                binding.toolbar.menu.getItem(0).setIcon(R.drawable.ic_baseline_favorite_app_bar)
-//                return@launch
-//            }
-//            binding.toolbar.menu.getItem(0).setIcon(R.drawable.ic_outline_favorite_app_bar)
         }
     }
 
