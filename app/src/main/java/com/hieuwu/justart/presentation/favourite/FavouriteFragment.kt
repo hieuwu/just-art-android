@@ -1,14 +1,12 @@
 package com.hieuwu.justart.presentation.favourite
 
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewmodel.viewModelFactory
-import com.hieuwu.justart.R
 import com.hieuwu.justart.databinding.FragmentFavouriteBinding
 import com.hieuwu.justart.domain.usecases.GetFavoriteArtWorkUseCase
 import com.hieuwu.justart.utils.*
@@ -75,6 +73,16 @@ class FavouriteFragment : Fragment() {
 
         viewModel.favoriteArtWork.observe(viewLifecycleOwner) {
             recyclerviewAdapter?.submitList(it)
+        }
+
+        viewModel.showListEmptyError.observe(viewLifecycleOwner) {
+            if (it == true) {
+                binding.emptyListErrorView.isVisible = true
+                binding.favoriteRecyclerView.isVisible = false
+            } else {
+                binding.emptyListErrorView.isVisible = false
+                binding.favoriteRecyclerView.isVisible = true
+            }
         }
 
         if (savedInstanceState != null) {

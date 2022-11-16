@@ -1,6 +1,5 @@
 package com.hieuwu.justart.presentation.favourite
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -20,13 +19,19 @@ class FavoriteViewModel @Inject constructor(
     private val _isLoading = MutableLiveData(false)
     val isLoading: LiveData<Boolean> = _isLoading
 
+    private val _showListEmptyError = MutableLiveData(false)
+    val showListEmptyError: LiveData<Boolean> = _showListEmptyError
+
     init {
-        Log.d("FAVORITEVIEWMODEL", "init")
-        getFavoriteArtWork(onBeforeExecute = { onBeforeExecute() }, onAfterExecute = { onAfterExecute() })
+        getFavoriteArtWork(
+            onBeforeExecute = { onBeforeExecute() },
+            onAfterExecute = { onAfterExecute() })
     }
 
     fun updateFavoriteArtWork() {
-        getFavoriteArtWork(onBeforeExecute = { onBeforeExecute() }, onAfterExecute = { onAfterExecute() })
+        getFavoriteArtWork(
+            onBeforeExecute = { onBeforeExecute() },
+            onAfterExecute = { onAfterExecute() })
     }
 
     private fun onBeforeExecute() {
@@ -43,9 +48,14 @@ class FavoriteViewModel @Inject constructor(
     ) {
         viewModelScope.launch {
             onBeforeExecute()
-            when (val result = getFavoriteArtWorkUseCase.execute(GetFavoriteArtWorkUseCase.Input())) {
+            when (val result =
+                getFavoriteArtWorkUseCase.execute(GetFavoriteArtWorkUseCase.Input())) {
                 is GetFavoriteArtWorkUseCase.Result.Success -> {
-                    _favoriteArtWork.value = result.data
+                    if (result.data.isNullOrEmpty()) {
+                        _showListEmptyError.value = true
+                    } else {
+                        _favoriteArtWork.value = result.data
+                    }
                 }
             }
         }.invokeOnCompletion {
