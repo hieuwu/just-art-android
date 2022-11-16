@@ -8,10 +8,10 @@
         android:id="@+id/exploreFragment"
         android:icon="@drawable/ic_baseline_search_24"
         android:title="@string/explore" />
-    <item
-        android:id="@+id/scheduleFragment"
-        android:icon="@drawable/ic_baseline_subject_24"
-        android:title="@string/schedule" />
+<!--    <item-->
+<!--        android:id="@+id/scheduleFragment"-->
+<!--        android:icon="@drawable/ic_baseline_subject_24"-->
+<!--        android:title="@string/schedule" />-->
     <item
         android:id="@+id/favouriteFragment"
         android:icon="@drawable/ic_baseline_bookmark_border_24"
