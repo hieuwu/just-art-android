@@ -30,7 +30,7 @@
                 app:title="Explore" />
 
         </com.google.android.material.appbar.AppBarLayout>
-        
+
         <com.hieuwu.justart.presentation.views.custom.CollapseParagraphView
             android:id="@+id/exhibitionsSection"
             android:layout_width="match_parent"
