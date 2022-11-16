@@ -10,6 +10,6 @@
     <declare-styleable name="CustomErrorView">
         <attr name="animationFileName" format="string" />
         <attr name="errorMessage" format="string" />
-
+        <attr name="showRefreshButton" format="boolean" />
     </declare-styleable>
 </resources>
