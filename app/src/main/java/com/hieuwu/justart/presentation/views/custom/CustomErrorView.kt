@@ -28,9 +28,7 @@ class CustomErrorView @JvmOverloads constructor(
         val animationView = view.findViewById<LottieAnimationView>(R.id.animation_view)
         errorTextView = view.findViewById(R.id.errorText)
         refreshButton = view.findViewById(R.id.refresh_button)
-        refreshButton.setOnClickListener {
-            refreshClick.invoke()
-        }
+
 
         context.withStyledAttributes(attrs, R.styleable.CustomErrorView) {
             val animationFileName = getString(R.styleable.CustomErrorView_animationFileName)
@@ -38,6 +36,17 @@ class CustomErrorView @JvmOverloads constructor(
             animationView.setAnimation(animationFileName)
             errorTextView.text = getString(R.styleable.CustomErrorView_errorMessage)
                 ?: DEFAULT_ERROR_MESSAGE
+
+            val shouldShowRefreshButton =
+                getBoolean(R.styleable.CustomErrorView_showRefreshButton, true)
+            if (shouldShowRefreshButton) {
+                refreshButton.visibility = VISIBLE
+                refreshButton.setOnClickListener {
+                    refreshClick.invoke()
+                }
+            } else {
+                refreshButton.visibility = GONE
+            }
         }
     }
 
