@@ -47,8 +47,6 @@ class ArtWorkDetailsFragment : Fragment() {
     @Inject
     lateinit var saveFavoriteArtWorkUseCase: SaveFavoriteArtWorkUseCase
 
-    private var isArtWorkFavorited: Boolean? = null
-
     private var artWorkId: Int = -1
 
     private lateinit var viewModel: ArtWorkDetailsViewModel
