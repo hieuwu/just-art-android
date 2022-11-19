@@ -1,0 +1,8 @@
+Just Art is an art gallery application, everything is updated from The Art Institute of Chicago
+With this app, you can browse and bookmark your favourite artwork. You can share it with friend on social media like Facebook or Twitter
+
+- Infinite scrolling to see every artworks that are featured now
+- Search artworks help you search artworks from your favourite artist
+- Share artworks to social media and to your friend including the image of the artwork
+
+We release this first version to give you the initial experience of this app, we also look forward to hearing feedback from you 
