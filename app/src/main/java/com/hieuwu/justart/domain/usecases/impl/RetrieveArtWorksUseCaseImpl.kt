@@ -17,6 +17,7 @@ class RetrieveArtWorksUseCaseImpl @Inject constructor(
     override suspend fun execute(input: RetrieveArtWorksUseCase.Input): RetrieveArtWorksUseCase.Result {
         val res: ApiResult<ArtWorksResponse>
         try {
+            Timber.e("Retrieve artworks, limit: ${input.limit}, page: ${input.page}")
             withContext(Dispatchers.IO) {
                 res = artWorksService.getArtWorks(limit = input.limit, page = input.page)
             }
